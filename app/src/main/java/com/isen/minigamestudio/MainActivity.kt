@@ -2,6 +2,7 @@ package com.isen.minigamestudio
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import kotlinx.android.extensions.LayoutContainer
 
 class MainActivity : AppCompatActivity() {
 
