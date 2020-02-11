@@ -14,10 +14,19 @@ class HomeActivity : AppCompatActivity() {
         achievementButton.setOnClickListener {
             getAchievements()
         }
+
+        dungeonButton.setOnClickListener {
+            goDungeon()
+        }
     }
 
     private fun getAchievements() {
         val intent = Intent( this, AchievementActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun goDungeon() {
+        val intent = Intent( this, DungeonCardActivity::class.java)
         startActivity(intent)
     }
 }
