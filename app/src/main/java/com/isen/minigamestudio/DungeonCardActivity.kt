@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_dungeon_card.*
+import kotlinx.android.synthetic.main.gamebox.view.*
 import java.security.AccessController.getContext
 
 class DungeonCardActivity : AppCompatActivity() {
@@ -13,9 +14,12 @@ class DungeonCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dungeon_card)
 
-     //  var firstBox = GameBoxClass(baseContext,null,0,10,R.drawable.gamer)
+      box5.changepdv(5)
+      box5.changeIm(R.drawable.bomb)
 
-      //  littleBoxGame = firstBox
+
+        box6.vpNumb.text = "6"
+
 
 
 

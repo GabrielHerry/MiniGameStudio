@@ -21,10 +21,71 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.isen.minigamestudio.LittleBoxGame
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:id="@+id/box1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintStart_toStartOf="@+id/bigBoxGame"
         app:layout_constraintTop_toTopOf="@+id/bigBoxGame" />
+
+    <com.isen.minigamestudio.LittleBoxGame
+        android:id="@+id/box2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toEndOf="@+id/box1"
+        app:layout_constraintTop_toTopOf="@+id/bigBoxGame" />
+
+    <com.isen.minigamestudio.LittleBoxGame
+        android:id="@+id/box3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="@+id/bigBoxGame"
+        app:layout_constraintTop_toTopOf="@+id/bigBoxGame" />
+
+    <com.isen.minigamestudio.LittleBoxGame
+    android:id="@+id/box4"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    app:layout_constraintStart_toStartOf="@+id/bigBoxGame"
+    app:layout_constraintTop_toBottomOf="@+id/box1" />
+
+    <com.isen.minigamestudio.LittleBoxGame
+        android:id="@+id/box5"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toEndOf="@+id/box4"
+        app:layout_constraintTop_toBottomOf="@+id/box2" />
+
+    <com.isen.minigamestudio.LittleBoxGame
+        android:id="@+id/box6"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toEndOf="@+id/box5"
+        app:layout_constraintTop_toBottomOf="@+id/box3" />
+
+    <com.isen.minigamestudio.LittleBoxGame
+        android:id="@+id/box7"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bigBoxGame"
+        app:layout_constraintStart_toStartOf="@+id/bigBoxGame"
+        app:layout_constraintTop_toBottomOf="@+id/box4" />
+
+    <com.isen.minigamestudio.LittleBoxGame
+        android:id="@+id/box8"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bigBoxGame"
+        app:layout_constraintStart_toEndOf="@+id/box7"
+        app:layout_constraintTop_toBottomOf="@+id/box5" />
+
+    <com.isen.minigamestudio.LittleBoxGame
+        android:id="@+id/box9"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bigBoxGame"
+        app:layout_constraintStart_toEndOf="@+id/box8"
+        app:layout_constraintTop_toBottomOf="@+id/box6" />
+
     <!--
 
     <View
