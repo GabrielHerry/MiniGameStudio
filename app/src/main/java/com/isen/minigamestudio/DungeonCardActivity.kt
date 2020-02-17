@@ -1,43 +1,56 @@
 package com.isen.minigamestudio
 
-import android.animation.AnimatorSet
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 
 import android.widget.Toast
-import androidx.core.view.ViewCompat.setTranslationX
-import androidx.core.view.size
+import androidx.core.view.children
 
 import kotlinx.android.synthetic.main.activity_dungeon_card.*
 import kotlinx.android.synthetic.main.littleboxlayout.view.*
 
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.random.Random
+import kotlin.random.Random.Default.nextDouble
+
 
 class DungeonCardActivity : AppCompatActivity() {
 
-    private val dungeonAnim = AnimatorSet()
+    private var score = 0
+    private var gameLevel = 1
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dungeon_card)
 
+        // ---------------------------------------------
+        // Set the random
+        val sdf = SimpleDateFormat("ss")
+        val currentDate = sdf.format(Date())
+        Toast.makeText(this, "The number of second is : $currentDate !", Toast.LENGTH_SHORT).show()
+        Random(currentDate.toInt())
+        // ---------------------------------------------
 
-
-        dungeonAnim.pause()
 
         box5.setIm(R.drawable.gamer)
 
-
-        box1.textBoxNumber.text = "1"
-        box2.textBoxNumber.text = "2"
-        box3.textBoxNumber.text = "3"
-        box4.textBoxNumber.text = "4"
-        box5.textBoxNumber.text = "5"
-        box6.textBoxNumber.text = "6"
-        box7.textBoxNumber.text = "7"
-        box8.textBoxNumber.text = "8"
-        box9.textBoxNumber.text = "9"
+        generateNewObject(R.id.box1,gameLevel)
+        generateNewObject(R.id.box2,gameLevel)
+        generateNewObject(R.id.box3,gameLevel)
+        generateNewObject(R.id.box4,gameLevel)
+        generateNewObject(R.id.box6,gameLevel)
+        generateNewObject(R.id.box7,gameLevel)
+        generateNewObject(R.id.box8,gameLevel)
+        generateNewObject(R.id.box9,gameLevel)
 
         box1.boxPosition = 1
         box2.boxPosition = 2
@@ -50,69 +63,39 @@ class DungeonCardActivity : AppCompatActivity() {
         box9.boxPosition = 9
 
 
-        box1.setOnClickListener {
-            if (checkAdjacentWithBox5(box1.boxPosition))
-                selectTheMove(establishMoveDirection(box1.boxPosition),R.id.box1)
-            else
-                Toast.makeText(this,"Attention tu ne peux pas aller ici !",Toast.LENGTH_SHORT).show()
+        box1.textBoxNumber.text = "1"
+        box2.textBoxNumber.text = "2"
+        box3.textBoxNumber.text = "3"
+        box4.textBoxNumber.text = "4"
+        box5.textBoxNumber.text = "5"
+        box6.textBoxNumber.text = "6"
+        box7.textBoxNumber.text = "7"
+        box8.textBoxNumber.text = "8"
+        box9.textBoxNumber.text = "9"
+
+
+        val boxList = activity_dungeon_card.children.filter { it is LittleBox && it.boxPosition != 5 }
+
+
+
+        boxList.forEach {
+            it as LittleBox
+            val currentBox = it
+            currentBox.setOnClickListener {
+                if (checkAdjacentWithBox5(currentBox.boxPosition)) {
+                    if (boxAction(currentBox.id)) {
+                        selectTheMove(establishMoveDirection(currentBox.boxPosition), currentBox.id)
+                    }
+                } else
+                    Toast.makeText(
+                        this,
+                        "Attention tu ne peux pas aller ici !",
+                        Toast.LENGTH_SHORT
+                    ).show()
+            }
         }
-
-        box2.setOnClickListener {
-            if (checkAdjacentWithBox5(box2.boxPosition))
-                selectTheMove(establishMoveDirection(box2.boxPosition),R.id.box2)
-            else
-                Toast.makeText(this,"Attention tu ne peux pas aller ici !",Toast.LENGTH_SHORT).show()
-        }
-
-        box3.setOnClickListener {
-            if (checkAdjacentWithBox5(box3.boxPosition))
-                selectTheMove(establishMoveDirection(box3.boxPosition),R.id.box3)
-            else
-                Toast.makeText(this,"Attention tu ne peux pas aller ici !",Toast.LENGTH_SHORT).show()
-        }
-
-        box4.setOnClickListener {
-            if (checkAdjacentWithBox5(box4.boxPosition))
-                selectTheMove(establishMoveDirection(box4.boxPosition),R.id.box4)
-            else
-                Toast.makeText(this,"Attention tu ne peux pas aller ici !",Toast.LENGTH_SHORT).show()
-        }
-
-        box5.setOnClickListener {
-            Toast.makeText(this,"box 5 pos : x =${box5.x}, y =${box5.y} !",Toast.LENGTH_SHORT).show()
-        }
-
-        box6.setOnClickListener {
-            if (checkAdjacentWithBox5(box6.boxPosition))
-                selectTheMove(establishMoveDirection(box6.boxPosition),R.id.box6)
-            else
-                Toast.makeText(this,"Attention tu ne peux pas aller ici !",Toast.LENGTH_SHORT).show()
-        }
-
-        box7.setOnClickListener {
-            if (checkAdjacentWithBox5(box7.boxPosition))
-                selectTheMove(establishMoveDirection(box7.boxPosition),R.id.box7)
-            else
-                Toast.makeText(this,"Attention tu ne peux pas aller ici !",Toast.LENGTH_SHORT).show()
-        }
-
-        box8.setOnClickListener {
-            if (checkAdjacentWithBox5(box8.boxPosition))
-                selectTheMove(establishMoveDirection(box8.boxPosition),R.id.box8)
-            else
-                Toast.makeText(this,"Attention tu ne peux pas aller ici !",Toast.LENGTH_SHORT).show()
-        }
-
-        box9.setOnClickListener {
-            if (checkAdjacentWithBox5(box9.boxPosition))
-                selectTheMove(establishMoveDirection(box9.boxPosition),R.id.box9)
-            else
-                Toast.makeText(this,"Attention tu ne peux pas aller ici !",Toast.LENGTH_SHORT).show()
-        }
-
-
-
     }
+
 
     private fun checkAdjacentWithBox5 (clickBoxPos:Int) : Boolean {
 
@@ -139,7 +122,7 @@ class DungeonCardActivity : AppCompatActivity() {
 
             2 -> when (clickBoxPos) {
                 1 -> return "mvLeft"
-                4 -> return "mvRight"
+                3 -> return "mvRight"
                 5 -> return "mvLow"
             }
 
@@ -201,207 +184,506 @@ class DungeonCardActivity : AppCompatActivity() {
 
     private fun animMoveToTop(boxToMoveId: Int) {
 
+        findViewById<LittleBox>(boxToMoveId).visibility = View.INVISIBLE
+        generateNewObject (boxToMoveId,gameLevel)
         val littleBoxSize = box1.height.toFloat()
 
-        ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "Y", (box5.y -littleBoxSize)).apply{
-            duration = 1000
-            start()
+        val boxToMovePosition = findViewById<LittleBox>(boxToMoveId).boxPosition
+        if (boxToMovePosition == 1 || boxToMovePosition == 2 || boxToMovePosition == 3)
+        {
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(R.id.box5),
+                "Y",
+                (box5.y - littleBoxSize)
+            ).apply {
+                duration = 400
+                start()
+            }
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(boxToMoveId),
+                "Y",
+                (findViewById<LittleBox>(boxToMoveId).y + 2*littleBoxSize)
+            ).apply {
+                duration = 400
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                    }
+                })
+                start()
+            }
+
+
+            var boxToMove2 = box1
+
+            when (boxToMovePosition) {
+                1 -> {
+                    boxToMove2 = getBoxAtPosition(7)
+                }
+                2 -> {
+                    boxToMove2 = getBoxAtPosition(8)
+                }
+                3 -> {
+                    boxToMove2 = getBoxAtPosition(9)
+                }
+            }
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(boxToMove2.id), "Y", (boxToMove2.y - littleBoxSize)
+            ).apply {
+                duration = 400
+                start()
+            }
+
+            val newPos = box5.boxPosition
+
+            box5.boxPosition = (findViewById<LittleBox>(boxToMoveId)).boxPosition
+            box5.textBoxNumber.text = (findViewById<LittleBox>(boxToMoveId)).boxPosition.toString()
+
+            (findViewById<LittleBox>(boxToMoveId)).boxPosition = boxToMove2.boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = boxToMove2.boxPosition.toString()
+
+            boxToMove2.boxPosition = newPos
+            boxToMove2.textBoxNumber.text = newPos.toString()
+
         }
+        else
+        {
 
-        ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "Y", (findViewById<LittleBox>(boxToMoveId).y + littleBoxSize)).apply{
-            duration = 1000
-            start()
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(R.id.box5),
+                "Y",
+                (box5.y - littleBoxSize)
+            ).apply {
+                duration = 400
+                start()
+            }
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(boxToMoveId),
+                "Y",
+                (findViewById<LittleBox>(boxToMoveId).y + littleBoxSize)
+            ).apply {
+                duration = 400
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                    }
+                })
+                start()
+            }
+
+            // change the position number of the two boxs
+            val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = box5.boxPosition.toString()
+
+            box5.boxPosition = newPos
+            box5.textBoxNumber.text = newPos.toString()
+            //  Toast.makeText(this,"fin du top",Toast.LENGTH_LONG).show()
         }
-
-        // change the position number of the two boxs
-        val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
-        (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
-        (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = box5.boxPosition.toString()
-
-        box5.boxPosition = newPos
-        box5.textBoxNumber.text = newPos.toString()
-      //  Toast.makeText(this,"fin du top",Toast.LENGTH_LONG).show()
-
     }
 
     private fun animMoveToRight(boxToMoveId: Int) {
 
+        findViewById<LittleBox>(boxToMoveId).visibility = View.INVISIBLE
+        generateNewObject (boxToMoveId,gameLevel)
         val littleBoxSize = box1.height.toFloat()
 
-        ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "X", (box5.x + littleBoxSize)).apply{
-            duration = 1000
-            start()
+        val boxToMovePosition = findViewById<LittleBox>(boxToMoveId).boxPosition
+        if (boxToMovePosition == 3 || boxToMovePosition == 6 || boxToMovePosition == 9) {
+
+            ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "X", (box5.x + littleBoxSize)).apply{
+                duration = 400
+                start()
+            }
+
+            ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "X",(findViewById<LittleBox>(boxToMoveId).x - 2*littleBoxSize)).apply{
+                duration = 400
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                    }
+                })
+                start()
+            }
+
+            var boxToMove2 = box1
+
+            when (boxToMovePosition) {
+                3 -> {boxToMove2 = getBoxAtPosition(1) }
+                6 -> {boxToMove2 = getBoxAtPosition(4) }
+                9 -> {boxToMove2 = getBoxAtPosition(7) }
+            }
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(boxToMove2.id), "X", (boxToMove2.x + littleBoxSize)).apply {
+                duration = 400
+                start()
+            }
+
+            val newPos = box5.boxPosition
+
+            box5.boxPosition = (findViewById<LittleBox>(boxToMoveId)).boxPosition
+            box5.textBoxNumber.text = (findViewById<LittleBox>(boxToMoveId)).boxPosition.toString()
+
+            (findViewById<LittleBox>(boxToMoveId)).boxPosition = boxToMove2.boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = boxToMove2.boxPosition.toString()
+
+            boxToMove2.boxPosition = newPos
+            boxToMove2.textBoxNumber.text = newPos.toString()
+
         }
+        else {
 
-        ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "X",(findViewById<LittleBox>(boxToMoveId).x - littleBoxSize)).apply{
-            duration = 1000
-            start()
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(R.id.box5),
+                "X",
+                (box5.x + littleBoxSize)
+            ).apply {
+                duration = 400
+                start()
+            }
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(boxToMoveId),
+                "X",
+                (findViewById<LittleBox>(boxToMoveId).x - littleBoxSize)
+            ).apply {
+                duration = 400
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                    }
+                })
+                start()
+            }
+
+
+            // change the position number of the two boxs
+            val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = box5.boxPosition.toString()
+
+            box5.boxPosition = newPos
+            box5.textBoxNumber.text = newPos.toString()
         }
-
-
-        // change the position number of the two boxs
-        val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
-        (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
-        (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = box5.boxPosition.toString()
-
-        box5.boxPosition = newPos
-        box5.textBoxNumber.text = newPos.toString()
 
     }
 
 
     private fun animMoveToLeft(boxToMoveId: Int) {
 
+        findViewById<LittleBox>(boxToMoveId).visibility = View.INVISIBLE
+        generateNewObject (boxToMoveId,gameLevel)
+
         val littleBoxSize = box1.height.toFloat()
 
-        ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "X",(box5.x - littleBoxSize)).apply{
-            duration = 1000
-            start()
+        // if boxToMove Position = 1 or 4 or 7
+        // we repop at the end of the line
+        val boxToMovePosition = findViewById<LittleBox>(boxToMoveId).boxPosition
+
+        if (boxToMovePosition == 1 || boxToMovePosition == 4 || boxToMovePosition == 7) {
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(R.id.box5), "X", (box5.x - littleBoxSize)).apply {
+                duration = 400
+                start()
+            }
+
+            ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "X", (findViewById<LittleBox>(boxToMoveId).x + 2*littleBoxSize)
+            ).apply {
+                duration = 400
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                    }
+                })
+                start()
+            }
+            var boxToMove2 = box1
+
+            when (boxToMovePosition) {
+                1 -> {boxToMove2 = getBoxAtPosition(3) }
+                4 -> {boxToMove2 = getBoxAtPosition(6) }
+                7 -> {boxToMove2 = getBoxAtPosition(9) }
+            }
+
+                ObjectAnimator.ofFloat(
+                    findViewById<LittleBox>(boxToMove2.id), "X", (boxToMove2.x - littleBoxSize)).apply {
+                    duration = 400
+                    start()
+                }
+
+                // change the position number of the three boxs (  newPos <- box5 <- boxToMoveId <- boxToMove2)
+                val newPos = box5.boxPosition
+
+                box5.boxPosition = (findViewById<LittleBox>(boxToMoveId)).boxPosition
+                box5.textBoxNumber.text = (findViewById<LittleBox>(boxToMoveId)).boxPosition.toString()
+
+                (findViewById<LittleBox>(boxToMoveId)).boxPosition = boxToMove2.boxPosition
+                (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = boxToMove2.boxPosition.toString()
+
+                boxToMove2.boxPosition = newPos
+                boxToMove2.textBoxNumber.text = newPos.toString()
+
+
+
         }
+        else
+        {
+            ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "X",(box5.x - littleBoxSize)).apply{
+                duration = 400
+                start()
+            }
 
-        ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "X",(findViewById<LittleBox>(boxToMoveId).x + littleBoxSize)).apply{
-            duration = 1000
-            start()
+            ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "X",(findViewById<LittleBox>(boxToMoveId).x + littleBoxSize)).apply{
+                duration = 400
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                    }
+                })
+                start()
+            }
+
+            // change the position number of the two boxs
+            val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = box5.boxPosition.toString()
+
+            box5.boxPosition = newPos
+            box5.textBoxNumber.text = newPos.toString()
         }
-
-
-
-        // change the position number of the two boxs
-        val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
-        (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
-        (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = box5.boxPosition.toString()
-
-        box5.boxPosition = newPos
-        box5.textBoxNumber.text = newPos.toString()
-
     }
 
     private fun animMoveToLow(boxToMoveId: Int) {
 
-
         val littleBoxSize = box1.height.toFloat()
-        ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "Y",box5.y + littleBoxSize).apply{
-            duration = 1000
-            start()
+
+        findViewById<LittleBox>(boxToMoveId).visibility = View.INVISIBLE
+        generateNewObject (boxToMoveId,gameLevel)
+
+
+        val boxToMovePosition = findViewById<LittleBox>(boxToMoveId).boxPosition
+
+        if (boxToMovePosition == 7 || boxToMovePosition == 8 || boxToMovePosition == 9) {
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(R.id.box5), "Y", (box5.y + littleBoxSize)).apply {
+                duration = 400
+                start()
+            }
+
+            ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "Y", (findViewById<LittleBox>(boxToMoveId).y - 2*littleBoxSize)
+            ).apply {
+                duration = 400
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                    }
+                })
+                start()
+            }
+            var boxToMove2 = box1
+
+            when (boxToMovePosition) {
+                7 -> {boxToMove2 = getBoxAtPosition(1) }
+                8 -> {boxToMove2 = getBoxAtPosition(2) }
+                9 -> {boxToMove2 = getBoxAtPosition(3) }
+            }
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(boxToMove2.id), "Y", (boxToMove2.y + littleBoxSize)).apply {
+                duration = 400
+                start()
+            }
+
+            // change the position number of the three boxs (  newPos <- box5 <- boxToMoveId <- boxToMove2)
+            val newPos = box5.boxPosition
+
+            box5.boxPosition = (findViewById<LittleBox>(boxToMoveId)).boxPosition
+            box5.textBoxNumber.text = (findViewById<LittleBox>(boxToMoveId)).boxPosition.toString()
+
+            (findViewById<LittleBox>(boxToMoveId)).boxPosition = boxToMove2.boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = boxToMove2.boxPosition.toString()
+
+            boxToMove2.boxPosition = newPos
+            boxToMove2.textBoxNumber.text = newPos.toString()
+
+
+
         }
+        else
+        {
 
-        ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "Y",(findViewById<LittleBox>(boxToMoveId).y -littleBoxSize)).apply{
-            duration = 1000
-            start()
+            ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "Y", box5.y + littleBoxSize)
+                .apply {
+                    duration = 400
+                    start()
+                }
+
+            ObjectAnimator.ofFloat(
+                findViewById<LittleBox>(boxToMoveId),
+                "Y",
+                (findViewById<LittleBox>(boxToMoveId).y - littleBoxSize)
+            ).apply {
+                duration = 400
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                    }
+                })
+                start()
+            }
+
+
+            // change the position number of the two boxs
+            val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
+            (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = box5.boxPosition.toString()
+
+            box5.boxPosition = newPos
+            box5.textBoxNumber.text = newPos.toString()
         }
+    }
 
 
-        // change the position number of the two boxs
-        val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
-        (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
-        (findViewById<LittleBox>(boxToMoveId)).textBoxNumber.text = box5.boxPosition.toString()
+    private fun generateNewObject (boxToMoveId: Int, gameLevel: Int) {
 
-        box5.boxPosition = newPos
-        box5.textBoxNumber.text = newPos.toString()
+        // difficulty : at lvl 1 33% potions/swords/monster
+        //              at lvl 10 OnlyMonster
+        // 0.33
+        var gameLevelDouble = gameLevel.toDouble()
 
+
+        val randomNumber = nextDouble()
+        when {
+            randomNumber < (0.3/gameLevelDouble) -> // generate potion
+            {
+                findViewById<LittleBox>(boxToMoveId).boxType ="potion"
+                findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.potion)
+                findViewById<LittleBox>(boxToMoveId).setPv(1+(nextDouble() * 9).toInt())
+
+                findViewById<LittleBox>(boxToMoveId).setPa(0)
+             //   findViewById<LittleBox>(boxToMoveId).paText.visibility = View.INVISIBLE
+             //   findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.INVISIBLE
+            }
+
+            randomNumber < ((0.3/gameLevelDouble)*2) -> // generate sword
+            {
+                findViewById<LittleBox>(boxToMoveId).boxType ="sword"
+                findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.sword)
+                findViewById<LittleBox>(boxToMoveId).setPa(1+(nextDouble() * 9).toInt())
+
+                findViewById<LittleBox>(boxToMoveId).setPv(0)
+                //    findViewById<LittleBox>(boxToMoveId).pvText.visibility = View.INVISIBLE
+                //   findViewById<LittleBox>(boxToMoveId).pvNumb.visibility = View.INVISIBLE
+            }
+
+            else -> // generate monster
+            {
+
+                findViewById<LittleBox>(boxToMoveId).boxType ="monster"
+                findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monster)
+                findViewById<LittleBox>(boxToMoveId).setPv(1+(nextDouble() * 9).toInt())
+
+                findViewById<LittleBox>(boxToMoveId).setPa(0)
+                //    findViewById<LittleBox>(boxToMoveId).paText.visibility = View.INVISIBLE
+                //    findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private fun boxAction (boxToMoveId: Int) : Boolean {
+        // if box to move is a potion
+        if (findViewById<LittleBox>(boxToMoveId).boxType =="sword") {
+            box5.setPa(box5.getPa() + findViewById<LittleBox>(boxToMoveId).getPa())
+            return true
+        }
+        else if (findViewById<LittleBox>(boxToMoveId).boxType == "potion") {
+            box5.setPv(box5.getPv() + findViewById<LittleBox>(boxToMoveId).getPv())
+            return true
+        }
+        else if (findViewById<LittleBox>(boxToMoveId).boxType == "monster") {
+            // if box5.pa >0 first fight with pa
+            if (box5.getPa() > 0)
+            {
+                return if (box5.getPa() >= findViewById<LittleBox>(boxToMoveId).getPv())
+                {
+                    // kill the mob
+
+                    score += (box5.getPa() - findViewById<LittleBox>(boxToMoveId).getPv())
+                    scoreNumber.text = score.toString()
+                    updateLevel (score)
+
+                    box5.setPa(box5.getPa() - findViewById<LittleBox>(boxToMoveId).getPv() )
+                    true
+                }
+                else
+                {
+                    // hit but don't kill
+                    score += box5.getPa()
+                    scoreNumber.text = score.toString()
+                    updateLevel (score)
+
+                    findViewById<LittleBox>(boxToMoveId).setPv(findViewById<LittleBox>(boxToMoveId).getPv() - box5.getPa())
+                    box5.setPa(0)
+                    false
+                }
+            }
+            else
+            {
+                // box5.getPa() = 0
+                // kill the monster with my pvs
+                if (box5.getPv() > findViewById<LittleBox>(boxToMoveId).getPv() )
+                {
+                    score += findViewById<LittleBox>(boxToMoveId).getPv()
+                    scoreNumber.text = score.toString()
+                    updateLevel (score)
+
+                    box5.setPv(box5.getPv() - findViewById<LittleBox>(boxToMoveId).getPv())
+                    return true
+                }
+                else
+                {
+                    // END OF GAME
+
+                    val builder = AlertDialog.Builder(this)
+
+                    builder.setMessage("Fin du jeu !")
+                    // Finally, make the alert dialog using builder
+                    val dialog: AlertDialog = builder.create()
+
+                    // Display the alert dialog on app interface
+                    dialog.show()
+                }
+            }
+
+        }
+        return false
+    }
+
+    private fun getBoxAtPosition (pos:Int) : LittleBox {
+
+        val boxList = activity_dungeon_card.children.filter { it is LittleBox && it.boxPosition != 5 }
+
+        boxList.forEach {
+            it as LittleBox
+            if(it.boxPosition == pos)
+            {
+                return it
+            }
+        }
+        return box5
+    }
+
+    private fun updateLevel (score:Int) {
+        gameLevel = (score/50) + 1
+        levelNumber.text = gameLevel.toString()
     }
 
 }
-
-
-
-
-//-------------- an other way but without a smooth transition
-/*
-val constraintSet1 = ConstraintSet()
-constraintSet1.clone(activity_dungeon_card)
-val constraintSet2 = ConstraintSet()
-constraintSet2.clone(activity_dungeon_card)
-constraintSet2.setTranslationY(R.id.box5, 900F)
-
-
-var mytransition = AutoTransition()
-mytransition.duration = 1000
-
-
-TransitionManager.beginDelayedTransition(activity_dungeon_card,mytransition)
-constraintSet2.applyTo(activity_dungeon_card)*/
-
-
-/*
-val constraintSet1 = ConstraintSet()
-constraintSet1.clone(activity_dungeon_card)
-val constraintSet2 = ConstraintSet()
-constraintSet2.load(this,activity_dungeon_card)
-constraintSet2.setTranslationY(R.id.box5, 900F)
-
-
-var mytransition = AutoTransition()
-mytransition.duration = 1000
-
-
-TransitionManager.beginDelayedTransition(activity_dungeon_card,mytransition)
-constraintSet2.applyTo(activity_dungeon_card)*/
-
-/*
-// return to the normal configuration of activity_dungeon_card
-val constraintSetArrival2 = ConstraintSet()
-constraintSetArrival2.load(this, R.layout.activity_home)
-
-TransitionManager.beginDelayedTransition(mylayout)
-constraintSetArrival2.applyTo(mylayout)   */
-
-
-/*    // put 2 invisible in my main
-     box2.visibility = View.INVISIBLE
-
-     // put 2 invisible in my new one (2 <=> 5)
-     var inflatedview = getLayoutInflater().inflate(R.layout.dungeon_change5to2, null)
-     var inflatebox = inflatedview.findViewById<LittleBox>(R.id.box2)
-     inflatebox.visibility = View.INVISIBLE
-
-
-      // move current view to dungeon_change5to2
-
-      val constraintSetArrival = ConstraintSet()
-      constraintSetArrival.load(this, R.layout.dungeon_change5to2)
-
-     var mytransition = AutoTransition()
-     mytransition.duration = 0
-
-      TransitionManager.beginDelayedTransition(activity_dungeon_card,mytransition)
-      constraintSetArrival.applyTo(activity_dungeon_card)
-
-      // now we are in dungeon_change5to2
-      // the inflater will be gone so :
-      box2.visibility = View.INVISIBLE
-
-*/
-
-
-// Log.d("I click","click")
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-        val boxFiveAnim = ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "translationY", littleBoxSize).apply{
-            duration = 1000
-        }
-
-        val boxToMoveAnim = ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "translationY", -littleBoxSize).apply{
-            duration = 1000
-        }
-
-        AnimatorSet().apply {
-            play(boxFiveAnim).after(boxToMoveAnim)
-            start()
-        }
-
-
-
- */
