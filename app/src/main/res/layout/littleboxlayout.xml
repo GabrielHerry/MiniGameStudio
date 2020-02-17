@@ -11,17 +11,18 @@
         android:id="@+id/paText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="3dp"
         android:layout_marginEnd="5dp"
-        android:text="pa :"
+        android:layout_marginBottom="7dp"
+        android:text="pa:"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/vpNumb"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageGameBox" />
+        app:layout_constraintEnd_toStartOf="@id/paNumb"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/vpNumb"
+        android:id="@+id/paNumb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -43,10 +44,10 @@
         tools:srcCompat="@drawable/gamer" />
 
     <TextView
-        android:id="@+id/paNumb"
+        android:id="@+id/pvNumb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="7dp"
         android:text="5"
         android:textColor="@color/colorPrimary"
@@ -58,11 +59,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="7dp"
         android:text="pv:"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/paNumb"
-        app:layout_constraintTop_toBottomOf="@+id/imageGameBox" />
+        app:layout_constraintEnd_toStartOf="@+id/pvNumb" />
 
     <TextView
         android:id="@+id/textBoxNumber"

@@ -17,23 +17,17 @@ class LittleBox @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     var boxPosition = 0
+    var boxType = ""
 
     init {
         inflate(context, R.layout.littleboxlayout, this)
-
-        // set as a test
-        imageGameBox.setImageResource(R.drawable.bomb)
-
-
-
-
     }
     // -----------------------------------------------------------------------------
     //function of class littleBox
 
     //getter
     fun getPv(): Int {
-        return vpNumb.text.toString().toInt()
+        return pvNumb.text.toString().toInt()
     }
 
     fun getPa(): Int {
@@ -46,7 +40,7 @@ class LittleBox @JvmOverloads constructor(
 
     //setter
     fun setPv(pv: Int) {
-        vpNumb.text = pv.toString()
+        pvNumb.text = pv.toString()
     }
 
     fun setPa(pa: Int) {
