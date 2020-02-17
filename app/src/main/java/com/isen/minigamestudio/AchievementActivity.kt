@@ -1,13 +1,17 @@
 package com.isen.minigamestudio
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.extensions.LayoutContainer
 
-class MainActivity : AppCompatActivity() {
+class AchievementActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    }
+
+    private fun goMenu() {
+        val intent = Intent( this, HomeActivity::class.java)
+        startActivity(intent)
     }
 }
