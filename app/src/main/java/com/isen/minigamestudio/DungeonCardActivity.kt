@@ -30,6 +30,10 @@ import kotlin.random.Random.Default.nextDouble
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.util.Log
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
 import kotlin.math.pow
 
 
@@ -41,20 +45,26 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
     private var changeBoxNumber = 0
     private var allowChangeBox = false
     private var aMoveIsHappening = false
-    private var saveEscapeDungeon = false
+
+
+    companion object {
+        var savedEscapeDungeon = false
+    }
+
 
     private var probChangeBox : Int = 0
     private var probPotion : Int = 0
     private var probSword : Int = 0
 
 
-
-
-    
-
-
-
-
+    private var pos = "position"
+    private var pv = "Point de Vie"
+    private var pa = "Point d'attaque"
+    private var x = "position x"
+    private var y = "position y"
+    private var type = "type"
+    private var save = "data.json"
+    private var arrayBoxes: Array<LittleBox> = arrayOf()
 
     private lateinit var sensorManager : SensorManager
     private var accelerometer : Sensor?= null
@@ -64,48 +74,80 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dungeon_card)
 
-        // ---------------------------------------------
-        // choose the level :
-        activity_dungeon_card.children.forEach {
-            it.visibility = View.INVISIBLE
+       // arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
+        if(savedEscapeDungeon) { //if we have a save
+            System.out.println("we have a save")
+            readBackupFromJson()
+            savedEscapeDungeon = false
+        }
+        else
+        {
+            // if we don't have a save
+
+
+            // ---------------------------------------------
+            // choose the level :
+            activity_dungeon_card.children.forEach {
+                it.visibility = View.INVISIBLE
+            }
+
+            val builder1 = AlertDialog.Builder(this)
+            builder1.setMessage(R.string.alertDialogLevel)
+            builder1.setPositiveButton(R.string.alertDialogLevel3) { dialog, which ->
+                difficulty = 3
+            }
+            builder1.setNeutralButton(R.string.alertDialogLevel1) { dialog, which ->
+                difficulty = 1
+            }
+            builder1.setNegativeButton(R.string.alertDialogLevel2) { dialog, which ->
+                difficulty = 2
+            }
+            builder1.setOnDismissListener(DialogInterface.OnDismissListener {
+
+                if (difficulty == 0) {
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    var probaGame = setDifficulty(difficulty)
+                    probChangeBox = probaGame[0]
+                    probPotion = probaGame[1]
+                    probSword = probaGame[2]
+                    difficultyNumber.text = difficulty.toString()
+
+                    // generate the values of boxs
+                    activity_dungeon_card.children.forEach {
+                        it.visibility = View.VISIBLE
+                    }
+                    activity_dungeon_card.children.filter { it is LittleBox && it.boxPosition != 5 }
+                        .forEach {
+                            generateNewObject(it.id, gameLevel)
+                        }
+                }
+            })
+
+
+            val dialog: AlertDialog = builder1.create()
+            dialog.show()
+
+            // init boxs --------------------------------------------
+            val orderedBoxList = listOf(box1,box2,box3,box4,box5,box6,box7,box8,box9)
+
+            // enter the box position
+            for (i in 0..8)
+            {
+                orderedBoxList[i].boxPosition = i+1
+                orderedBoxList[i].textBoxNumber.text = (i+1).toString()
+                orderedBoxList[i].textBoxNumber.visibility = View.INVISIBLE
+            }
+
+            box5.setIm(R.drawable.gamer)
+            box5.boxPosition = 5
+            box5.textBoxNumber.visibility = View.INVISIBLE
         }
 
+        // end of else
 
 
-
-        val builder1 = AlertDialog.Builder(this)
-        builder1.setMessage(R.string.alertDialogLevel)
-        builder1.setPositiveButton(R.string.alertDialogLevel3) { dialog, which ->  difficulty = 3 }
-        builder1.setNeutralButton(R.string.alertDialogLevel1) { dialog, which ->  difficulty = 1 }
-        builder1.setNegativeButton(R.string.alertDialogLevel2) { dialog, which ->  difficulty = 2 }
-        builder1.setOnDismissListener(DialogInterface.OnDismissListener {
-
-            if (difficulty == 0)
-            {
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
-            }
-            else
-            {
-                var probaGame = setDifficulty(difficulty)
-                probChangeBox = probaGame[0]
-                probPotion = probaGame[1]
-                probSword = probaGame[2]
-                difficultyNumber.text = difficulty.toString()
-
-                // generate the values of boxs
-                activity_dungeon_card.children.forEach {
-                    it.visibility = View.VISIBLE
-                }
-                activity_dungeon_card.children.filter { it is LittleBox && it.boxPosition != 5 }
-                    .forEach {
-                        generateNewObject(it.id,gameLevel) }
-            }
-        })
-
-
-        val dialog: AlertDialog = builder1.create()
-        dialog.show()
 
         // ---------------------------------------------
         // Set the random
@@ -127,19 +169,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
             dialog.show() }
 
         // ------------------------------------------------
-        val orderedBoxList = listOf(box1,box2,box3,box4,box5,box6,box7,box8,box9)
 
-        // enter the box position
-        for (i in 0..8)
-        {
-            orderedBoxList[i].boxPosition = i+1
-            orderedBoxList[i].textBoxNumber.text = (i+1).toString()
-            orderedBoxList[i].textBoxNumber.visibility = View.INVISIBLE
-        }
-
-        box5.setIm(R.drawable.gamer)
-        box5.boxPosition = 5
-        box5.textBoxNumber.visibility = View.INVISIBLE
 
         val boxList = activity_dungeon_card.children.filter { it is LittleBox && it.boxPosition != 5 }
 
@@ -203,6 +233,13 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 }
             }
         }
+        savebutton.setOnClickListener {
+            saveBoxDataInJson()
+            savedEscapeDungeon=true
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 
@@ -960,58 +997,63 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
     }
 
+    private fun readBackupFromJson() {
+        val file = File(cacheDir.absolutePath+"/jsonEscapeDungeon.json")
+        val readString = file.readText()
+        val jsonArray = JSONArray(readString)
 
 
+        Log.d("DungeonCardActivityREAD", jsonArray.toString())
+        val listBox = activity_dungeon_card.children.filter { it is LittleBox }
+        listBox.forEachIndexed { index, littleBox ->
+            littleBox as LittleBox
+            if(index == 4){
+                littleBox.setIm(R.drawable.gamer)
+            }
+
+            littleBox.boxPosition = jsonArray.getJSONObject(index).getString(pos).toInt()
+            littleBox.setPv(jsonArray.getJSONObject(index).getString(pv).toInt())
+            littleBox.setPa(jsonArray.getJSONObject(index).getString(pa).toInt())
+            littleBox.textBoxNumber.text = littleBox.boxPosition.toString()
+            ObjectAnimator.ofFloat(littleBox, "X", (jsonArray.getJSONObject(index).getString(x).toFloat()))
+                .apply {
+                    duration = 1
+                    addListener((object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            ObjectAnimator.ofFloat(littleBox, "Y", (jsonArray.getJSONObject(index).getString(y).toFloat()))
+                                .apply {
+                                    duration = 1
+                                    start()
+                                }
+                        }
+                    }))
+                    start()
+                }
+        }
+    }
+
+    private fun saveBoxDataInJson() { //write in the save file
+        val jsonArray = JSONArray()
+
+        arrayBoxes.forEach {
+            System.out.println("BOUCLE SAVE")
+            val jsonObj = JSONObject()
+            jsonObj.put(pos,it.boxPosition)
+            jsonObj.put(pv, it.getPa())
+            jsonObj.put(pa, it.getPv())
+            jsonObj.put(x,it.x)
+            jsonObj.put(y,it.y)
+            jsonArray.put(jsonObj)
+            System.out.println(it.x)
+            System.out.println(it.y)
+
+        }
+
+        Log.d("DungeonCardActivity", jsonArray.toString())
+        val file = File(cacheDir.absolutePath + "/jsonEscapeDungeon.json")
+        file.writeText(jsonArray.toString())
+
+    }
 }
 
 
-// else -> // generate monster
-// {
-// findViewById<LittleBox>(boxToMoveId).boxType ="monster"
-// when (gameLevel) {
-// 1,2 ->
-// {
-// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterone)
-// findViewById<LittleBox>(boxToMoveId).setPv(1+(nextDouble() * 9).toInt())
-// }
-// 3,4 ->
-// {
-// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monstertwo)
-// findViewById<LittleBox>(boxToMoveId).setPv(11+(nextDouble() * 9).toInt())
-// }
-// 5,6 ->
-// {
-// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterthree)
-// findViewById<LittleBox>(boxToMoveId).setPv(21+(nextDouble() * 9).toInt())
-// }
-// 7,8 ->
-// {
-// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterfour)
-// findViewById<LittleBox>(boxToMoveId).setPv(31+(nextDouble() * 9).toInt())
-// }
-// 9,10 ->
-// {
-// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterfive)
-// findViewById<LittleBox>(boxToMoveId).setPv(41+(nextDouble() * 9).toInt())
-// }
-// 11,12 ->
-// {
-// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monstersix)
-// findViewById<LittleBox>(boxToMoveId).setPv(51+(nextDouble() * 9).toInt())
-// }
-// 13,14 ->
-// {
-// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterseven)
-// findViewById<LittleBox>(boxToMoveId).setPv(61+(nextDouble() * 9).toInt())
-// }
-// 15,16 ->
-// {
-// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterseven)
-// findViewById<LittleBox>(boxToMoveId).setPv(61+(nextDouble() * 9).toInt())
-// }
-// }
-//
-// findViewById<LittleBox>(boxToMoveId).setPa(0)
-// //    findViewById<LittleBox>(boxToMoveId).paText.visibility = View.INVISIBLE
-// //    findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.INVISIBLE
-// }
