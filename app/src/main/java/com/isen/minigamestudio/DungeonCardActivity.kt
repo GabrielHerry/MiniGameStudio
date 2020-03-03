@@ -7,13 +7,14 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 
 import android.widget.Toast
@@ -26,19 +27,34 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
 import kotlin.random.Random.Default.nextDouble
-
-
-
-
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import kotlin.math.pow
 
 
 class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
-
+    private var difficulty : Int = 0
     private var score = 0
-    private var gameLevel = 1
+    private var gameLevel : Int = 1
     private var changeBoxNumber = 0
-    private var allowChangeBox = true
+    private var allowChangeBox = false
+    private var aMoveIsHappening = false
+    private var saveEscapeDungeon = false
+
+    private var probChangeBox : Int = 0
+    private var probPotion : Int = 0
+    private var probSword : Int = 0
+
+
+
+
+    
+
+
+
+
 
     private lateinit var sensorManager : SensorManager
     private var accelerometer : Sensor?= null
@@ -49,80 +65,142 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         setContentView(R.layout.activity_dungeon_card)
 
         // ---------------------------------------------
+        // choose the level :
+        activity_dungeon_card.children.forEach {
+            it.visibility = View.INVISIBLE
+        }
+
+
+
+
+        val builder1 = AlertDialog.Builder(this)
+        builder1.setMessage(R.string.alertDialogLevel)
+        builder1.setPositiveButton(R.string.alertDialogLevel3) { dialog, which ->  difficulty = 3 }
+        builder1.setNeutralButton(R.string.alertDialogLevel1) { dialog, which ->  difficulty = 1 }
+        builder1.setNegativeButton(R.string.alertDialogLevel2) { dialog, which ->  difficulty = 2 }
+        builder1.setOnDismissListener(DialogInterface.OnDismissListener {
+
+            if (difficulty == 0)
+            {
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+            }
+            else
+            {
+                var probaGame = setDifficulty(difficulty)
+                probChangeBox = probaGame[0]
+                probPotion = probaGame[1]
+                probSword = probaGame[2]
+                difficultyNumber.text = difficulty.toString()
+
+                // generate the values of boxs
+                activity_dungeon_card.children.forEach {
+                    it.visibility = View.VISIBLE
+                }
+                activity_dungeon_card.children.filter { it is LittleBox && it.boxPosition != 5 }
+                    .forEach {
+                        generateNewObject(it.id,gameLevel) }
+            }
+        })
+
+
+        val dialog: AlertDialog = builder1.create()
+        dialog.show()
+
+        // ---------------------------------------------
         // Set the random
         val sdf = SimpleDateFormat("ss")
         val currentDate = sdf.format(Date())
-        Toast.makeText(this, "The number of second is : $currentDate !", Toast.LENGTH_SHORT).show()
         Random(currentDate.toInt())
-
         // ---------------------------------------------
-
         // Sensor
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         // focus in accelerometer
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
-        if ( accelerometer != null )
-        {
-            Toast.makeText(this, "there is an accelerometer!", Toast.LENGTH_SHORT).show()
-        }
-
+        // ------------------------------------------------
+        // access to rules
+        buttonRules.setOnClickListener {
+            val builder2 = AlertDialog.Builder(this)
+            builder2.setMessage(R.string.alertDialogRules )
+            val dialog: AlertDialog = builder2.create()
+            dialog.show() }
 
         // ------------------------------------------------
+        val orderedBoxList = listOf(box1,box2,box3,box4,box5,box6,box7,box8,box9)
 
+        // enter the box position
+        for (i in 0..8)
+        {
+            orderedBoxList[i].boxPosition = i+1
+            orderedBoxList[i].textBoxNumber.text = (i+1).toString()
+            orderedBoxList[i].textBoxNumber.visibility = View.INVISIBLE
+        }
 
         box5.setIm(R.drawable.gamer)
-
-        generateNewObject(R.id.box1,gameLevel)
-        generateNewObject(R.id.box2,gameLevel)
-        generateNewObject(R.id.box3,gameLevel)
-        generateNewObject(R.id.box4,gameLevel)
-        generateNewObject(R.id.box6,gameLevel)
-        generateNewObject(R.id.box7,gameLevel)
-        generateNewObject(R.id.box8,gameLevel)
-        generateNewObject(R.id.box9,gameLevel)
-
-        box1.boxPosition = 1
-        box2.boxPosition = 2
-        box3.boxPosition = 3
-        box4.boxPosition = 4
         box5.boxPosition = 5
-        box6.boxPosition = 6
-        box7.boxPosition = 7
-        box8.boxPosition = 8
-        box9.boxPosition = 9
-
-
-        box1.textBoxNumber.text = "1"
-        box2.textBoxNumber.text = "2"
-        box3.textBoxNumber.text = "3"
-        box4.textBoxNumber.text = "4"
-        box5.textBoxNumber.text = "5"
-        box6.textBoxNumber.text = "6"
-        box7.textBoxNumber.text = "7"
-        box8.textBoxNumber.text = "8"
-        box9.textBoxNumber.text = "9"
-
+        box5.textBoxNumber.visibility = View.INVISIBLE
 
         val boxList = activity_dungeon_card.children.filter { it is LittleBox && it.boxPosition != 5 }
-
-
 
         boxList.forEach {
             it as LittleBox
             val currentBox = it
+            System.out.println("Affichage: ${currentBox.boxPosition}")
+
             currentBox.setOnClickListener {
-                allowChangeBox = true
-                if (checkAdjacentWithBox5(currentBox.boxPosition)) {
-                    if (boxAction(currentBox.id)) {
-                        selectTheMove(establishMoveDirection(currentBox.boxPosition), currentBox.id)
-                    }
-                } else
+                if (changeBoxNumber>0)
+                {
+                    allowChangeBox = true
+                }
+
+                if (!aMoveIsHappening)
+                {
+                    if (checkAdjacentWithBox5(currentBox.boxPosition)) {
+                        if (boxAction(currentBox.id)) {
+                            selectTheMove(establishMoveDirection(currentBox.boxPosition), currentBox.id)
+                        }
+                    } else
+                        Toast.makeText(
+                            this,
+                            "Attention tu ne peux pas aller ici !",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                }
+                else
+                {
                     Toast.makeText(
                         this,
-                        "Attention tu ne peux pas aller ici !",
+                        "Relax, ne clique pas trop vite ;)",
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+
+            }
+        }
+
+        textChangeBox.setOnClickListener {
+
+            if (allowChangeBox) {
+                Toast.makeText(
+                    this,
+                    "Cartes redistribuées!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                if (changeBoxNumber > 0) {
+                    // change the box
+                    activity_dungeon_card.children.filter { it is LittleBox && it != box5 }
+                        .forEach {
+                            it as LittleBox
+                            generateNewObject(it.id, gameLevel)
+                        }
+
+                    changeBoxNumber--
+                    numbChange.text = changeBoxNumber.toString()
+                    allowChangeBox = false
+
+                }
             }
         }
     }
@@ -130,15 +208,13 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
     override fun onResume() {
         super.onResume()
-        accelerometer?.also {accelero ->
-            sensorManager.registerListener(this,accelero,SensorManager.SENSOR_DELAY_NORMAL)
+        accelerometer?.also {it ->
+            sensorManager.registerListener(this,it,SensorManager.SENSOR_DELAY_NORMAL)
         }
 
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-
-
     }
 
     override fun onPause() {
@@ -148,24 +224,21 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
     override fun onSensorChanged(event: SensorEvent?) {
 
-        if((event!!.values[0] + event.values[1]+event.values[2]) >= 25 && allowChangeBox)
+        if(event!!.values[0] + event.values[1]+event.values[2] >= 20 && allowChangeBox)
         {
             Toast.makeText(
                 this,
-                "Je suis bougé !! !",
+                "Cartes redistribuées!",
                 Toast.LENGTH_SHORT
             ).show()
             if (changeBoxNumber>0)
             {
                 // change the box
-                generateNewObject(R.id.box1,gameLevel)
-                generateNewObject(R.id.box2,gameLevel)
-                generateNewObject(R.id.box3,gameLevel)
-                generateNewObject(R.id.box4,gameLevel)
-                generateNewObject(R.id.box6,gameLevel)
-                generateNewObject(R.id.box7,gameLevel)
-                generateNewObject(R.id.box8,gameLevel)
-                generateNewObject(R.id.box9,gameLevel)
+                activity_dungeon_card.children.filter { it is LittleBox && it != box5 }.forEach {
+                    it as LittleBox
+                    generateNewObject(it.id,gameLevel)
+                }
+
                 changeBoxNumber--
                 numbChange.text = changeBoxNumber.toString()
                 allowChangeBox = false
@@ -173,8 +246,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
             }
         }
     }
-
-
 
     private fun checkAdjacentWithBox5 (clickBoxPos:Int) : Boolean {
 
@@ -258,10 +329,9 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
     }
 
-
-
-
     private fun animMoveToTop(boxToMoveId: Int) {
+
+        aMoveIsHappening = true
 
         findViewById<LittleBox>(boxToMoveId).visibility = View.INVISIBLE
         generateNewObject (boxToMoveId,gameLevel)
@@ -289,6 +359,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                        aMoveIsHappening = false
                     }
                 })
                 start()
@@ -349,6 +420,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                        aMoveIsHappening = false
                     }
                 })
                 start()
@@ -367,6 +439,8 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
     private fun animMoveToRight(boxToMoveId: Int) {
 
+        aMoveIsHappening = true
+
         findViewById<LittleBox>(boxToMoveId).visibility = View.INVISIBLE
         generateNewObject (boxToMoveId,gameLevel)
         val littleBoxSize = box1.height.toFloat()
@@ -384,6 +458,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                        aMoveIsHappening = false
                     }
                 })
                 start()
@@ -436,6 +511,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                        aMoveIsHappening = false
                     }
                 })
                 start()
@@ -455,6 +531,8 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
 
     private fun animMoveToLeft(boxToMoveId: Int) {
+
+        aMoveIsHappening = true
 
         findViewById<LittleBox>(boxToMoveId).visibility = View.INVISIBLE
         generateNewObject (boxToMoveId,gameLevel)
@@ -479,6 +557,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                        aMoveIsHappening = false
                     }
                 })
                 start()
@@ -524,6 +603,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                        aMoveIsHappening = false
                     }
                 })
                 start()
@@ -540,6 +620,8 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
     }
 
     private fun animMoveToLow(boxToMoveId: Int) {
+
+        aMoveIsHappening = true
 
         val littleBoxSize = box1.height.toFloat()
 
@@ -563,6 +645,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                        aMoveIsHappening = false
                     }
                 })
                 start()
@@ -614,6 +697,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         findViewById<LittleBox>(boxToMoveId).visibility = View.VISIBLE
+                        aMoveIsHappening = false
                     }
                 })
                 start()
@@ -630,67 +714,135 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         }
     }
 
+    private fun setDifficulty (difficulty:Int) : (List<Int>)
+    {
+        var probaChangeBox = 0
+        var probaPotion = 0
+        var probaSword = 0
+
+        when (difficulty)
+        {
+            1 ->
+            {
+                probaChangeBox = 20
+                probaPotion = 10
+                probaSword = 40
+            }
+            2 ->
+            {
+                probaChangeBox = 15
+                probaPotion = 7
+                probaSword = 35
+            }
+            3 ->
+            {
+                probaChangeBox = 10
+                probaPotion = 5
+                probaSword = 30
+            }
+        }
+        return (listOf(probaChangeBox, probaPotion, probaSword))
+    }
 
     private fun generateNewObject (boxToMoveId: Int, gameLevel: Int) {
 
-        // difficulty : at lvl 1 33% potions/swords/monster
-        //              at lvl 10 OnlyMonster
-        // 0.33
-        val gameLevelDouble = gameLevel.toDouble()
+        findViewById<LittleBox>(boxToMoveId).pvText.visibility = View.VISIBLE
+        findViewById<LittleBox>(boxToMoveId).pvNumb.visibility = View.VISIBLE
+        findViewById<LittleBox>(boxToMoveId).paText.visibility = View.VISIBLE
+        findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.VISIBLE
 
-
-        val randomNumber = nextDouble()*100
+        val randomNumber = nextDouble() * 100
         when {
-            randomNumber < (10 /gameLevelDouble) ->
-            {
-                findViewById<LittleBox>(boxToMoveId).boxType ="changeBox"
-                findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.changebox)
-                findViewById<LittleBox>(boxToMoveId).setPv(0)
+            randomNumber < (probChangeBox) -> {
+                if (changeBoxNumber < 2) {
+                    findViewById<LittleBox>(boxToMoveId).boxType = "changeBox"
+                    findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.changebox)
+                    findViewById<LittleBox>(boxToMoveId).setPv(0)
 
-                findViewById<LittleBox>(boxToMoveId).setPa(0)
+                    findViewById<LittleBox>(boxToMoveId).setPa(0)
+                } else {
+                    findViewById<LittleBox>(boxToMoveId).boxType = "victoryPoint"
+                    findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.victorypoint)
+                    findViewById<LittleBox>(boxToMoveId).setPv(0)
+                    findViewById<LittleBox>(boxToMoveId).setPa(0)
+
+                }
+                findViewById<LittleBox>(boxToMoveId).pvText.visibility = View.INVISIBLE
+                findViewById<LittleBox>(boxToMoveId).pvNumb.visibility = View.INVISIBLE
+                findViewById<LittleBox>(boxToMoveId).paText.visibility = View.INVISIBLE
+                findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.INVISIBLE
+
             }
 
-            randomNumber < (10 /gameLevelDouble) + (10/gameLevelDouble) ->
+            randomNumber < (probChangeBox + probPotion) -> // generate potion
             {
-                findViewById<LittleBox>(boxToMoveId).boxType ="monster"
-                findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.bigmonster)
-                findViewById<LittleBox>(boxToMoveId).setPv(11+(nextDouble() * 9).toInt())
-
-                findViewById<LittleBox>(boxToMoveId).setPa(0)
-            }
-
-            randomNumber < ( (10 /gameLevelDouble)+(10/gameLevelDouble) +(20/gameLevelDouble) ) -> // generate potion
-            {
-                findViewById<LittleBox>(boxToMoveId).boxType ="potion"
+                findViewById<LittleBox>(boxToMoveId).boxType = "potion"
                 findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.potion)
-                findViewById<LittleBox>(boxToMoveId).setPv(1+(nextDouble() * 9).toInt())
+                // give between 10 and 30% of pdv max
+                findViewById<LittleBox>(boxToMoveId).setPv( (nbPaPvMax.text.toString().toInt()/10)
+                        + ((nextDouble() * (nbPaPvMax.text.toString().toInt()/5) ).toInt()) )
 
                 findViewById<LittleBox>(boxToMoveId).setPa(0)
-             //   findViewById<LittleBox>(boxToMoveId).paText.visibility = View.INVISIBLE
-             //   findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.INVISIBLE
+                findViewById<LittleBox>(boxToMoveId).paText.visibility = View.INVISIBLE
+                findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.INVISIBLE
+
+
             }
 
-            randomNumber < (  (10 /gameLevelDouble) + (10/gameLevelDouble) +(20/gameLevelDouble) + (30/gameLevelDouble) ) -> // generate sword
+            randomNumber < (probChangeBox + probPotion + probSword) -> // generate sword
             {
-                findViewById<LittleBox>(boxToMoveId).boxType ="sword"
-                findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.sword)
-                findViewById<LittleBox>(boxToMoveId).setPa(1+(nextDouble() * 9).toInt())
+                // sword pa approximately = ( monster pv / 2 ) * 0.8 ^ (lvl/4)
+                when ((gameLevel - 1)/4 % 3) {
+                    0 -> {
+                        findViewById<LittleBox>(boxToMoveId).boxType = "sword"
+                        findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.swordone)
+                        findViewById<LittleBox>(boxToMoveId).setPa( ((((gameLevel-1)/4)*10)* (8.0.pow((gameLevel - 1)/4)).toInt() / (10.0.pow((gameLevel - 1)/4)).toInt())
+                                + 2 + ((nextDouble() * 9).toInt()))
+                    }
+                    1 -> {
+                        findViewById<LittleBox>(boxToMoveId).boxType = "sword"
+                        findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.swordtwo)
+                        findViewById<LittleBox>(boxToMoveId).setPa( ((((gameLevel-1)/4)*10)* (8.0.pow((gameLevel - 1)/4)).toInt() / (10.0.pow((gameLevel - 1)/4)).toInt())
+                                + 2 + ((nextDouble() * 9).toInt()))
+                    }
+                    2 -> {
+                        findViewById<LittleBox>(boxToMoveId).boxType = "sword"
+                        findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.swordthree)
+                        findViewById<LittleBox>(boxToMoveId).setPa( ((((gameLevel-1)/4)*10)* (8.0.pow((gameLevel - 1)/4)).toInt() / (10.0.pow((gameLevel - 1)/4)).toInt())
+                                + 2 + ((nextDouble() * 9).toInt()))
+                    }
+
+                }
+
 
                 findViewById<LittleBox>(boxToMoveId).setPv(0)
-                //    findViewById<LittleBox>(boxToMoveId).pvText.visibility = View.INVISIBLE
-                //   findViewById<LittleBox>(boxToMoveId).pvNumb.visibility = View.INVISIBLE
+                findViewById<LittleBox>(boxToMoveId).pvText.visibility = View.INVISIBLE
+                findViewById<LittleBox>(boxToMoveId).pvNumb.visibility = View.INVISIBLE
             }
 
             else -> // generate monster
             {
+                findViewById<LittleBox>(boxToMoveId).boxType = "monster"
+                when ((gameLevel - 1)/2 % 3) {
+                    0 -> {
+                        findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterone)
+                        findViewById<LittleBox>(boxToMoveId).setPv(((gameLevel - 1) / 2) * 10 + 2 + (nextDouble() * 9).toInt())
+                    }
+                    1 -> {
+                        findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monstertwo)
+                        findViewById<LittleBox>(boxToMoveId).setPv(((gameLevel - 1) / 2) * 10 + 2 + (nextDouble() * 9).toInt())
+                    }
+                    2 -> {
+                        findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterthree)
+                        findViewById<LittleBox>(boxToMoveId).setPv(((gameLevel - 1) / 2) * 10 + 2 + (nextDouble() * 9).toInt())
+                    }
 
-                findViewById<LittleBox>(boxToMoveId).boxType ="monster"
-                findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monster)
-                findViewById<LittleBox>(boxToMoveId).setPv(1+(nextDouble() * 9).toInt())
 
+
+                }
                 findViewById<LittleBox>(boxToMoveId).setPa(0)
-                //    findViewById<LittleBox>(boxToMoveId).paText.visibility = View.INVISIBLE
-                //    findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.INVISIBLE
+                findViewById<LittleBox>(boxToMoveId).paText.visibility = View.INVISIBLE
+                findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.INVISIBLE
             }
         }
     }
@@ -699,17 +851,17 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         // if box to move is a potion
         if (findViewById<LittleBox>(boxToMoveId).boxType =="sword") {
             box5.setPa(box5.getPa() + findViewById<LittleBox>(boxToMoveId).getPa())
-            if (box5.getPa() >20)
+            if (box5.getPa() > (15+gameLevel*5)  )
             {
-                box5.setPa(20)
+                box5.setPa(15+gameLevel*5)
             }
             return true
         }
         else if (findViewById<LittleBox>(boxToMoveId).boxType == "potion") {
             box5.setPv(box5.getPv() + findViewById<LittleBox>(boxToMoveId).getPv())
-            if (box5.getPv() >20)
+            if (box5.getPv() > (15+gameLevel*5))
             {
-                box5.setPv(20)
+                box5.setPv(15+gameLevel*5)
             }
             return true
         }
@@ -720,8 +872,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 return if (box5.getPa() >= findViewById<LittleBox>(boxToMoveId).getPv())
                 {
                     // kill the mob
-
-                    score += (box5.getPa() - findViewById<LittleBox>(boxToMoveId).getPv())
+                    score += 10
                     scoreNumber.text = score.toString()
                     updateLevel (score)
 
@@ -730,10 +881,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 }
                 else
                 {
-                    // hit but don't kill
-                    score += box5.getPa()
-                    scoreNumber.text = score.toString()
-                    updateLevel (score)
 
                     findViewById<LittleBox>(boxToMoveId).setPv(findViewById<LittleBox>(boxToMoveId).getPv() - box5.getPa())
                     box5.setPa(0)
@@ -746,24 +893,25 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 // kill the monster with my pvs
                 if (box5.getPv() > findViewById<LittleBox>(boxToMoveId).getPv() )
                 {
-                    score += findViewById<LittleBox>(boxToMoveId).getPv()
+                    //score += findViewById<LittleBox>(boxToMoveId).getPv()
+                    score += 10
                     scoreNumber.text = score.toString()
                     updateLevel (score)
 
                     box5.setPv(box5.getPv() - findViewById<LittleBox>(boxToMoveId).getPv())
                     return true
                 }
-                else
-                {
+                else {
                     // END OF GAME
 
+
                     val builder = AlertDialog.Builder(this)
-
-                    builder.setMessage("Fin du jeu !")
-                    // Finally, make the alert dialog using builder
+                    builder.setMessage("Fin du jeu ! Avec un score de : $score ! bravo !")
+                    builder.setOnDismissListener(DialogInterface.OnDismissListener {
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
+                    })
                     val dialog: AlertDialog = builder.create()
-
-                    // Display the alert dialog on app interface
                     dialog.show()
                 }
             }
@@ -771,14 +919,23 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         }
         else if (findViewById<LittleBox>(boxToMoveId).boxType == "changeBox")
         {
-            if (changeBoxNumber<3)
+            if (changeBoxNumber<2)
             {
+                allowChangeBox = true
                 changeBoxNumber ++
                 numbChange.text = changeBoxNumber.toString()
             }
 
             return true
         }
+        else if (findViewById<LittleBox>(boxToMoveId).boxType == "victoryPoint")
+        {
+            score += 10
+            scoreNumber.text = score.toString()
+            updateLevel (score)
+            return true
+        }
+
         return false
     }
 
@@ -797,10 +954,64 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
     }
 
     private fun updateLevel (score:Int) {
-        gameLevel = (score/100) + 1
+        gameLevel = (score/50) + 1
         levelNumber.text = gameLevel.toString()
+        nbPaPvMax.text = (15+gameLevel*5).toString()
+
     }
 
 
 
 }
+
+
+// else -> // generate monster
+// {
+// findViewById<LittleBox>(boxToMoveId).boxType ="monster"
+// when (gameLevel) {
+// 1,2 ->
+// {
+// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterone)
+// findViewById<LittleBox>(boxToMoveId).setPv(1+(nextDouble() * 9).toInt())
+// }
+// 3,4 ->
+// {
+// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monstertwo)
+// findViewById<LittleBox>(boxToMoveId).setPv(11+(nextDouble() * 9).toInt())
+// }
+// 5,6 ->
+// {
+// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterthree)
+// findViewById<LittleBox>(boxToMoveId).setPv(21+(nextDouble() * 9).toInt())
+// }
+// 7,8 ->
+// {
+// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterfour)
+// findViewById<LittleBox>(boxToMoveId).setPv(31+(nextDouble() * 9).toInt())
+// }
+// 9,10 ->
+// {
+// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterfive)
+// findViewById<LittleBox>(boxToMoveId).setPv(41+(nextDouble() * 9).toInt())
+// }
+// 11,12 ->
+// {
+// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monstersix)
+// findViewById<LittleBox>(boxToMoveId).setPv(51+(nextDouble() * 9).toInt())
+// }
+// 13,14 ->
+// {
+// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterseven)
+// findViewById<LittleBox>(boxToMoveId).setPv(61+(nextDouble() * 9).toInt())
+// }
+// 15,16 ->
+// {
+// findViewById<LittleBox>(boxToMoveId).setIm(R.drawable.monsterseven)
+// findViewById<LittleBox>(boxToMoveId).setPv(61+(nextDouble() * 9).toInt())
+// }
+// }
+//
+// findViewById<LittleBox>(boxToMoveId).setPa(0)
+// //    findViewById<LittleBox>(boxToMoveId).paText.visibility = View.INVISIBLE
+// //    findViewById<LittleBox>(boxToMoveId).paNumb.visibility = View.INVISIBLE
+// }

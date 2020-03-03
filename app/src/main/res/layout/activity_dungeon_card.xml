@@ -8,6 +8,25 @@
     android:background="#000000"
     tools:context=".DungeonCardActivity">
 
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="450dp"
+        android:layout_height="850dp"
+        android:src="@drawable/gifsky"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/difficultyNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="30dp"
+        android:text="0"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/textChangeBox"
+        app:layout_constraintStart_toEndOf="@+id/textDifficulty" />
 
     <View
         android:id="@+id/bigBoxGame"
@@ -57,7 +76,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/bigBoxGame"
         app:layout_constraintEnd_toEndOf="@+id/bigBoxGame"
         app:layout_constraintStart_toStartOf="@+id/bigBoxGame"
-        app:layout_constraintTop_toTopOf="@+id/bigBoxGame" />
+        app:layout_constraintTop_toTopOf="@+id/bigBoxGame">
+
+    </com.isen.minigamestudio.LittleBox>
 
     <com.isen.minigamestudio.LittleBox
         android:id="@+id/box6"
@@ -65,7 +86,9 @@
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="@+id/bigBoxGame"
         app:layout_constraintEnd_toEndOf="@+id/bigBoxGame"
-        app:layout_constraintTop_toTopOf="@+id/bigBoxGame" />
+        app:layout_constraintTop_toTopOf="@+id/bigBoxGame">
+
+    </com.isen.minigamestudio.LittleBox>
 
     <com.isen.minigamestudio.LittleBox
         android:id="@+id/box7"
@@ -93,9 +116,9 @@
         android:id="@+id/scoreText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="30dp"
-        android:text="Score :"
+        android:text="@string/scoreText"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/bigBoxGame"
         app:layout_constraintStart_toStartOf="parent" />
@@ -117,7 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginBottom="30dp"
-        android:text="Niveau :"
+        android:text="@string/textLevel"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/bigBoxGame"
         app:layout_constraintStart_toEndOf="@+id/scoreNumber" />
@@ -139,7 +162,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginBottom="30dp"
-        android:text="Echange :"
+        android:text="@string/textChangeBox"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/bigBoxGame"
         app:layout_constraintStart_toEndOf="@+id/levelNumber" />
@@ -154,6 +177,85 @@
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/bigBoxGame"
         app:layout_constraintStart_toEndOf="@+id/textChangeBox" />
+
+    <TextView
+        android:id="@+id/textrules1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/textrules1"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textpapvmax" />
+
+    <TextView
+        android:id="@+id/textrules2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/textrules2"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textrules1" />
+
+    <TextView
+        android:id="@+id/textpapvmax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/textpapvmax"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bigBoxGame" />
+
+    <TextView
+        android:id="@+id/nbPaPvMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="20"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@+id/textpapvmax"
+        app:layout_constraintTop_toBottomOf="@+id/bigBoxGame" />
+
+    <TextView
+        android:id="@+id/textDifficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="143dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/textDifficulty"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/textLevel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonRules"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="18dp"
+        android:text="@string/buttonRules"
+        app:layout_constraintBottom_toTopOf="@+id/scoreText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/savebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/savebutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
