@@ -40,7 +40,6 @@ import kotlin.math.pow
 
 class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
-   // var mPrefs = getPreferences(MODE_PRIVATE)
 
     private var difficulty : Int = 0
     private var score = 0
@@ -49,16 +48,9 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
     private var allowChangeBox = false
     private var aMoveIsHappening = false
 
-
-    companion object {
-        var savedEscapeDungeon = false
-    }
-
-
     private var probChangeBox : Int = 0
     private var probPotion : Int = 0
     private var probSword : Int = 0
-
 
     private var pos = "position"
     private var pv = "Point de Vie"
@@ -66,7 +58,11 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
     private var x = "position x"
     private var y = "position y"
     private var type = "type"
-    private var save = "data.json"
+    private var scoreJson = "score"
+    private var difficultyJson = "difficulty"
+    private var changeBoxJson = "changeboxs"
+    private var gameLevelJson = "gameLevel"
+
     private var arrayBoxes: Array<LittleBox> = arrayOf()
 
     private lateinit var sensorManager : SensorManager
@@ -79,16 +75,32 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
         arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
 
+        val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
+        val saveState = sharedPrefDungeon.getBoolean("saveState", false)
 
-        if(savedEscapeDungeon) { //if we have a save
-            System.out.println("we have a save")
+       // val saveState = sharedPrefDungeon.getBoolean("saveState", false) ?:false
+
+        if(saveState) { //if we have a save
+            //System.out.println("we have a save")
             readBackupFromJson()
-            savedEscapeDungeon = false
+
+            with(sharedPrefDungeon.edit()) {
+                putBoolean("saveState",false)
+                commit()
+            }
+
+            var probGame = setDifficulty(difficulty)
+            probChangeBox = probGame[0]
+            probPotion = probGame[1]
+            probSword = probGame[2]
+            difficultyNumber.text = difficulty.toString()
+
+
+
         }
         else
         {
             // if we don't have a save
-
 
             // ---------------------------------------------
             // choose the level :
@@ -98,13 +110,13 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
             val builder1 = AlertDialog.Builder(this)
             builder1.setMessage(R.string.alertDialogLevel)
-            builder1.setPositiveButton(R.string.alertDialogLevel3) { dialog, which ->
+            builder1.setPositiveButton(R.string.alertDialogLevel3) { _, _ ->
                 difficulty = 3
             }
-            builder1.setNeutralButton(R.string.alertDialogLevel1) { dialog, which ->
+            builder1.setNeutralButton(R.string.alertDialogLevel1) { _, _ ->
                 difficulty = 1
             }
-            builder1.setNegativeButton(R.string.alertDialogLevel2) { dialog, which ->
+            builder1.setNegativeButton(R.string.alertDialogLevel2) { _, _ ->
                 difficulty = 2
             }
             builder1.setOnDismissListener(DialogInterface.OnDismissListener {
@@ -115,10 +127,10 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 }
                 else
                 {
-                    var probaGame = setDifficulty(difficulty)
-                    probChangeBox = probaGame[0]
-                    probPotion = probaGame[1]
-                    probSword = probaGame[2]
+                    var probGame = setDifficulty(difficulty)
+                    probChangeBox = probGame[0]
+                    probPotion = probGame[1]
+                    probSword = probGame[2]
                     difficultyNumber.text = difficulty.toString()
 
                     // generate the values of boxs
@@ -149,6 +161,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
             box5.setIm(R.drawable.gamer)
             box5.boxPosition = 5
+            box5.boxType = "gamer"
             box5.textBoxNumber.visibility = View.INVISIBLE
         }
 
@@ -178,12 +191,12 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         // ------------------------------------------------
 
 
-        val boxList = activity_dungeon_card.children.filter { it is LittleBox && it.boxPosition != 5 }
+        val boxList = activity_dungeon_card.children.filter { it is LittleBox && it != box5 }
 
         boxList.forEach {
             it as LittleBox
             val currentBox = it
-            System.out.println("Affichage: ${currentBox.boxPosition}")
+          //  System.out.println("Affichage: ${currentBox.boxPosition}")
 
             currentBox.setOnClickListener {
                 if (changeBoxNumber>0)
@@ -242,7 +255,19 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         }
         savebutton.setOnClickListener {
             saveBoxDataInJson()
-            savedEscapeDungeon=true
+
+          //  val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE)
+            with(sharedPrefDungeon.edit()) {
+                putBoolean("saveState",true)
+                commit()
+            }
+
+
+         //   val sharedPref = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
+        //    val saveState = sharedPrefDungeon.getBoolean("saveState", false) ?:false
+         //   savedEscapeDungeon=true
+
+
             val intent = Intent(this, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
@@ -1007,13 +1032,8 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
     }
 
     private fun readBackupFromJson() {
-       // val file = File(cacheDir.absolutePath+"/jsonEscapeDungeon.json")
-       // val readString = file.readText()
-       // val readString = mPrefs.getString("backupjsonstring", "");
-
-        val sharedPref = this.getSharedPreferences("backupjsonstring",Context.MODE_PRIVATE) ?: return
-        val readString = sharedPref.getString("backupgame", "") ?:""
-
+        val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
+        val readString = sharedPrefDungeon.getString("backupGameJson", "") ?:""
         val jsonArray = JSONArray(readString)
 
 
@@ -1021,11 +1041,46 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         val listBox = activity_dungeon_card.children.filter { it is LittleBox }
         listBox.forEachIndexed { index, littleBox ->
             littleBox as LittleBox
-            if(index == 4){
-                littleBox.setIm(R.drawable.gamer)
-            }
+         //   if(index == 4){
+         //       littleBox.setIm(R.drawable.gamer)
+         //   }
 
             littleBox.boxPosition = jsonArray.getJSONObject(index).getString(pos).toInt()
+            littleBox.boxType = jsonArray.getJSONObject(index).getString(type).toString()
+
+
+            score = jsonArray.getJSONObject(index).getString(scoreJson).toInt()
+            scoreNumber.text = score.toString()
+            difficulty = jsonArray.getJSONObject(index).getString(difficultyJson).toInt()
+
+
+
+            changeBoxNumber = jsonArray.getJSONObject(index).getString(changeBoxJson).toInt()
+            numbChange.text = changeBoxNumber.toString()
+
+            gameLevel = jsonArray.getJSONObject(index).getString(gameLevelJson).toInt()
+
+            when (littleBox.boxType) {
+                "sword" -> when((gameLevel - 1)/4 % 3) {
+                    0 -> littleBox.setIm(R.drawable.swordone)
+                    1 -> littleBox.setIm(R.drawable.swordtwo)
+                    2 -> littleBox.setIm(R.drawable.swordthree)
+                }
+
+                "potion" -> littleBox.setIm(R.drawable.potion)
+
+                "changeBox" -> littleBox.setIm(R.drawable.changebox)
+                "victoryPoint" -> littleBox.setIm(R.drawable.victorypoint)
+
+                "monster" -> when((gameLevel - 1)/2 % 3) {
+                    0 -> littleBox.setIm(R.drawable.monsterone)
+                    1 -> littleBox.setIm(R.drawable.monstertwo)
+                    2 -> littleBox.setIm(R.drawable.monsterthree)
+                }
+
+                "gamer" -> littleBox.setIm(R.drawable.gamer)
+            }
+
             littleBox.setPv(jsonArray.getJSONObject(index).getString(pv).toInt())
             littleBox.setPa(jsonArray.getJSONObject(index).getString(pa).toInt())
             littleBox.textBoxNumber.text = littleBox.boxPosition.toString()
@@ -1046,37 +1101,37 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         }
     }
 
+
+
     private fun saveBoxDataInJson() { //write in the save file
 
         val jsonArray = JSONArray()
 
         arrayBoxes.forEach {
-            System.out.println("BOUCLE SAVE")
+       //     System.out.println("BOUCLE SAVE")
             val jsonObj = JSONObject()
             jsonObj.put(pos,it.boxPosition)
-            jsonObj.put(pv, it.getPa())
-            jsonObj.put(pa, it.getPv())
+            jsonObj.put(type,it.boxType)
+            jsonObj.put(pv, it.getPv())
+            jsonObj.put(pa, it.getPa())
             jsonObj.put(x,it.x)
             jsonObj.put(y,it.y)
+            jsonObj.put(scoreJson,score)
+            jsonObj.put(gameLevelJson,gameLevel)
+            jsonObj.put(difficultyJson,difficulty)
+            jsonObj.put(changeBoxJson,changeBoxNumber)
             jsonArray.put(jsonObj)
-            System.out.println(it.x)
-            System.out.println(it.y)
-
         }
 
         Log.d("myjsonarraysave", jsonArray.toString())
         //val file = File(cacheDir.absolutePath + "/jsonEscapeDungeon.json")
         //file.writeText(jsonArray.toString())
-        val sharedPref = this.getSharedPreferences("backupjsonstring", Context.MODE_PRIVATE) ?: return
-        with(sharedPref.edit()) {
-            putString("backupgame", jsonArray.toString())
+        val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
+        with(sharedPrefDungeon.edit()) {
+            putString("backupGameJson", jsonArray.toString())
+            putBoolean("saveState",true)
             commit()
         }
-       // val prefsEditor = mPrefs.edit();
-
-       // prefsEditor.putString("backupjsonstring", jsonArray.toString());
-       // prefsEditor.apply();
-
     }
 }
 

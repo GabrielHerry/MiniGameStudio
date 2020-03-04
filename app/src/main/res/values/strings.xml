@@ -19,9 +19,9 @@
 
     <!-- DungeonCard page -->
     <string name="alertDialogLevel">Bienvenue sur Dungeon Card!\nChoisissez votre niveau.</string>
-    <string name="alertDialogLevel3">niveau 3</string>
-    <string name="alertDialogLevel1">niveau 1</string>
-    <string name="alertDialogLevel2">"niveau 2    "</string>
+    <string name="alertDialogLevel3">difficulté 3</string>
+    <string name="alertDialogLevel1">difficulté 1</string>
+    <string name="alertDialogLevel2">"difficulté 2"</string>
 
     <string name="textDifficulty">Difficulté de jeu :</string>
     <string name="scoreText">Score :</string>
