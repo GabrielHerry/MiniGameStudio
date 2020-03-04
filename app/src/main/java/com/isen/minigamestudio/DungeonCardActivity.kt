@@ -1,46 +1,93 @@
 package com.isen.minigamestudio
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.children
 import kotlinx.android.synthetic.main.activity_dungeon_card.*
 import kotlinx.android.synthetic.main.littleboxlayout.view.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
+import com.isen.minigamestudio.LittleBoxSave as LittleBoxSave
+
+
 
 
 class DungeonCardActivity : AppCompatActivity() {
 
     private val dungeonAnim = AnimatorSet()
 
+    companion object{
+        var pos = "position"
+        var pv = "Point de Vie"
+        var pa = "Point d'attaque"
+        var x = "position x"
+        var y = "position y"
+        var type = "type"
+        var save = "data.json"
+        var saveBool = "Etat sauvegarde partie"
+        var savedEscapeDungeon = false
+        var arrayBoxes: Array<LittleBox> = arrayOf()
+        //var arrayBoxesSave: Array<LittleBoxSave?> = arrayOfNulls(9)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        fun saveStateGame(){
+            val jsonObj = JSONObject()
+            jsonObj.put(saveBool, savedEscapeDungeon)
+            val file = File(cacheDir.absolutePath + "/stateSavedDungeon.json")
+            file.writeText(jsonObj.toString())
+        }
+        saveStateGame()
         setContentView(R.layout.activity_dungeon_card)
+        readStateGame()
 
-        dungeonAnim.pause()
+        if(!savedEscapeDungeon){ //if did not save
+            System.out.println("Je suis dans le if non sauvée")
+            arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
+            arrayBoxes.forEachIndexed { index, littleBox ->
+                littleBox.textBoxNumber.text = (index+1).toString()
+                littleBox.boxPosition = index+1
 
-        box5.setIm(R.drawable.gamer)
+                //Log.d("DungeonCardActivity", "BOUCLE FOR TABLEAU SAVE "+index)
+                //Log.d("DungeonCardActivity", littleBox.boxPosition.toString())
+                //Log.d("DungeonCardActivity", littleBox.getPa().toString())
+            }
+            arrayBoxes[0].setPa(10)
+            arrayBoxes[4].setPv(10)
+            arrayBoxes[4].setIm(R.drawable.gamer)
 
-        box1.textBoxNumber.text = "1"
-        box2.textBoxNumber.text = "2"
-        box3.textBoxNumber.text = "3"
-        box4.textBoxNumber.text = "4"
-        box5.textBoxNumber.text = "5"
-        box6.textBoxNumber.text = "6"
-        box7.textBoxNumber.text = "7"
-        box8.textBoxNumber.text = "8"
-        box9.textBoxNumber.text = "9"
+            //arrayInitialization()
+    }
+        else{
+            System.out.println("If sauvée")
+            arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
+            savedEscapeDungeon = false
+            read()
+            //printAfterSave(arrayBoxes)
 
-        box1.boxPosition = 1
-        box2.boxPosition = 2
-        box3.boxPosition = 3
-        box4.boxPosition = 4
-        box5.boxPosition = 5
-        box6.boxPosition = 6
-        box7.boxPosition = 7
-        box8.boxPosition = 8
-        box9.boxPosition = 9
+            //arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
 
+            val listBox = activity_dungeon_card.children.filter { it is LittleBox }
+            listBox.forEachIndexed { i, littleBox ->
+                littleBox as LittleBox
+                System.out.println(" A VOIR SI CA MARCHE")
+                System.out.println(littleBox.boxPosition)
+                System.out.println(littleBox.getPa())
+                System.out.println(littleBox.getPv())
+                System.out.println(littleBox.x)
+                System.out.println(littleBox.y)
+            }
+}
 
         box1.setOnClickListener {
             if (checkAdjacentWithBox5(box1.boxPosition))
@@ -136,6 +183,35 @@ class DungeonCardActivity : AppCompatActivity() {
         }
 
 
+        fun save() { //write in the save file
+            val jsonArray = JSONArray()
+            arrayBoxes.forEach {
+                System.out.println("BOUCLE SAVE")
+                val jsonObj = JSONObject()
+                jsonObj.put(pos,it.boxPosition)
+                jsonObj.put(pv, it.getPa())
+                jsonObj.put(pa, it.getPv())
+                jsonObj.put(x,it.x)
+                jsonObj.put(y,it.y)
+                jsonArray.put(jsonObj)
+                System.out.println(it.x)
+                System.out.println(it.y)
+            }
+
+            Log.d("DungeonCardActivity", jsonArray.toString())
+            val file = File(cacheDir.absolutePath + "/jsonEscapeDungeon.json")
+            file.writeText(jsonArray.toString())
+
+        }
+
+        saveQuitButton.setOnClickListener(){
+            save()
+            savedEscapeDungeon = true
+            saveStateGame()
+            val intent = Intent( this, HomeActivity::class.java)
+            startActivity(intent)
+
+        }
     }
 
     private fun checkAdjacentWithBox5(clickBoxPos: Int): Boolean {
@@ -241,7 +317,7 @@ class DungeonCardActivity : AppCompatActivity() {
 
     private fun animMoveToTop(boxToMoveId: Int) {
 
-        val littleBoxSize = box1.height.toFloat()
+        val littleBoxSize = arrayBoxes[0].height.toFloat()
 
         ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "Y", (box5.y - littleBoxSize))
             .apply {
@@ -271,7 +347,7 @@ class DungeonCardActivity : AppCompatActivity() {
 
     private fun animMoveToRight(boxToMoveId: Int) {
 
-        val littleBoxSize = box1.height.toFloat()
+        val littleBoxSize = arrayBoxes[0].height.toFloat()
 
         ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "X", (box5.x + littleBoxSize))
             .apply {
@@ -302,13 +378,18 @@ class DungeonCardActivity : AppCompatActivity() {
 
     private fun animMoveToLeft(boxToMoveId: Int) {
 
-        val littleBoxSize = box1.height.toFloat()
+        val littleBoxSize = arrayBoxes[0].height.toFloat()
 
         ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "X", (box5.x - littleBoxSize))
             .apply {
                 duration = 1000
                 start()
             }
+
+
+
+
+
 
         ObjectAnimator.ofFloat(
             findViewById<LittleBox>(boxToMoveId),
@@ -318,8 +399,6 @@ class DungeonCardActivity : AppCompatActivity() {
             duration = 1000
             start()
         }
-
-
         // change the position number of the two boxs
         val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
         (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
@@ -333,7 +412,7 @@ class DungeonCardActivity : AppCompatActivity() {
     private fun animMoveToLow(boxToMoveId: Int) {
 
 
-        val littleBoxSize = box1.height.toFloat()
+        val littleBoxSize = arrayBoxes[0].height.toFloat()
         ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "Y", box5.y + littleBoxSize)
             .apply {
                 duration = 1000
@@ -349,7 +428,6 @@ class DungeonCardActivity : AppCompatActivity() {
             start()
         }
 
-
         // change the position number of the two boxs
         val newPos = (findViewById<LittleBox>(boxToMoveId)).boxPosition
         (findViewById<LittleBox>(boxToMoveId)).boxPosition = box5.boxPosition
@@ -357,98 +435,67 @@ class DungeonCardActivity : AppCompatActivity() {
 
         box5.boxPosition = newPos
         box5.textBoxNumber.text = newPos.toString()
+    }
+    fun readStateGame(){
+        val file = File(cacheDir.absolutePath+"/stateSavedDungeon.json")
+        val readString = file.readText()
+        val jsonObj = JSONObject(readString)
+        Log.d("READBackup", jsonObj.toString())
+    }
+
+    fun read() {
+        val file = File(cacheDir.absolutePath+"/jsonEscapeDungeon.json")
+        val readString = file.readText()
+        val jsonArray = JSONArray(readString)
+
+        //arrayBoxes.forEachIndexed { index, littleBox ->
+         /*   littleBox.boxPosition = jsonArray.getJSONObject(index).getString(pos).toInt()
+            littleBox.setPv(jsonArray.getJSONObject(index).getString(pv).toInt())
+            littleBox.setPa(jsonArray.getJSONObject(index).getString(pa).toInt())
+            littleBox.x = jsonArray.getJSONObject(index).getString(x).toFloat()
+            littleBox.y = jsonArray.getJSONObject(index).getString(y).toFloat()
+            System.out.println(littleBox.y)
+
+          */
+
+        Log.d("DungeonCardActivityREAD", jsonArray.toString())
+        val listBox = activity_dungeon_card.children.filter { it is LittleBox }
+        listBox.forEachIndexed { index, littleBox ->
+            littleBox as LittleBox
+            if(index == 4){
+                littleBox.setIm(R.drawable.gamer)
+            }
+
+            littleBox.boxPosition = jsonArray.getJSONObject(index).getString(pos).toInt()
+            littleBox.setPv(jsonArray.getJSONObject(index).getString(pv).toInt())
+            littleBox.setPa(jsonArray.getJSONObject(index).getString(pa).toInt())
+            ObjectAnimator.ofFloat(littleBox, "X", (jsonArray.getJSONObject(index).getString(x).toFloat()))
+                .apply {
+                    duration = 1
+                    addListener((object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            ObjectAnimator.ofFloat(littleBox, "Y", (jsonArray.getJSONObject(index).getString(y).toFloat()))
+                                .apply {
+                                    duration = 1
+                                    start()
+                                }
+                        }
+                    }))
+                    start()
+                }
+
+      //      littleBox.x = jsonArray.getJSONObject(index).getString(x).toFloat()
+        //    littleBox.y = jsonArray.getJSONObject(index).getString(y).toFloat()
+            littleBox.textBoxNumber.text = littleBox.boxPosition.toString()
+            System.out.println("TEST")
+            //System.out.println(littleBox.y)
+            System.out.println(jsonArray.getJSONObject(index).getString(x).toFloat())
+            System.out.println(jsonArray.getJSONObject(index).getString(y).toFloat())
+
+        }
 
     }
 
+
+
 }
-
-
-//-------------- an other way but without a smooth transition
-/*
-val constraintSet1 = ConstraintSet()
-constraintSet1.clone(activity_dungeon_card)
-val constraintSet2 = ConstraintSet()
-constraintSet2.clone(activity_dungeon_card)
-constraintSet2.setTranslationY(R.id.box5, 900F)
-
-
-var mytransition = AutoTransition()
-mytransition.duration = 1000
-
-
-TransitionManager.beginDelayedTransition(activity_dungeon_card,mytransition)
-constraintSet2.applyTo(activity_dungeon_card)*/
-
-
-/*
-val constraintSet1 = ConstraintSet()
-constraintSet1.clone(activity_dungeon_card)
-val constraintSet2 = ConstraintSet()
-constraintSet2.load(this,activity_dungeon_card)
-constraintSet2.setTranslationY(R.id.box5, 900F)
-
-
-var mytransition = AutoTransition()
-mytransition.duration = 1000
-
-
-TransitionManager.beginDelayedTransition(activity_dungeon_card,mytransition)
-constraintSet2.applyTo(activity_dungeon_card)*/
-
-/*
-// return to the normal configuration of activity_dungeon_card
-val constraintSetArrival2 = ConstraintSet()
-constraintSetArrival2.load(this, R.layout.activity_home)
-
-TransitionManager.beginDelayedTransition(mylayout)
-constraintSetArrival2.applyTo(mylayout)   */
-
-
-/*    // put 2 invisible in my main
-     box2.visibility = View.INVISIBLE
-
-     // put 2 invisible in my new one (2 <=> 5)
-     var inflatedview = getLayoutInflater().inflate(R.layout.dungeon_change5to2, null)
-     var inflatebox = inflatedview.findViewById<LittleBox>(R.id.box2)
-     inflatebox.visibility = View.INVISIBLE
-
-
-      // move current view to dungeon_change5to2
-
-      val constraintSetArrival = ConstraintSet()
-      constraintSetArrival.load(this, R.layout.dungeon_change5to2)
-
-     var mytransition = AutoTransition()
-     mytransition.duration = 0
-
-      TransitionManager.beginDelayedTransition(activity_dungeon_card,mytransition)
-      constraintSetArrival.applyTo(activity_dungeon_card)
-
-      // now we are in dungeon_change5to2
-      // the inflater will be gone so :
-      box2.visibility = View.INVISIBLE
-
-*/
-
-
-// Log.d("I click","click")
-
-
-/*
-
-        val boxFiveAnim = ObjectAnimator.ofFloat(findViewById<LittleBox>(R.id.box5), "translationY", littleBoxSize).apply{
-            duration = 1000
-        }
-
-        val boxToMoveAnim = ObjectAnimator.ofFloat(findViewById<LittleBox>(boxToMoveId), "translationY", -littleBoxSize).apply{
-            duration = 1000
-        }
-
-        AnimatorSet().apply {
-            play(boxFiveAnim).after(boxToMoveAnim)
-            start()
-        }
-
-
-
- */

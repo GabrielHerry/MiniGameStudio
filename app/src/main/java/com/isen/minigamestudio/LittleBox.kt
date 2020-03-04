@@ -4,10 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.littleboxlayout.view.*
-import java.util.jar.Attributes
-import androidx.constraintlayout.widget.ConstraintSet
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.util.Log
 
 
 class LittleBox @JvmOverloads constructor(
@@ -40,10 +36,6 @@ class LittleBox @JvmOverloads constructor(
         return paNumb.text.toString().toInt()
     }
 
- /*   fun getIm(): Int {
-        return imageGameBox.getDrawa....
-    }*/
-
     //setter
     fun setPv(pv: Int) {
         vpNumb.text = pv.toString()
@@ -64,11 +56,10 @@ class LittleBox @JvmOverloads constructor(
 
         this.setPa(secondBox.getPa())
         this.setPv(secondBox.getPv())
-     //   this.setIm(secondBox.getIm())
 
         secondBox.setPa(tempPa)
         secondBox.setPv(tempPv)
-      //  secondBox.setIm(tempIm)
+
     }
 
 

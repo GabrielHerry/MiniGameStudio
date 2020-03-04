@@ -89,5 +89,17 @@
         app:layout_constraintBottom_toBottomOf="@+id/bigBoxGame"
         app:layout_constraintEnd_toEndOf="@+id/bigBoxGame" />
 
+    <Button
+        android:id="@+id/saveQuitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="153dp"
+        android:text="SaveQuit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bigBoxGame" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
