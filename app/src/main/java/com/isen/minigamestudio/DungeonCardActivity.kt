@@ -9,6 +9,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -38,6 +39,8 @@ import kotlin.math.pow
 
 
 class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
+
+   // var mPrefs = getPreferences(MODE_PRIVATE)
 
     private var difficulty : Int = 0
     private var score = 0
@@ -74,7 +77,9 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dungeon_card)
 
-       // arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
+        arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
+
+
         if(savedEscapeDungeon) { //if we have a save
             System.out.println("we have a save")
             readBackupFromJson()
@@ -107,7 +112,9 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 if (difficulty == 0) {
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
-                } else {
+                }
+                else
+                {
                     var probaGame = setDifficulty(difficulty)
                     probChangeBox = probaGame[0]
                     probPotion = probaGame[1]
@@ -237,6 +244,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
             saveBoxDataInJson()
             savedEscapeDungeon=true
             val intent = Intent(this, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
 
@@ -252,7 +260,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-    }
+}
 
     override fun onPause() {
         super.onPause()
@@ -263,6 +271,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
         if(event!!.values[0] + event.values[1]+event.values[2] >= 20 && allowChangeBox)
         {
+
             Toast.makeText(
                 this,
                 "Cartes redistribuées!",
@@ -998,8 +1007,13 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
     }
 
     private fun readBackupFromJson() {
-        val file = File(cacheDir.absolutePath+"/jsonEscapeDungeon.json")
-        val readString = file.readText()
+       // val file = File(cacheDir.absolutePath+"/jsonEscapeDungeon.json")
+       // val readString = file.readText()
+       // val readString = mPrefs.getString("backupjsonstring", "");
+
+        val sharedPref = this.getSharedPreferences("backupjsonstring",Context.MODE_PRIVATE) ?: return
+        val readString = sharedPref.getString("backupgame", "") ?:""
+
         val jsonArray = JSONArray(readString)
 
 
@@ -1033,6 +1047,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
     }
 
     private fun saveBoxDataInJson() { //write in the save file
+
         val jsonArray = JSONArray()
 
         arrayBoxes.forEach {
@@ -1049,9 +1064,18 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
         }
 
-        Log.d("DungeonCardActivity", jsonArray.toString())
-        val file = File(cacheDir.absolutePath + "/jsonEscapeDungeon.json")
-        file.writeText(jsonArray.toString())
+        Log.d("myjsonarraysave", jsonArray.toString())
+        //val file = File(cacheDir.absolutePath + "/jsonEscapeDungeon.json")
+        //file.writeText(jsonArray.toString())
+        val sharedPref = this.getSharedPreferences("backupjsonstring", Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString("backupgame", jsonArray.toString())
+            commit()
+        }
+       // val prefsEditor = mPrefs.edit();
+
+       // prefsEditor.putString("backupjsonstring", jsonArray.toString());
+       // prefsEditor.apply();
 
     }
 }
