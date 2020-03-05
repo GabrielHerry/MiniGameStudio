@@ -7,12 +7,22 @@
     <string name="demineur_button">Minesweeper</string>
     <string name="dungeon_button">Escape Dungeon</string>
     <string name="achievements_button">Achievements</string>
+    <string name="horse_button">Parcheesi</string>
 
     <!-- Achievement page -->
     <string name="best_scores">Best Scores !</string>
     <string name="load_mine">Load Minesweeper</string>
     <string name="load_dungeon">Load Escape Dungeon</string>
     <string name="menu_button">Menu</string>
+
+    <!-- Horse game page -->
+    <string name="dice">Roll the dice !</string>
+    <string name="wait_turn">Wait for your turn</string>
+    <string name="choose_ai">Choose the number of AI</string>
+    <string name="retry_choice">You have to choose a number of AI</string>
+
+    <!-- Horse settings page -->
+    <string name="horse_settings_intro">Please choose the number of computers you wish to play against</string>
 
     <!-- <string name=""></string> -->
 </resources>

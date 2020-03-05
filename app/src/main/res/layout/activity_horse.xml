@@ -12,8 +12,8 @@
         class="androidx.appcompat.widget.ActionMenuView"
         android:layout_width="400dp"
         android:layout_height="400dp"
+        android:layout_marginTop="32dp"
         android:background="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -158,292 +158,12 @@
         app:layout_constraintTop_toBottomOf="@+id/homeBlue"
         app:srcCompat="@drawable/moon" />
 
-    <view
-        android:id="@+id/startBlue"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:background="@color/colorHorseBlue"
-        app:layout_constraintStart_toStartOf="@+id/horseBoard"
-        app:layout_constraintTop_toTopOf="@+id/blue1" />
-
-    <view
-        android:id="@+id/blueFinish4"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="2dp"
-        android:background="@color/colorHorseBlue"
-        app:layout_constraintBottom_toTopOf="@+id/green8"
-        app:layout_constraintStart_toEndOf="@+id/blueFinish3" />
-
-    <view
-        android:id="@+id/blueFinish5"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="2dp"
-        android:background="@color/colorHorseBlue"
-        app:layout_constraintBottom_toTopOf="@+id/green7"
-        app:layout_constraintStart_toEndOf="@+id/blueFinish4" />
-
-    <view
-        android:id="@+id/blueFinish8"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="2dp"
-        android:background="@color/colorHorseBlue"
-        app:layout_constraintBottom_toTopOf="@+id/green6"
-        app:layout_constraintStart_toEndOf="@+id/blueFinish5" />
-
-    <view
-        android:id="@+id/blueFinish3"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="2dp"
-        android:background="@color/colorHorseBlue"
-        app:layout_constraintBottom_toTopOf="@+id/green9"
-        app:layout_constraintStart_toEndOf="@+id/blueFinish2" />
-
-    <view
-        android:id="@+id/blueFinish2"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="2dp"
-        android:background="@color/colorHorseBlue"
-        app:layout_constraintBottom_toTopOf="@+id/green10"
-        app:layout_constraintStart_toEndOf="@+id/blueFinish" />
-
-    <view
-        android:id="@+id/blueFinish"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:background="@color/colorHorseBlue"
-        app:layout_constraintBottom_toTopOf="@+id/green11"
-        app:layout_constraintStart_toEndOf="@+id/green13" />
-
-    <view
-        android:id="@+id/startRed"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:background="@color/colorHorseRed"
-        app:layout_constraintEnd_toStartOf="@+id/homeRed"
-        app:layout_constraintTop_toTopOf="@+id/horseBoard" />
-
-    <view
-        android:id="@+id/redFinish6"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/colorHorseRed"
-        app:layout_constraintStart_toEndOf="@+id/blue6"
-        app:layout_constraintTop_toBottomOf="@+id/redFinish5" />
-
-    <view
-        android:id="@+id/redFinish5"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/colorHorseRed"
-        app:layout_constraintStart_toEndOf="@+id/blue7"
-        app:layout_constraintTop_toBottomOf="@+id/redFinish4" />
-
-    <view
-        android:id="@+id/redFinish4"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/colorHorseRed"
-        app:layout_constraintStart_toEndOf="@+id/blue8"
-        app:layout_constraintTop_toBottomOf="@+id/redFinish3" />
-
-    <view
-        android:id="@+id/redFinish3"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/colorHorseRed"
-        app:layout_constraintStart_toEndOf="@+id/blue9"
-        app:layout_constraintTop_toBottomOf="@+id/redFinish2" />
-
-    <view
-        android:id="@+id/redFinish2"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/colorHorseRed"
-        app:layout_constraintStart_toEndOf="@+id/blue10"
-        app:layout_constraintTop_toBottomOf="@+id/redFinish1" />
-
-    <view
-        android:id="@+id/redFinish1"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:background="@color/colorHorseRed"
-        app:layout_constraintStart_toEndOf="@+id/blue11"
-        app:layout_constraintTop_toBottomOf="@+id/blue13" />
-
-    <view
-        android:id="@+id/startYellow"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:background="@color/colorHorseYellow"
-        app:layout_constraintBottom_toTopOf="@+id/homeYellow"
-        app:layout_constraintEnd_toEndOf="@+id/horseBoard" />
-
-    <view
-        android:id="@+id/yellowFinish6"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="2dp"
-        android:background="@color/colorHorseYellow"
-        app:layout_constraintEnd_toStartOf="@+id/yellowFinish5"
-        app:layout_constraintTop_toBottomOf="@+id/red6" />
-
-    <view
-        android:id="@+id/yellowFinish5"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="2dp"
-        android:background="@color/colorHorseYellow"
-        app:layout_constraintEnd_toStartOf="@+id/yellowFinish4"
-        app:layout_constraintTop_toBottomOf="@+id/red7" />
-
-    <view
-        android:id="@+id/yellowFinish3"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="2dp"
-        android:background="@color/colorHorseYellow"
-        app:layout_constraintEnd_toStartOf="@+id/yellowFinish2"
-        app:layout_constraintTop_toBottomOf="@+id/red9" />
-
-    <view
-        android:id="@+id/yellowFinish4"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="2dp"
-        android:background="@color/colorHorseYellow"
-        app:layout_constraintEnd_toStartOf="@+id/yellowFinish3"
-        app:layout_constraintTop_toBottomOf="@+id/red8" />
-
-    <view
-        android:id="@+id/yellowFinish2"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="2dp"
-        android:background="@color/colorHorseYellow"
-        app:layout_constraintEnd_toStartOf="@+id/yellowFinish1"
-        app:layout_constraintTop_toBottomOf="@+id/red10" />
-
-    <view
-        android:id="@+id/yellowFinish1"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:background="@color/colorHorseYellow"
-        app:layout_constraintEnd_toStartOf="@+id/red13"
-        app:layout_constraintTop_toBottomOf="@+id/red11" />
-
-    <view
-        android:id="@+id/startGreen"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:background="@color/colorHorseGreen"
-        app:layout_constraintBottom_toBottomOf="@+id/horseBoard"
-        app:layout_constraintStart_toEndOf="@+id/homeGreen" />
-
-    <view
-        android:id="@+id/greenFinish6"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="2dp"
-        android:background="@color/colorHorseGreen"
-        app:layout_constraintBottom_toTopOf="@+id/greenFinish5"
-        app:layout_constraintEnd_toStartOf="@+id/yellow6" />
-
-    <view
-        android:id="@+id/greenFinish5"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="2dp"
-        android:background="@color/colorHorseGreen"
-        app:layout_constraintBottom_toTopOf="@+id/greenFinish4"
-        app:layout_constraintEnd_toStartOf="@+id/yellow7" />
-
-    <view
-        android:id="@+id/greenFinish4"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="2dp"
-        android:background="@color/colorHorseGreen"
-        app:layout_constraintBottom_toTopOf="@+id/greenFinish3"
-        app:layout_constraintEnd_toStartOf="@+id/yellow8" />
-
-    <view
-        android:id="@+id/greenFinish3"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="2dp"
-        android:background="@color/colorHorseGreen"
-        app:layout_constraintBottom_toTopOf="@+id/greenFinish2"
-        app:layout_constraintEnd_toStartOf="@+id/yellow9" />
-
-    <view
-        android:id="@+id/greenFinish2"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="2dp"
-        android:background="@color/colorHorseGreen"
-        app:layout_constraintBottom_toTopOf="@+id/greenFinish1"
-        app:layout_constraintEnd_toStartOf="@+id/yellow10" />
-
-    <view
-        android:id="@+id/greenFinish1"
-        class="androidx.appcompat.widget.ActionMenuView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:background="@color/colorHorseGreen"
-        app:layout_constraintBottom_toTopOf="@+id/yellow13"
-        app:layout_constraintEnd_toStartOf="@+id/yellow11" />
-
-    <ImageView
-        android:id="@+id/green1"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
-        app:layout_constraintBottom_toTopOf="@+id/startGreen"
-        app:layout_constraintStart_toEndOf="@+id/homeGreen"
-        app:srcCompat="@drawable/green" />
-
     <ImageView
         android:id="@+id/green13"
         android:layout_width="26dp"
         android:layout_height="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/green12"
         app:layout_constraintStart_toStartOf="@+id/horseBoard"
-        app:layout_constraintTop_toBottomOf="@+id/startBlue"
         app:srcCompat="@drawable/green" />
 
     <ImageView
@@ -531,6 +251,14 @@
         android:layout_width="27dp"
         android:layout_height="27dp"
         app:layout_constraintBottom_toTopOf="@+id/green1"
+        app:layout_constraintStart_toEndOf="@+id/homeGreen"
+        app:srcCompat="@drawable/green" />
+
+    <ImageView
+        android:id="@+id/green1"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        app:layout_constraintBottom_toTopOf="@+id/startGreen"
         app:layout_constraintStart_toEndOf="@+id/homeGreen"
         app:srcCompat="@drawable/green" />
 
@@ -748,8 +476,496 @@
         android:layout_height="26dp"
         app:layout_constraintBottom_toTopOf="@+id/greenFinish6"
         app:layout_constraintEnd_toStartOf="@+id/yellowFinish6"
-        app:layout_constraintStart_toEndOf="@+id/blueFinish8"
+        app:layout_constraintStart_toEndOf="@+id/blueFinish6"
         app:layout_constraintTop_toBottomOf="@+id/redFinish6"
         app:srcCompat="@drawable/crown" />
+
+    <ImageButton
+        android:id="@+id/blueHorse1"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorHorseBlue"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="@+id/homeBlue"
+        app:layout_constraintTop_toTopOf="@+id/homeBlue"
+        app:srcCompat="@drawable/blue_horse" />
+
+    <ImageButton
+        android:id="@+id/blueHorse4"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorHorseBlue"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/homeBlue"
+        app:layout_constraintEnd_toEndOf="@+id/homeBlue"
+        app:srcCompat="@drawable/blue_horse" />
+
+    <ImageButton
+        android:id="@+id/blueHorse2"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorHorseBlue"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/homeBlue"
+        app:layout_constraintStart_toStartOf="@+id/homeBlue"
+        app:srcCompat="@drawable/blue_horse" />
+
+    <ImageButton
+        android:id="@+id/blueHorse3"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/colorHorseBlue"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toStartOf="@+id/blue11"
+        app:layout_constraintTop_toTopOf="@+id/homeBlue"
+        app:srcCompat="@drawable/blue_horse" />
+
+    <ImageButton
+        android:id="@+id/redHorse1"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="@+id/homeRed"
+        app:layout_constraintTop_toTopOf="@+id/homeRed"
+        app:srcCompat="@drawable/red_horse" />
+
+    <ImageButton
+        android:id="@+id/redHorse4"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/homeRed"
+        app:layout_constraintEnd_toEndOf="@+id/homeRed"
+        app:srcCompat="@drawable/red_horse" />
+
+    <ImageButton
+        android:id="@+id/redHorse2"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/homeRed"
+        app:layout_constraintStart_toStartOf="@+id/homeRed"
+        app:srcCompat="@drawable/red_horse" />
+
+    <ImageButton
+        android:id="@+id/redHorse3"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/homeRed"
+        app:layout_constraintTop_toTopOf="@+id/homeRed"
+        app:srcCompat="@drawable/red_horse" />
+
+    <ImageButton
+        android:id="@+id/yellowHorse1"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="@+id/homeYellow"
+        app:layout_constraintTop_toTopOf="@+id/homeYellow"
+        app:srcCompat="@drawable/yellow_horse" />
+
+    <ImageButton
+        android:id="@+id/yellowHorse4"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/homeYellow"
+        app:layout_constraintEnd_toEndOf="@+id/homeYellow"
+        app:srcCompat="@drawable/yellow_horse" />
+
+    <ImageButton
+        android:id="@+id/yellowHorse2"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/homeYellow"
+        app:layout_constraintStart_toStartOf="@+id/homeYellow"
+        app:srcCompat="@drawable/yellow_horse" />
+
+    <ImageButton
+        android:id="@+id/yellowHorse3"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="@+id/homeYellow"
+        app:layout_constraintTop_toTopOf="@+id/homeYellow"
+        app:srcCompat="@drawable/yellow_horse" />
+
+    <ImageButton
+        android:id="@+id/greenHorse1"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="@+id/homeGreen"
+        app:layout_constraintTop_toTopOf="@+id/homeGreen"
+        app:srcCompat="@drawable/green_horse" />
+
+    <ImageButton
+        android:id="@+id/greenHorse4"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/homeGreen"
+        app:layout_constraintEnd_toEndOf="@+id/homeGreen"
+        app:srcCompat="@drawable/green_horse" />
+
+    <ImageButton
+        android:id="@+id/greenHorse2"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/homeGreen"
+        app:layout_constraintStart_toStartOf="@+id/homeGreen"
+        app:srcCompat="@drawable/green_horse" />
+
+    <ImageButton
+        android:id="@+id/greenHorse3"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="@+id/homeGreen"
+        app:layout_constraintTop_toTopOf="@+id/homeGreen"
+        app:srcCompat="@drawable/green_horse" />
+
+    <Button
+        android:id="@+id/diceButton"
+        android:layout_width="116dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/acme"
+        android:text="@string/dice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horseBoard" />
+
+    <TextView
+        android:id="@+id/waitTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/acme"
+        android:text="@string/wait_turn"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horseBoard" />
+
+    <ImageView
+        android:id="@+id/diceImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/diceButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diceButton"
+        app:srcCompat="@drawable/dice_1" />
+
+    <ImageView
+        android:id="@+id/startYellow"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:scaleType="fitStart"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/homeYellow"
+        app:layout_constraintEnd_toEndOf="@+id/horseBoard"
+        app:srcCompat="@drawable/yellow_square" />
+
+    <ImageView
+        android:id="@+id/yellowFinish2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="2dp"
+        android:scaleType="fitStart"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/yellowFinish1"
+        app:layout_constraintTop_toBottomOf="@+id/red10"
+        app:srcCompat="@drawable/yellow_square" />
+
+    <ImageView
+        android:id="@+id/yellowFinish6"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="2dp"
+        android:scaleType="fitStart"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/yellowFinish5"
+        app:layout_constraintTop_toBottomOf="@+id/red6"
+        app:srcCompat="@drawable/yellow_square" />
+
+    <ImageView
+        android:id="@+id/yellowFinish1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:scaleType="fitStart"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/red13"
+        app:layout_constraintTop_toBottomOf="@+id/red11"
+        app:srcCompat="@drawable/yellow_square" />
+
+    <ImageView
+        android:id="@+id/yellowFinish3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="2dp"
+        android:scaleType="fitStart"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/yellowFinish2"
+        app:layout_constraintTop_toBottomOf="@+id/red9"
+        app:srcCompat="@drawable/yellow_square" />
+
+    <ImageView
+        android:id="@+id/yellowFinish4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="2dp"
+        android:scaleType="fitStart"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/yellowFinish3"
+        app:layout_constraintTop_toBottomOf="@+id/red8"
+        app:srcCompat="@drawable/yellow_square" />
+
+    <ImageView
+        android:id="@+id/yellowFinish5"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="2dp"
+        android:scaleType="fitStart"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/yellowFinish4"
+        app:layout_constraintTop_toBottomOf="@+id/red7"
+        app:srcCompat="@drawable/yellow_square" />
+
+    <ImageView
+        android:id="@+id/startGreen"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        app:layout_constraintBottom_toBottomOf="@+id/horseBoard"
+        app:layout_constraintStart_toEndOf="@+id/homeGreen"
+        app:srcCompat="@drawable/green_square" />
+
+    <ImageView
+        android:id="@+id/greenFinish6"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/greenFinish5"
+        app:layout_constraintEnd_toStartOf="@+id/yellow6"
+        app:srcCompat="@drawable/green_square" />
+
+    <ImageView
+        android:id="@+id/greenFinish5"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/greenFinish4"
+        app:layout_constraintEnd_toStartOf="@+id/yellow7"
+        app:srcCompat="@drawable/green_square" />
+
+    <ImageView
+        android:id="@+id/greenFinish4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/greenFinish3"
+        app:layout_constraintEnd_toStartOf="@+id/yellow8"
+        app:srcCompat="@drawable/green_square" />
+
+    <ImageView
+        android:id="@+id/greenFinish3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/greenFinish2"
+        app:layout_constraintEnd_toStartOf="@+id/yellow9"
+        app:srcCompat="@drawable/green_square" />
+
+    <ImageView
+        android:id="@+id/greenFinish2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/greenFinish1"
+        app:layout_constraintEnd_toStartOf="@+id/yellow10"
+        app:srcCompat="@drawable/green_square" />
+
+    <ImageView
+        android:id="@+id/greenFinish1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/yellow13"
+        app:layout_constraintEnd_toStartOf="@+id/yellow11"
+        app:srcCompat="@drawable/green_square" />
+
+    <ImageView
+        android:id="@+id/startBlue"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        app:layout_constraintStart_toStartOf="@+id/horseBoard"
+        app:layout_constraintTop_toBottomOf="@+id/homeBlue"
+        app:srcCompat="@drawable/blue_square" />
+
+    <ImageView
+        android:id="@+id/blueFinish6"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/green6"
+        app:layout_constraintStart_toEndOf="@+id/blueFinish5"
+        app:srcCompat="@drawable/blue_square" />
+
+    <ImageView
+        android:id="@+id/blueFinish5"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/green7"
+        app:layout_constraintStart_toEndOf="@+id/blueFinish4"
+        app:srcCompat="@drawable/blue_square" />
+
+    <ImageView
+        android:id="@+id/blueFinish4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/green8"
+        app:layout_constraintStart_toEndOf="@+id/blueFinish3"
+        app:srcCompat="@drawable/blue_square" />
+
+    <ImageView
+        android:id="@+id/blueFinish3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/green9"
+        app:layout_constraintStart_toEndOf="@+id/blueFinish2"
+        app:srcCompat="@drawable/blue_square" />
+
+    <ImageView
+        android:id="@+id/blueFinish2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/green10"
+        app:layout_constraintStart_toEndOf="@+id/blueFinish1"
+        app:srcCompat="@drawable/blue_square" />
+
+    <ImageView
+        android:id="@+id/blueFinish1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/green11"
+        app:layout_constraintStart_toEndOf="@+id/green13"
+        app:srcCompat="@drawable/blue_square" />
+
+    <ImageView
+        android:id="@+id/startRed"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        app:layout_constraintEnd_toStartOf="@+id/homeRed"
+        app:layout_constraintTop_toTopOf="@+id/horseBoard"
+        app:srcCompat="@drawable/red_square" />
+
+    <ImageView
+        android:id="@+id/redFinish6"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toEndOf="@+id/blue6"
+        app:layout_constraintTop_toBottomOf="@+id/redFinish5"
+        app:srcCompat="@drawable/red_square" />
+
+    <ImageView
+        android:id="@+id/redFinish5"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toEndOf="@+id/blue7"
+        app:layout_constraintTop_toBottomOf="@+id/redFinish4"
+        app:srcCompat="@drawable/red_square" />
+
+    <ImageView
+        android:id="@+id/redFinish4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toEndOf="@+id/blue8"
+        app:layout_constraintTop_toBottomOf="@+id/redFinish3"
+        app:srcCompat="@drawable/red_square" />
+
+    <ImageView
+        android:id="@+id/redFinish3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toEndOf="@+id/blue9"
+        app:layout_constraintTop_toBottomOf="@+id/redFinish2"
+        app:srcCompat="@drawable/red_square" />
+
+    <ImageView
+        android:id="@+id/redFinish2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toEndOf="@+id/blue10"
+        app:layout_constraintTop_toBottomOf="@+id/redFinish1"
+        app:srcCompat="@drawable/red_square" />
+
+    <ImageView
+        android:id="@+id/redFinish1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintStart_toEndOf="@+id/blue11"
+        app:layout_constraintTop_toBottomOf="@+id/blue13"
+        app:srcCompat="@drawable/red_square" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
