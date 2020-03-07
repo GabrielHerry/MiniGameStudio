@@ -1,10 +1,5 @@
 package com.isen.minigamestudio.Classes
 
-class Pawn {
-    companion object{
-        var idPawn: Int = 0
-        var position: Int = 0
-        var started: Boolean = false
-        var ended: Boolean = false
-    }
+class Pawn(var position: Int, var started: Boolean, var ended: Boolean, var finish: Boolean) {
+
 }

@@ -18,14 +18,29 @@ class HorseActivity : AppCompatActivity() {
         val greenFinish: Array<Int> = arrayOf(R.id.greenFinish1, R.id.greenFinish2, R.id.greenFinish3, R.id.greenFinish4, R.id.greenFinish5, R.id.greenFinish6)
         val blueFinish: Array<Int> = arrayOf(R.id.blueFinish1, R.id.blueFinish2, R.id.blueFinish3, R.id.blueFinish4, R.id.blueFinish5, R.id.blueFinish6)
         val redFinish: Array<Int> = arrayOf(R.id.redFinish1, R.id.redFinish2, R.id.redFinish3, R.id.redFinish4, R.id.redFinish5, R.id.redFinish6)
-        val yellowPawns = arrayOf(R.id.yellowHorse1, R.id.yellowHorse2, R.id.yellowHorse3, R.id.yellowHorse4)
-        val greenPawns = arrayOf(R.id.greenHorse1, R.id.greenHorse2, R.id.greenHorse3, R.id.greenHorse4)
-        val bluePawns = arrayOf(R.id.blueHorse1, R.id.blueHorse2, R.id.blueHorse3, R.id.blueHorse4)
-        val redPawns = arrayOf(R.id.redHorse1, R.id.redHorse2, R.id.redHorse3, R.id.redHorse4)
-        var yellowPosition = arrayOf(0, 0, 0, 0)
-        var greenPosition = arrayOf(14, 14, 14, 14)
-        var bluePosition = arrayOf(28, 28, 28, 28)
-        var redPosition = arrayOf(42, 42, 42, 42)
+
+        var yellowPawn1 = Pawn(0, started = false, ended = false, finish = false)
+        var yellowPawn2 = Pawn(0, started = false, ended = false, finish = false)
+        var yellowPawn3 = Pawn(0, started = false, ended = false, finish = false)
+        var yellowPawn4 = Pawn(0, started = false, ended = false, finish = false)
+
+        var bluePawn1 = Pawn(28, started = false, ended = false, finish = false)
+        var bluePawn2 = Pawn(28, started = false, ended = false, finish = false)
+        var bluePawn3 = Pawn(28, started = false, ended = false, finish = false)
+        var bluePawn4 = Pawn(28, started = false, ended = false, finish = false)
+
+        var redPawn1 = Pawn(42, started = false, ended = false, finish = false)
+        var redPawn2 = Pawn(42, started = false, ended = false, finish = false)
+        var redPawn3 = Pawn(42, started = false, ended = false, finish = false)
+        var redPawn4 = Pawn(42, started = false, ended = false, finish = false)
+
+        var greenPawn1 = Pawn(42, started = false, ended = false, finish = false)
+        var greenPawn2 = Pawn(42, started = false, ended = false, finish = false)
+        var greenPawn3 = Pawn(42, started = false, ended = false, finish = false)
+        var greenPawn4 = Pawn(42, started = false, ended = false, finish = false)
+
+        var pawnStarted: ArrayList<Pawn> = ArrayList()
+        var pawnEnded: ArrayList<Pawn> = ArrayList()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,162 +59,166 @@ class HorseActivity : AppCompatActivity() {
             waitTurn.visibility = View.INVISIBLE
             diceButton.visibility = View.VISIBLE
             diceButton.setOnClickListener {
-                startGame()
+                game(players)
             }
         }
     }
 
-    private fun startGame() {
-            var result = rollDice(0)
-            if (!Pawn.started && result == 6){
-                pawnStart(0)
+    private fun game(players: Int) {
+        val result = rollDice()
+        if (pawnStarted.isEmpty() && result == 6){
+            pawnStart()
+        }
+        if (pawnStarted.isNotEmpty() && pawnEnded.isNotEmpty() && pawnStarted.size == pawnEnded.size){
+            if (result == 6 && pawnStarted.isNotEmpty()) {
+                yellowHorse1.isEnabled = true
+                yellowHorse2.isEnabled = true
+                yellowHorse3.isEnabled = true
+                yellowHorse4.isEnabled = true
+                pawnStart()
             }
-            if (Pawn.started) {
-                diceResult(result, Pawn.position)
-                result = rollDice(1)
+        }
+        if (pawnStarted.size > pawnEnded.size){
+            val pawnOn = pawnStarted[pawnStarted.size-1]
+            diceResult(result, pawnOn)
+        }
+        if (pawnEnded.isNotEmpty()){
+            var id =0
+            for (i in 0 until pawnEnded.size-1){
+                if (!pawnEnded[i].finish){
+                    id = i
+                }
             }
+            finishLine(result, pawnEnded[id])
+        }
     }
 
-    private fun diceResult(number: Int, position: Int) {
-        //if (number == 6){
-        Pawn.position = position + number
-        if (Pawn.position >= 55) {
-            Pawn.position = 55
-            Pawn.ended = true
-        }
-        if (position == 0){
-            var imageBoard = HorseActivity.horseBoard[position]
-            var imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(yellow_square)
-        }
-        if (position in 1..13){
-            var imageBoard = HorseActivity.horseBoard[position]
-            var imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(yellow)
-        }
-        if (position == 14){
-            var imageBoard = HorseActivity.horseBoard[position]
-            var imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(green_square)
-        }
-        if (position in 15..27){
-            var imageBoard = HorseActivity.horseBoard[position]
-            var imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(green)
-        }
-        if (position == 28){
-            var imageBoard = HorseActivity.horseBoard[position]
-            var imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(blue_square)
-        }
-        if (position in 29..41){
-            var imageBoard = HorseActivity.horseBoard[position]
-            var imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(moon)
-        }
-        if (position == 42){
-            var imageBoard = HorseActivity.horseBoard[position]
-            var imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(red_square)
-        }
-        if (position in 43..55){
-            var imageBoard = HorseActivity.horseBoard[position]
-            var imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(red)
-        }
+    private fun finishLine(result: Int, pawn: Pawn) {
 
-        var imageBoard = HorseActivity.horseBoard[Pawn.position]
-        var imageToChange: ImageView = findViewById(imageBoard)
-        imageToChange.setImageResource(yellow_horse)
-        // }
+    }
+
+    private fun diceResult(number: Int, pawn: Pawn) {
+            val lastPosition = pawn.position
+            pawn.position = pawn.position + number
+            if (pawn.position >= 55) {
+                pawn.position = 55
+                pawn.ended = true
+                pawnEnded.add(pawn)
+            }
+            if (lastPosition == 0){
+                changeImage(lastPosition, yellow_square, 0)
+            }
+            if (lastPosition in 1..13){
+                changeImage(lastPosition, yellow, 0)
+            }
+            if (lastPosition == 14){
+                changeImage(lastPosition, green_square, 0)
+            }
+            if (lastPosition in 15..27){
+                changeImage(lastPosition, green, 0)
+            }
+            if (lastPosition == 28){
+                changeImage(lastPosition, blue_square, 0)
+            }
+            if (lastPosition in 29..41){
+                changeImage(lastPosition, moon, 0)
+            }
+            if (lastPosition == 42){
+                changeImage(lastPosition, red_square, 0)
+            }
+            if (lastPosition in 43..55){
+                changeImage(lastPosition, red, 0)
+            }
+            changeImage(pawn.position, yellow_horse, 0)
+    }
+
+    private fun changeImage(position: Int, idImage: Int, background: Int) {
+        val imageBoard = HorseActivity.horseBoard[position]
+        val imageToChange: ImageView = findViewById(imageBoard)
+        imageToChange.setImageResource(idImage)
+        if (background == 1){
+            val colorValue = ContextCompat.getColor(this, R.color.colorHorseBlue)
+            imageToChange.setBackgroundColor(colorValue)
+        }
     }
 
     private fun computerPlay(diceNumber: Int): Int {
         return diceNumber
     }
 
-    private fun pawnStart(player: Int) {
-        if (player == 0){
-            yellowHorse1.setOnClickListener {
-                Pawn.idPawn = 1
-                Pawn.started = true
-                movePawnStart(0)
-                yellowHorse1.visibility = View.INVISIBLE
-            }
-            yellowHorse2.setOnClickListener {
-                Pawn.idPawn = 2
-                Pawn.started = true
-                movePawnStart(0)
-                yellowHorse2.visibility = View.INVISIBLE
-            }
-            yellowHorse3.setOnClickListener {
-                Pawn.idPawn = 3
-                Pawn.started = true
-                movePawnStart(0)
-                yellowHorse3.visibility = View.INVISIBLE
-            }
-            yellowHorse4.setOnClickListener {
-                Pawn.idPawn = 4
-                Pawn.started = true
-                movePawnStart(0)
-                yellowHorse4.visibility = View.INVISIBLE
-            }
+    private fun pawnStart() {
+        yellowHorse1.setOnClickListener{
+            movePawnStart(0)
+            yellowHorse1.visibility = View.INVISIBLE
+            yellowPawn1.started = true
+            yellowHorse2.isEnabled = false
+            yellowHorse3.isEnabled = false
+            yellowHorse4.isEnabled = false
+            pawnStarted.add(yellowPawn1)
+        }
+        yellowHorse2.setOnClickListener {
+            movePawnStart(0)
+            yellowHorse2.visibility = View.INVISIBLE
+            yellowPawn2.started = true
+            yellowHorse1.isEnabled = false
+            yellowHorse3.isEnabled = false
+            yellowHorse4.isEnabled = false
+            pawnStarted.add(yellowPawn2)
+        }
+        yellowHorse3.setOnClickListener {
+            movePawnStart(0)
+            yellowHorse3.visibility = View.INVISIBLE
+            yellowPawn3.started = true
+            yellowHorse2.isEnabled = false
+            yellowHorse1.isEnabled = false
+            yellowHorse4.isEnabled = false
+            pawnStarted.add(yellowPawn3)
+        }
+        yellowHorse4.setOnClickListener {
+            movePawnStart(0)
+            yellowHorse4.visibility = View.INVISIBLE
+            yellowPawn4.started = true
+            yellowHorse2.isEnabled = false
+            yellowHorse3.isEnabled = false
+            yellowHorse1.isEnabled = false
+            pawnStarted.add(yellowPawn4)
         }
     }
 
     private fun movePawnStart(player: Int) {
         if (player == 0) {
-            val imageBoard = HorseActivity.horseBoard[0]
-            val imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(yellow_horse)
+            changeImage(0, yellow_horse, 0)
         }
         if (player == 1){
-            val imageBoard = HorseActivity.horseBoard[28]
-            val colorValue = ContextCompat.getColor(this, R.color.colorHorseBlue)
-            val imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(blue_horse)
-            imageToChange.setBackgroundColor(colorValue)
+            changeImage(28, blue_horse, 1)
         }
         if (player == 2){
-            val imageBoard = HorseActivity.horseBoard[42]
-            val imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(red_horse)
+            changeImage(42, red_horse, 0)
         }
         if (player == 3){
-            val imageBoard = HorseActivity.horseBoard[14]
-            val imageToChange: ImageView = findViewById(imageBoard)
-            imageToChange.setImageResource(green_horse)
+            changeImage(14, green_horse, 0)
         }
     }
 
-    private fun rollDice(player: Int): Int {
+    private fun rollDice(): Int {
         var diceNumber = 0
         var result = 0
-        if (player == 0) {
-            diceNumber = (1..6).shuffled().first()
-            val drawableResource = when (diceNumber){
-                1 -> dice_1
-                2 -> dice_2
-                3 -> dice_3
-                4 -> dice_4
-                5 -> dice_5
-                6 -> dice_6
-                else -> empty
-            }
-            val animation = AnimationUtils.loadAnimation(this, R.anim.bounce)
-            val diceImage : ImageView = findViewById(R.id.diceImage)
-            diceImage.setImageResource(drawableResource)
-            diceImage.startAnimation(animation)
-            result = diceNumber
-            return result
+        diceNumber = (1..6).shuffled().first()
+        val drawableResource = when (diceNumber){
+            1 -> dice_1
+            2 -> dice_2
+            3 -> dice_3
+            4 -> dice_4
+            5 -> dice_5
+            6 -> dice_6
+            else -> empty
         }
-        else {
-            //diceButton.visibility = View.INVISIBLE
-            //waitTurn.visibility = View.VISIBLE
-            diceNumber = (1..6).shuffled().first()
-            result = diceNumber
-            return result
-        }
+        val animation = AnimationUtils.loadAnimation(this, R.anim.bounce)
+        val diceImage : ImageView = findViewById(R.id.diceImage)
+        diceImage.setImageResource(drawableResource)
+        diceImage.startAnimation(animation)
+        result = diceNumber
+        return result
     }
 }
 
