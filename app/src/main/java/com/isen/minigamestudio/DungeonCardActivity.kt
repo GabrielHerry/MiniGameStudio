@@ -7,9 +7,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -17,24 +15,17 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-
 import android.widget.Toast
 import androidx.core.view.children
-
 import kotlinx.android.synthetic.main.activity_dungeon_card.*
 import kotlinx.android.synthetic.main.littleboxlayout.view.*
-
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
 import kotlin.random.Random.Default.nextDouble
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
 import kotlin.math.pow
 
 
@@ -73,15 +64,14 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dungeon_card)
 
+
+
         arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
 
         val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
         val saveState = sharedPrefDungeon.getBoolean("saveState", false)
 
-       // val saveState = sharedPrefDungeon.getBoolean("saveState", false) ?:false
-
         if(saveState) { //if we have a save
-            //System.out.println("we have a save")
             readBackupFromJson()
 
             with(sharedPrefDungeon.edit()) {
@@ -89,7 +79,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 commit()
             }
 
-            var probGame = setDifficulty(difficulty)
+            val probGame = setDifficulty(difficulty)
             probChangeBox = probGame[0]
             probPotion = probGame[1]
             probSword = probGame[2]
@@ -110,24 +100,22 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
             val builder1 = AlertDialog.Builder(this)
             builder1.setMessage(R.string.alertDialogLevel)
-            builder1.setPositiveButton(R.string.alertDialogLevel3) { _, _ ->
-                difficulty = 3
-            }
-            builder1.setNeutralButton(R.string.alertDialogLevel1) { _, _ ->
+            builder1.setPositiveButton(R.string.alertDialogLevel1) { _, _ ->
                 difficulty = 1
+            }
+            builder1.setNeutralButton(R.string.alertDialogLevel3) { _, _ ->
+                difficulty = 3
             }
             builder1.setNegativeButton(R.string.alertDialogLevel2) { _, _ ->
                 difficulty = 2
             }
-            builder1.setOnDismissListener(DialogInterface.OnDismissListener {
+            builder1.setOnDismissListener {
 
                 if (difficulty == 0) {
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
-                }
-                else
-                {
-                    var probGame = setDifficulty(difficulty)
+                } else {
+                    val probGame = setDifficulty(difficulty)
                     probChangeBox = probGame[0]
                     probPotion = probGame[1]
                     probSword = probGame[2]
@@ -142,7 +130,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                             generateNewObject(it.id, gameLevel)
                         }
                 }
-            })
+            }
 
 
             val dialog: AlertDialog = builder1.create()
@@ -167,6 +155,11 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
         // end of else
 
+        buttonExit.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
 
 
         // ---------------------------------------------
@@ -196,7 +189,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         boxList.forEach {
             it as LittleBox
             val currentBox = it
-          //  System.out.println("Affichage: ${currentBox.boxPosition}")
+
 
             currentBox.setOnClickListener {
                 if (changeBoxNumber>0)
@@ -253,20 +246,13 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 }
             }
         }
+
         savebutton.setOnClickListener {
             saveBoxDataInJson()
-
-          //  val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE)
             with(sharedPrefDungeon.edit()) {
                 putBoolean("saveState",true)
                 commit()
             }
-
-
-         //   val sharedPref = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
-        //    val saveState = sharedPrefDungeon.getBoolean("saveState", false) ?:false
-         //   savedEscapeDungeon=true
-
 
             val intent = Intent(this, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -504,7 +490,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
             box5.boxPosition = newPos
             box5.textBoxNumber.text = newPos.toString()
-            //  Toast.makeText(this,"fin du top",Toast.LENGTH_LONG).show()
         }
     }
 
@@ -964,7 +949,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 // kill the monster with my pvs
                 if (box5.getPv() > findViewById<LittleBox>(boxToMoveId).getPv() )
                 {
-                    //score += findViewById<LittleBox>(boxToMoveId).getPv()
                     score += 10
                     scoreNumber.text = score.toString()
                     updateLevel (score)
@@ -974,14 +958,27 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 }
                 else {
                     // END OF GAME
+                    // update best result
+                    val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE)
+                    val nameOfBestScoreDifficulty = arrayOf("bestScoreDifficulty1","bestScoreDifficulty2","bestScoreDifficulty3")
 
+                    val previousScore = sharedPrefDungeon.getInt(nameOfBestScoreDifficulty[difficulty-1], 0)
+                    if (previousScore < score)
+                    {
+                        with(sharedPrefDungeon.edit()) {
+                            putInt(nameOfBestScoreDifficulty[difficulty-1], score)
+                            commit()
+                        }
+                    }
+
+                    // collect score
 
                     val builder = AlertDialog.Builder(this)
                     builder.setMessage("Fin du jeu ! Avec un score de : $score ! bravo !")
-                    builder.setOnDismissListener(DialogInterface.OnDismissListener {
+                    builder.setOnDismissListener {
                         val intent = Intent(this, HomeActivity::class.java)
                         startActivity(intent)
-                    })
+                    }
                     val dialog: AlertDialog = builder.create()
                     dialog.show()
                 }
@@ -1041,9 +1038,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         val listBox = activity_dungeon_card.children.filter { it is LittleBox }
         listBox.forEachIndexed { index, littleBox ->
             littleBox as LittleBox
-         //   if(index == 4){
-         //       littleBox.setIm(R.drawable.gamer)
-         //   }
 
             littleBox.boxPosition = jsonArray.getJSONObject(index).getString(pos).toInt()
             littleBox.boxType = jsonArray.getJSONObject(index).getString(type).toString()
@@ -1061,21 +1055,52 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
             gameLevel = jsonArray.getJSONObject(index).getString(gameLevelJson).toInt()
 
             when (littleBox.boxType) {
-                "sword" -> when((gameLevel - 1)/4 % 3) {
-                    0 -> littleBox.setIm(R.drawable.swordone)
-                    1 -> littleBox.setIm(R.drawable.swordtwo)
-                    2 -> littleBox.setIm(R.drawable.swordthree)
+                "sword" ->
+                {
+                    when((gameLevel - 1)/4 % 3) {
+                        0 -> littleBox.setIm(R.drawable.swordone)
+                        1 -> littleBox.setIm(R.drawable.swordtwo)
+                        2 -> littleBox.setIm(R.drawable.swordthree)
+                    }
+                    littleBox.pvText.visibility = View.INVISIBLE
+                    littleBox.pvNumb.visibility = View.INVISIBLE
+
                 }
 
-                "potion" -> littleBox.setIm(R.drawable.potion)
 
-                "changeBox" -> littleBox.setIm(R.drawable.changebox)
-                "victoryPoint" -> littleBox.setIm(R.drawable.victorypoint)
+                "potion" ->
+                {
+                    littleBox.setIm(R.drawable.potion)
+                    littleBox.paText.visibility = View.INVISIBLE
+                    littleBox.paNumb.visibility = View.INVISIBLE
+                }
 
-                "monster" -> when((gameLevel - 1)/2 % 3) {
-                    0 -> littleBox.setIm(R.drawable.monsterone)
-                    1 -> littleBox.setIm(R.drawable.monstertwo)
-                    2 -> littleBox.setIm(R.drawable.monsterthree)
+                "changeBox" ->
+                {
+                    littleBox.setIm(R.drawable.changebox)
+                    littleBox.paText.visibility = View.INVISIBLE
+                    littleBox.paNumb.visibility = View.INVISIBLE
+                    littleBox.pvText.visibility = View.INVISIBLE
+                    littleBox.pvNumb.visibility = View.INVISIBLE
+                }
+                "victoryPoint" ->
+                {
+                    littleBox.setIm(R.drawable.victorypoint)
+                    littleBox.paText.visibility = View.INVISIBLE
+                    littleBox.paNumb.visibility = View.INVISIBLE
+                    littleBox.pvText.visibility = View.INVISIBLE
+                    littleBox.pvNumb.visibility = View.INVISIBLE
+                }
+
+                "monster" ->
+                {
+                    when((gameLevel - 1)/2 % 3) {
+                        0 -> littleBox.setIm(R.drawable.monsterone)
+                        1 -> littleBox.setIm(R.drawable.monstertwo)
+                        2 -> littleBox.setIm(R.drawable.monsterthree)
+                    }
+                    littleBox.paText.visibility = View.INVISIBLE
+                    littleBox.paNumb.visibility = View.INVISIBLE
                 }
 
                 "gamer" -> littleBox.setIm(R.drawable.gamer)
@@ -1108,7 +1133,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         val jsonArray = JSONArray()
 
         arrayBoxes.forEach {
-       //     System.out.println("BOUCLE SAVE")
             val jsonObj = JSONObject()
             jsonObj.put(pos,it.boxPosition)
             jsonObj.put(type,it.boxType)
@@ -1123,9 +1147,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
             jsonArray.put(jsonObj)
         }
 
-        Log.d("myjsonarraysave", jsonArray.toString())
-        //val file = File(cacheDir.absolutePath + "/jsonEscapeDungeon.json")
-        //file.writeText(jsonArray.toString())
         val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
         with(sharedPrefDungeon.edit()) {
             putString("backupGameJson", jsonArray.toString())

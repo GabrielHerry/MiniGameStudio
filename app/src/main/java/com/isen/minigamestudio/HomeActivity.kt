@@ -24,19 +24,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getAchievements() {
-
-        val sharedPref = this.getSharedPreferences("backupjsonstring", Context.MODE_PRIVATE) ?: return
-        val readString = sharedPref.getString("backupgame", "") ?:""
-        Toast.makeText(
-            this,
-            "myjson ${readString}",
-            Toast.LENGTH_SHORT
-        ).show()
-
-
-
-       // val intent = Intent( this, AchievementActivity::class.java)
-       // startActivity(intent)
+        val intent = Intent( this, AchievementActivity::class.java)
+        startActivity(intent)
     }
 
     private fun goDungeon() {
