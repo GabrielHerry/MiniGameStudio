@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.content.DialogInterface
 import android.media.MediaPlayer
 import android.os.*
-import android.view.View
 import android.widget.*
 import android.widget.GridLayout.spec
 import androidx.annotation.RequiresApi
@@ -20,7 +19,7 @@ class MineSweeperActivity : AppCompatActivity() {
     companion object {
         var enableSound = true
         val soundVolume = 1.0f
-        val allowRespawning = true
+        val enableRespawning = true
 
         // Real settings
         val caseSize = 50
@@ -48,10 +47,10 @@ class MineSweeperActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun startGame() {
+    private fun startGame() {
         val game = MSgame(numberOfRows, numberOfCols, difficulty)
 
-        setRadioButtonsState(difficulty)
+        setRadioButtonsState()
 
         updateScoreTextView(game)
         updateMineLeftTextView(game)
@@ -84,7 +83,7 @@ class MineSweeperActivity : AppCompatActivity() {
                     chronometer.base = SystemClock.elapsedRealtime()
                     chronometer.start()
 
-                    respawingTimer(game)
+                    respawningTimer(game)
                 }
                 else if (game.gameState == GameState.CONTINUE) {
                     game.revealCase(caseIndex, minutesPassed(chronometer))
@@ -101,7 +100,6 @@ class MineSweeperActivity : AppCompatActivity() {
                     drawEndGameWarning(game, chronometer)
                     playEndGameSound(game)
                 }
-
                 return@setOnLongClickListener true
             }
 
@@ -124,56 +122,32 @@ class MineSweeperActivity : AppCompatActivity() {
             game.gameState = GameState.NOT_STARTED // necessary for the Timer to be killed.
             startGame()
         }
-    }
 
-    private fun respawingTimer(game: MSgame) {
-        if (allowRespawning) {
-            updateCooldown()
-            System.out.println("Timer set with period: $cooldown")
+        radio1Button.setOnClickListener {
+            onRadioButtonClicked(game, Difficulty.EASY)
+        }
 
-            val timer = Timer()
-            timer.schedule(object : TimerTask() {
-                override fun run() {
-                    timer.cancel() // cancel this Timer.
+        radio2Button.setOnClickListener {
+            onRadioButtonClicked(game, Difficulty.MEDIUM)
+        }
 
-                    this@MineSweeperActivity.runOnUiThread(java.lang.Runnable { // for thread access
-
-                        if (game.gameState == GameState.CONTINUE) {
-                            mineRespawn(game)
-                            respawingTimer(game) // restart the Timer with a new period.
-                        }
-
-                        else { System.out.println("Timer killed.") }
-                    })
-                }
-            }, cooldown) // cooldown passed as delay.
+        radio3Button.setOnClickListener {
+            onRadioButtonClicked(game, Difficulty.HARD)
         }
     }
 
-    fun onRadioButtonClicked(view: View) {
-        if (view is RadioButton) {
-            val checked = view.isChecked
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun onRadioButtonClicked(game: MSgame, chosenDifficulty: Difficulty) {
+        difficulty = chosenDifficulty // changing 'difficulty' during a game as no side effect.
+        setRadioButtonsState()
 
-            when (view.getId()) {
-                R.id.radio1Button ->
-                    if (checked) {
-                        difficulty = Difficulty.EASY
-                    }
-                R.id.radio2Button ->
-                    if (checked) {
-                        difficulty = Difficulty.MEDIUM
-                    }
-                R.id.radio3Button ->
-                    if (checked) {
-                        difficulty = Difficulty.HARD
-                    }
-            }
-
-            setRadioButtonsState(difficulty)
+        if (game.gameState != GameState.CONTINUE) {
+            chronometer.base = SystemClock.elapsedRealtime()
+            startGame()
         }
     }
 
-    private fun setRadioButtonsState(difficulty: Difficulty) {
+    private fun setRadioButtonsState() {
         when (difficulty) {
             Difficulty.EASY -> {
                 radio1Button.setChecked(true)
@@ -193,12 +167,36 @@ class MineSweeperActivity : AppCompatActivity() {
         }
     }
 
+    private fun respawningTimer(game: MSgame) {
+        if (enableRespawning) {
+            updateCooldown()
+            System.out.println("Timer set with period: $cooldown")
+
+            val timer = Timer()
+            timer.schedule(object : TimerTask() {
+                override fun run() {
+                    timer.cancel() // cancel this Timer.
+
+                    this@MineSweeperActivity.runOnUiThread(java.lang.Runnable { // for thread access
+                        if (game.gameState == GameState.CONTINUE) {
+                            mineRespawn(game)
+                            respawningTimer(game) // restart the Timer with a new period.
+                        }
+                        else { System.out.println("Timer killed.") }
+                    })
+                }
+            }, cooldown) // cooldown passed as delay.
+        }
+    }
+
     private fun updateScoreTextView(game: MSgame) {
-        scoreTextView.setText(getString(R.string.textScore) + " " + game.score)
+        val string = getString(R.string.textScore) + ": " + game.score
+        scoreTextView.text = string
     }
 
     private fun updateMineLeftTextView(game: MSgame) {
-        flagsLeftTextView.setText(getString(R.string.textMinesLeft) + " " + game.minesLeft)
+        val string = getString(R.string.textMinesLeft) + ": " + game.minesLeft
+        flagsLeftTextView.text = string
     }
 
     private fun drawEndGameWarning(game: MSgame, chronometer: Chronometer) {
@@ -231,21 +229,21 @@ class MineSweeperActivity : AppCompatActivity() {
     private fun gameStateAlert(game: MSgame) {
         val dialogBuilder = AlertDialog.Builder(this)
 
-        dialogBuilder.setMessage("Score: " + game.score)
-        dialogBuilder.setPositiveButton("OK", DialogInterface.OnClickListener {
+        dialogBuilder.setMessage(getString(R.string.textScore) + ": " + game.score)
+        dialogBuilder.setPositiveButton(getString(R.string.okMessage), DialogInterface.OnClickListener {
                 dialog, _ -> dialog.cancel()
         })
 
         val alertTitle = when (game.gameState) {
-            GameState.GAME_WON -> "YOU WON!"
-            GameState.GAME_OVER -> "GAME OVER!"
-            else -> "unsupported case"
+            GameState.GAME_WON -> getString(R.string.winMessage)
+            GameState.GAME_OVER -> getString(R.string.gameoverMessage)
+            else -> getString(R.string.unsupportedMessage)
         }
 
         val alert = dialogBuilder.create()
         alert.setTitle(alertTitle)
         alert.show()
-        alert.getWindow()?.setLayout(alertWidth, alertHeight)
+        alert.window?.setLayout(alertWidth, alertHeight)
     }
 
     private fun minutesPassed(chronometer: Chronometer): Int {

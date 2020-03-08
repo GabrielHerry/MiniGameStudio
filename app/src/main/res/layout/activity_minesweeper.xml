@@ -66,12 +66,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_smallStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:contentDescription="@string/soundButtonDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/flagsLeftTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.66"
         app:layout_constraintStart_toEndOf="@+id/flagsLeftTextView"
-        app:layout_constraintBottom_toBottomOf="@+id/flagsLeftTextView"
         app:srcCompat="@android:drawable/ic_lock_silent_mode_off" />
 
     <androidx.gridlayout.widget.GridLayout
@@ -121,7 +121,6 @@
         android:layout_marginStart="@dimen/activity_horizontal_step"
         android:layout_marginTop="@dimen/activity_vertical_bigStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:onClick="onRadioButtonClicked"
         android:textSize="@dimen/activity_small_text_size"
         android:text="@string/textDifficultyEASY"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +135,6 @@
         android:layout_marginStart="@dimen/activity_horizontal_step"
         android:layout_marginTop="@dimen/activity_vertical_bigStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:onClick="onRadioButtonClicked"
         android:textSize="@dimen/activity_small_text_size"
         android:text="@string/textDifficultyMEDIUM"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,7 +149,6 @@
         android:layout_marginStart="@dimen/activity_horizontal_step"
         android:layout_marginTop="@dimen/activity_vertical_bigStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:onClick="onRadioButtonClicked"
         android:textSize="@dimen/activity_small_text_size"
         android:text="@string/textDifficultyHARD"
         app:layout_constraintEnd_toEndOf="parent"

@@ -27,12 +27,16 @@
     <!-- MineSweeper strings -->
     <string name="textMinesweeperButton">Go to Minesweeper</string>
     <string name="textTimeElapsed">Time elapsed:</string>
-    <string name="textScore">Score:</string>
-    <string name="textMinesLeft">Flags left:</string>
+    <string name="textScore">Score</string>
+    <string name="textMinesLeft">Flags left</string>
     <string name="textRestartButton">Restart</string>
     <string name="textDifficultyEASY">Easy</string>
     <string name="textDifficultyMEDIUM">Medium</string>
     <string name="textDifficultyHARD">Hard</string>
+    <string name="soundButtonDescription">Toggle Sound</string>
+    <string name="winMessage">YOU WON!</string>
+    <string name="gameoverMessage">GAME OVER!</string>
+    <string name="unsupportedMessage">unsupported case</string>
+    <string name="okMessage">OK</string>
 
-    <!-- <string name=""></string> -->
 </resources>
