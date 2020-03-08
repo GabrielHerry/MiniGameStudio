@@ -18,6 +18,22 @@ class HomeActivity : AppCompatActivity() {
         dungeonButton.setOnClickListener {
             goDungeon()
         }
+
+        minesweeperButton.setOnClickListener {
+            goMinesweeper()
+        }
+        horseButton.setOnClickListener {
+            goParcheesic()
+        }
+    }
+
+    private fun goParcheesic() {
+        val intent = Intent( this, HorseSettingsActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun goMinesweeper() {
+
     }
 
     private fun getAchievements() {
