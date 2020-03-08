@@ -23,14 +23,14 @@ class MineSweeperActivity : AppCompatActivity() {
         val allowRespawning = true
 
         // Real settings
-        //val caseSize = 50
-        //val numberOfRows = 15
-        //val numberOfCols = 12
+        val caseSize = 50
+        val numberOfRows = 15
+        val numberOfCols = 12
 
         // Emulator settings
-        val caseSize = 75
-        val numberOfRows = 12
-        val numberOfCols = 12
+        //val caseSize = 75
+        //val numberOfRows = 12
+        //val numberOfCols = 12
 
         val alertWidth = 600
         val alertHeight = 450
