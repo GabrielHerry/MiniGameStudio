@@ -23,11 +23,11 @@ class HomeActivity : AppCompatActivity() {
             goMinesweeper()
         }
         horseButton.setOnClickListener {
-            goParcheesic()
+            goParcheesi()
         }
     }
 
-    private fun goParcheesic() {
+    private fun goParcheesi() {
         val intent = Intent( this, HorseSettingsActivity::class.java)
         startActivity(intent)
     }
