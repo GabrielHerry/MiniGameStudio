@@ -1,7 +1,5 @@
 package com.isen.minigamestudio.Classes
 
-import android.widget.Chronometer
-
 enum class GameState {
     NOT_STARTED,
     CONTINUE,
