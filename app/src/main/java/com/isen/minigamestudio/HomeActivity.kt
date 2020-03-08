@@ -32,6 +32,8 @@ class HomeActivity : AppCompatActivity() {
             "myjson ${readString}",
             Toast.LENGTH_SHORT
         ).show()
+        val intent = Intent( this, AchievementActivity::class.java)
+        startActivity(intent)
 
 
 

@@ -33,6 +33,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
 import kotlin.math.pow
@@ -41,6 +42,12 @@ import kotlin.math.pow
 class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
 
+    companion object{
+        lateinit var sharedPrefBestScoresDungeon:SharedPreferences
+        var firstScoreJson = "firstBestScores"
+        var secondScoreJson = "secondBestScores"
+        var thirdScoreJson = "thirdBestScores"
+    }
     private var difficulty : Int = 0
     private var score = 0
     private var gameLevel : Int = 1
@@ -75,13 +82,18 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
         arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
 
+        sharedPrefBestScoresDungeon = this.getSharedPreferences("sharedPrefBestScoresDungeon",Context.MODE_PRIVATE) ?: return
+        val notFirstGame = sharedPrefBestScoresDungeon.getBoolean("notFirstGame", false)
+        val jsonObj = JSONObject()
+        System.out.println(notFirstGame)
+        if(notFirstGame == true){
+            readBestScores()
+        }
+
         val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
         val saveState = sharedPrefDungeon.getBoolean("saveState", false)
-
-       // val saveState = sharedPrefDungeon.getBoolean("saveState", false) ?:false
-
+        //System.out.println(saveState)
         if(saveState) { //if we have a save
-            //System.out.println("we have a save")
             readBackupFromJson()
 
             with(sharedPrefDungeon.edit()) {
@@ -978,6 +990,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
 
                     val builder = AlertDialog.Builder(this)
                     builder.setMessage("Fin du jeu ! Avec un score de : $score ! bravo !")
+                    replaceBestScores()
                     builder.setOnDismissListener(DialogInterface.OnDismissListener {
                         val intent = Intent(this, HomeActivity::class.java)
                         startActivity(intent)
@@ -1100,7 +1113,45 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
                 }
         }
     }
+    public fun replaceBestScores(){
+        if(this.score >= AchievementActivity.firstScoreDungeon) {//if first score
+            AchievementActivity.thirdScoreDungeon = AchievementActivity.secondScoreDungeon
+            AchievementActivity.secondScoreDungeon = AchievementActivity.firstScoreDungeon
+            AchievementActivity.firstScoreDungeon = score
+        }
+        else if(this.score < AchievementActivity.firstScoreDungeon && this.score >= AchievementActivity.secondScoreDungeon) {//if second score
+            AchievementActivity.thirdScoreDungeon = AchievementActivity.secondScoreDungeon
+            AchievementActivity.secondScoreDungeon = score
+        }
+        else if(this.score < AchievementActivity.secondScoreDungeon && this.score >= AchievementActivity.thirdScoreDungeon) {//if third score
+            AchievementActivity.thirdScoreDungeon = score
+        }
+        saveBestScores()
+    }
+    fun saveBestScores(){
+        val jsonObj = JSONObject()
+        jsonObj.put(firstScoreJson,AchievementActivity.firstScoreDungeon)
+        jsonObj.put(secondScoreJson,AchievementActivity.secondScoreDungeon)
+        jsonObj.put(thirdScoreJson,AchievementActivity.thirdScoreDungeon)
+        sharedPrefBestScoresDungeon = this.getSharedPreferences("sharedPrefBestScoresDungeon",Context.MODE_PRIVATE) ?: return
+        Log.d("SCORES", jsonObj.toString())
+        with(sharedPrefBestScoresDungeon.edit()) {
+            putString("backupScoresJson", jsonObj.toString())
+            putBoolean("notFirstGame",true)
+            commit()
+        }
+    }
+    fun readBestScores(){
 
+        sharedPrefBestScoresDungeon = this.getSharedPreferences("sharedPrefBestScoresDungeon",Context.MODE_PRIVATE) ?: return
+        val readString = sharedPrefBestScoresDungeon.getString("backupScoresJson", "") ?:""
+        val jsonObj = JSONObject(readString)
+        Log.d("DungeonCardActivityREAD", jsonObj.toString())
+        AchievementActivity.firstScoreDungeon = jsonObj.getString(firstScoreJson).toInt()
+        AchievementActivity.secondScoreDungeon = jsonObj.getString(secondScoreJson).toInt()
+        AchievementActivity.thirdScoreDungeon = jsonObj.getString(thirdScoreJson).toInt()
+
+    }
 
 
     private fun saveBoxDataInJson() { //write in the save file
@@ -1108,7 +1159,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         val jsonArray = JSONArray()
 
         arrayBoxes.forEach {
-       //     System.out.println("BOUCLE SAVE")
             val jsonObj = JSONObject()
             jsonObj.put(pos,it.boxPosition)
             jsonObj.put(type,it.boxType)
@@ -1120,6 +1170,7 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
             jsonObj.put(gameLevelJson,gameLevel)
             jsonObj.put(difficultyJson,difficulty)
             jsonObj.put(changeBoxJson,changeBoxNumber)
+            jsonObj.put(scoreJson,score)
             jsonArray.put(jsonObj)
         }
 
@@ -1132,6 +1183,10 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
             putBoolean("saveState",true)
             commit()
         }
+    }
+    override fun onBackPressed(){
+        replaceBestScores()
+        super.onBackPressed()
     }
 }
 
