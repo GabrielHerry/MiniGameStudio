@@ -1,5 +1,7 @@
 package com.isen.minigamestudio.Classes
 
+import android.widget.Chronometer
+
 enum class GameState {
     NOT_STARTED,
     CONTINUE,
@@ -38,7 +40,7 @@ class MSgame(private val rows: Int, private val cols: Int, private var difficult
 
         else if (!currentCase.isMarked && !currentCase.containsMine && !currentCase.isRevealed) {
             map.revealNeighbourhood(index) // refreshes some imageViews.
-            score += scoreGain(currentCase.value, minutesPassed)
+            scoreGainCase(currentCase.value, minutesPassed)
         }
     }
 
@@ -62,7 +64,11 @@ class MSgame(private val rows: Int, private val cols: Int, private var difficult
         }
     }
 
-    private fun scoreGain(caseValue: Int, minutesPassed: Int): Int {
-        return caseValue * Math.max(1, 3 - minutesPassed)
+    private fun scoreGainCase(caseValue: Int, minutesPassed: Int) {
+        score += caseValue * Math.max(1, 3 - minutesPassed)
+    }
+
+    fun scoreGainEnd(secondsPassed: Int) {
+        score += Math.max(1, 180 - secondsPassed)
     }
 }

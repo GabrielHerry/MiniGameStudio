@@ -87,8 +87,7 @@ class MineSweeperActivity : AppCompatActivity() {
                     respawingTimer(game)
                 }
                 else if (game.gameState == GameState.CONTINUE) {
-                    val minutesPassed = secondsPassed(chronometer) / 60
-                    game.revealCase(caseIndex, minutesPassed)
+                    game.revealCase(caseIndex, minutesPassed(chronometer))
                     updateScoreTextView(game)
                     drawEndGameWarning(game, chronometer)
                     playEndGameSound(game)
@@ -151,10 +150,6 @@ class MineSweeperActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateCooldown() {
-        cooldown = 30000L + (5000 * Math.random()).toLong() // 30 ~ 35 sec
-    }
-
     fun onRadioButtonClicked(view: View) {
         if (view is RadioButton) {
             val checked = view.isChecked
@@ -211,7 +206,7 @@ class MineSweeperActivity : AppCompatActivity() {
             chronometer.stop()
 
             if (game.gameState == GameState.GAME_WON) {
-                game.score += Math.max(1, 180 - secondsPassed(chronometer))
+                game.scoreGainEnd(secondsPassed(chronometer))
                 updateScoreTextView(game)
             }
 
@@ -253,8 +248,16 @@ class MineSweeperActivity : AppCompatActivity() {
         alert.getWindow()?.setLayout(alertWidth, alertHeight)
     }
 
+    private fun minutesPassed(chronometer: Chronometer): Int {
+        return ((SystemClock.elapsedRealtime() - chronometer.getBase()) / 60000).toInt()
+    }
+
     private fun secondsPassed(chronometer: Chronometer): Int {
         return ((SystemClock.elapsedRealtime() - chronometer.getBase()) / 1000).toInt()
+    }
+
+    private fun updateCooldown() {
+        cooldown = 30000L + (5000 * Math.random()).toLong() // 30 ~ 35 sec
     }
 
     private fun mineRespawn(game: MSgame) {
