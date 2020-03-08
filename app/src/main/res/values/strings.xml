@@ -24,5 +24,15 @@
     <!-- Horse settings page -->
     <string name="horse_settings_intro">Please choose the number of computers you wish to play against</string>
 
+    <!-- MineSweeper strings -->
+    <string name="textMinesweeperButton">Go to Minesweeper</string>
+    <string name="textTimeElapsed">Time elapsed:</string>
+    <string name="textScore">Score:</string>
+    <string name="textMinesLeft">Flags left:</string>
+    <string name="textRestartButton">Restart</string>
+    <string name="textDifficultyEASY">Easy</string>
+    <string name="textDifficultyMEDIUM">Medium</string>
+    <string name="textDifficultyHARD">Hard</string>
+
     <!-- <string name=""></string> -->
 </resources>

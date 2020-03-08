@@ -19,9 +19,10 @@ class HomeActivity : AppCompatActivity() {
             goDungeon()
         }
 
-        minesweeperButton.setOnClickListener {
+        mineSweeperButton.setOnClickListener {
             goMinesweeper()
         }
+
         horseButton.setOnClickListener {
             goParcheesi()
         }
@@ -33,7 +34,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun goMinesweeper() {
-
+        startActivity(Intent(this, MineSweeperActivity::class.java))
     }
 
     private fun getAchievements() {

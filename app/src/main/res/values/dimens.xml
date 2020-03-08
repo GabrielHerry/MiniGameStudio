@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Finely tuned: -->
+    <dimen name="activity_horizontal_margin">20dp</dimen>
+    <dimen name="activity_horizontal_step">10dp</dimen>
+    <dimen name="activity_vertical_margin">20dp</dimen>
+    <dimen name="activity_vertical_smallStep">6dp</dimen>
+    <dimen name="activity_vertical_mediumStep">20dp</dimen>
+    <dimen name="activity_vertical_bigStep">30dp</dimen>
+    <dimen name="activity_text_size">20sp</dimen>
+    <dimen name="activity_small_text_size">15sp</dimen>
+</resources>

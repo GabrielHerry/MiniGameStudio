@@ -376,9 +376,7 @@ class HorseActivity : AppCompatActivity() {
     }
 
     private fun rollDice(): Int {
-        var diceNumber = 0
-        var result = 0
-        diceNumber = (1..6).shuffled().first()
+        val diceNumber = (1..6).shuffled().first()
         val drawableResource = when (diceNumber){
             1 -> dice_1
             2 -> dice_2
@@ -392,8 +390,6 @@ class HorseActivity : AppCompatActivity() {
         val diceImage : ImageView = findViewById(R.id.diceImage)
         diceImage.setImageResource(drawableResource)
         diceImage.startAnimation(animation)
-        result = diceNumber
-        return result
+        return diceNumber
     }
 }
-

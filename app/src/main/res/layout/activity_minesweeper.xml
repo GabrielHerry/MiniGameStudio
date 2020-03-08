@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MineSweeperActivity">
+
+    <TextView
+        android:id="@+id/timeElapsedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:text="@string/textTimeElapsed"
+        android:textSize="@dimen/activity_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:textSize="@dimen/activity_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.050"
+        app:layout_constraintStart_toEndOf="@+id/timeElapsedTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_smallStep"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:text="@string/textScore"
+        android:textSize="@dimen/activity_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.180"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeElapsedTextView" />
+
+    <TextView
+        android:id="@+id/flagsLeftTextView"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_smallStep"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:text="@string/textMinesLeft"
+        android:textSize="@dimen/activity_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreTextView" />
+
+    <ImageButton
+        android:id="@+id/soundButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_smallStep"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.66"
+        app:layout_constraintStart_toEndOf="@+id/flagsLeftTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/flagsLeftTextView"
+        app:srcCompat="@android:drawable/ic_lock_silent_mode_off" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_mediumStep"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/activity_text_size"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flagsLeftTextView">
+    </androidx.gridlayout.widget.GridLayout>
+
+    <Button
+        android:id="@+id/restartButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_mediumStep"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:text="@string/textRestartButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.020"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_mediumStep"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/restartButton"
+        app:layout_constraintTop_toBottomOf="@+id/restartButton">
+    </RadioGroup>
+
+    <RadioButton
+        android:id="@+id/radio1Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_step"
+        android:layout_marginTop="@dimen/activity_vertical_bigStep"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:onClick="onRadioButtonClicked"
+        android:textSize="@dimen/activity_small_text_size"
+        android:text="@string/textDifficultyEASY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.040"
+        app:layout_constraintStart_toEndOf="@+id/restartButton"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+    <RadioButton
+        android:id="@+id/radio2Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_step"
+        android:layout_marginTop="@dimen/activity_vertical_bigStep"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:onClick="onRadioButtonClicked"
+        android:textSize="@dimen/activity_small_text_size"
+        android:text="@string/textDifficultyMEDIUM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.080"
+        app:layout_constraintStart_toEndOf="@+id/radio1Button"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+    <RadioButton
+        android:id="@+id/radio3Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_step"
+        android:layout_marginTop="@dimen/activity_vertical_bigStep"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:onClick="onRadioButtonClicked"
+        android:textSize="@dimen/activity_small_text_size"
+        android:text="@string/textDifficultyHARD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.590"
+        app:layout_constraintStart_toEndOf="@+id/radio2Button"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,23 +11,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".AchievementActivity"/>
-        <activity android:name=".HorseActivity"/>
-        <activity android:name=".HorseSettingsActivity"/>
-        <activity android:name=".HomeActivity">
+        <activity android:name=".MineSweeperActivity" />
+        <activity android:name=".AchievementActivity" />
+        <activity android:name=".HorseActivity" />
+        <activity android:name=".HorseSettingsActivity" />
+        <activity android:name=".HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DungeonCardActivity"/>
+        <activity android:name=".DungeonCardActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
-
 
 </manifest>
