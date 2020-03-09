@@ -34,10 +34,10 @@ class HorseActivity : AppCompatActivity() {
         var redPawn3 = Pawn(42, 2)
         var redPawn4 = Pawn(42, 2)
 
-        var greenPawn1 = Pawn(42, 3)
-        var greenPawn2 = Pawn(42, 3)
-        var greenPawn3 = Pawn(42, 3)
-        var greenPawn4 = Pawn(42, 3)
+        var greenPawn1 = Pawn(14, 3)
+        var greenPawn2 = Pawn(14, 3)
+        var greenPawn3 = Pawn(14, 3)
+        var greenPawn4 = Pawn(14, 3)
 
         var pawnStartedYellow: ArrayList<Pawn> = ArrayList()
         var pawnEndedYellow: ArrayList<Pawn> = ArrayList()
@@ -74,40 +74,56 @@ class HorseActivity : AppCompatActivity() {
             diceButton.setOnClickListener {
                 game(players)
             }
+            buttonAI.setOnClickListener {
+               // goComputer(players)
+            }
         }
     }
 
     private fun game(players: Int) {
-        var result = rollDice()
+        val result = rollDice()
+        var played = 0
         var homeRun = 0
         if (pawnStartedYellow.isEmpty() && result == 6){
             pawnStart()
+            played = 1
+           // goComputer(players)
         }
         if (pawnEndedYellow.isNotEmpty() && pawnFinishedYellow.isEmpty()){
             val id = pawnFinishedYellow.size
             homeRun = finishLineYellow(result, pawnEndedYellow[id])
+            played = 1
+            //goComputer(players)
         }
         if (pawnEndedYellow.isNotEmpty() && pawnFinishedYellow.isNotEmpty()){
             val id = pawnFinishedYellow.size-1
             homeRun = finishLineYellow(result, pawnEndedYellow[id])
+            played = 1
+            //goComputer(players)
         }
         if (pawnStartedYellow.isNotEmpty() && pawnEndedYellow.isNotEmpty() && pawnStartedYellow.size == pawnEndedYellow.size){
-            if (result == 6 && pawnStartedYellow.isNotEmpty()) {
+            if (result == 6) {
                 yellowHorse1.isEnabled = true
                 yellowHorse2.isEnabled = true
                 yellowHorse3.isEnabled = true
                 yellowHorse4.isEnabled = true
                 pawnStart()
+                played = 1
+               // goComputer(players)
             }
         }
         if (pawnStartedYellow.size > pawnEndedYellow.size && homeRun == 0){
             val pawnOn = pawnStartedYellow[pawnStartedYellow.size-1]
             diceResult(result, pawnOn, 0)
+            played = 1
+            //goComputer(players)
         }
+    }
 
+    private fun goComputer(players: Int) {
+        val result = rollDice()
+        var homeRun = 0
         if (players >= 2){
-            result = rollDice()
-            homeRun = 0
             if (pawnStartedBlue.isEmpty() && result == 6){
                 movePawnStart(1)
             }
@@ -129,54 +145,51 @@ class HorseActivity : AppCompatActivity() {
                 diceResult(result, pawnOn, 0)
             }
         }
-        if (players >= 3){
-
-        }
-        if (players == 4){
-
-        }
     }
 
     private fun finishLineBlue(result: Int, pawn: Pawn): Int {
-        if (pawn.position == 55 && result == 1){
-            changeImageBoard(pawn.position, red, 0)
-            pawn.position = yellowFinish[0]
-            changeImageFinish(0, yellow_horse, 0)
+        if (pawn.position == 28 && result == 1){
+            changeImageBoard(pawn.position, green, 0)
+            pawn.position = blueFinish[0]
+            changeImageFinish(0, blue_horse, 1)
             return 1
         }
-        if (pawn.position == yellowFinish[0] && result == 2){
-            changeImageFinish(0, yellow_square, 0)
-            pawn.position = yellowFinish[1]
-            changeImageFinish(1, yellow_horse, 0)
+        if (pawn.position == blueFinish[0] && result == 2){
+            changeImageFinish(0, blue_square, 1)
+            pawn.position = blueFinish[1]
+            changeImageFinish(1, blue_horse, 1)
             return 1
         }
-        if (pawn.position == yellowFinish[1] && result == 3){
-            changeImageFinish(1, yellow_square, 0)
-            pawn.position = yellowFinish[2]
-            changeImageFinish(2, yellow_horse, 0)
+        if (pawn.position == blueFinish[1] && result == 3){
+            changeImageFinish(1, blue_square, 1)
+            pawn.position = blueFinish[2]
+            changeImageFinish(2, blue_horse, 1)
             return 1
         }
-        if (pawn.position == yellowFinish[2] && result == 4){
-            changeImageFinish(2, yellow_square, 0)
-            pawn.position = yellowFinish[3]
-            changeImageFinish(3, yellow_horse, 0)
+        if (pawn.position == blueFinish[2] && result == 4){
+            changeImageFinish(2, blue_square, 1)
+            pawn.position = blueFinish[3]
+            changeImageFinish(3, blue_horse, 1)
             return 1
         }
-        if (pawn.position == yellowFinish[3] && result == 5){
-            changeImageFinish(3, yellow_square, 0)
-            pawn.position = yellowFinish[4]
-            changeImageFinish(4, yellow_horse, 0)
+        if (pawn.position == blueFinish[3] && result == 5){
+            changeImageFinish(3, blue_square, 1)
+            pawn.position = blueFinish[4]
+            changeImageFinish(4, blue_horse, 1)
             return 1
         }
-        if (pawn.position == yellowFinish[4] && result == 6){
-            changeImageFinish(4, yellow_square, 0)
-            pawn.position = yellowFinish[5]
-            changeImageFinish(5, yellow_horse, 0)
+        if (pawn.position == blueFinish[4] && result == 6){
+            changeImageFinish(4, blue_square,  1)
+            pawn.position = blueFinish[5]
+            changeImageFinish(5, blue_horse, 1)
             return 1
         }
-        if (pawn.position == yellowFinish[5] && result == 6){
-            changeImageFinish(5, yellow_square, 0)
-            pawnStartedYellow.add(pawn)
+        if (pawn.position == blueFinish[5] && result == 6){
+            changeImageFinish(5, blue_square, 1)
+            pawnFinishedBlue.add(pawn)
+            if (pawnFinishedYellow.size == 4){
+                endGame(1)
+            }
             return 1
         }
         return 0
@@ -221,10 +234,17 @@ class HorseActivity : AppCompatActivity() {
         }
         if (pawn.position == yellowFinish[5] && result == 6){
             changeImageFinish(5, yellow_square, 0)
-            pawnStartedYellow.add(pawn)
+            pawnFinishedYellow.add(pawn)
+            if (pawnFinishedYellow.size == 4){
+                endGame(0)
+            }
             return 1
         }
         return 0
+    }
+
+    private fun endGame(player: Int) {
+
     }
 
     private fun changeImageBoard(position: Int, idImage: Int, background: Int) {
@@ -268,7 +288,7 @@ class HorseActivity : AppCompatActivity() {
         pawn.position = pawn.position + number
         if (pawn.position >= 55) {
             pawn.position = 55
-            pawnStartedYellow.add(pawn)
+            pawnEndedYellow.add(pawn)
         }
         if (lastPosition == 0){
             changeImageBoard(lastPosition, yellow_square, 0)
@@ -350,21 +370,21 @@ class HorseActivity : AppCompatActivity() {
         }
         if (player == 1){
             changeImageBoard(28, blue_horse, 1)
-            if (pawnStartedBlue.size == 0){
-                blueHorse1.visibility = View.INVISIBLE
-                pawnStartedBlue.add(bluePawn1)
-            }
-            if (pawnStartedBlue.size == 1){
-                blueHorse2.visibility = View.INVISIBLE
-                pawnStartedBlue.add(bluePawn2)
+            if (pawnStartedBlue.size == 3){
+                blueHorse4.visibility = View.INVISIBLE
+                pawnStartedBlue.add(bluePawn4)
             }
             if (pawnStartedBlue.size == 2){
                 blueHorse3.visibility = View.INVISIBLE
                 pawnStartedBlue.add(bluePawn3)
             }
-            if (pawnStartedBlue.size == 3){
-                blueHorse4.visibility = View.INVISIBLE
-                pawnStartedBlue.add(bluePawn4)
+            if (pawnStartedBlue.size == 1){
+                blueHorse2.visibility = View.INVISIBLE
+                pawnStartedBlue.add(bluePawn2)
+            }
+            if (pawnStartedBlue.size == 0){
+                blueHorse1.visibility = View.INVISIBLE
+                pawnStartedBlue.add(bluePawn1)
             }
         }
         if (player == 2){
@@ -377,7 +397,6 @@ class HorseActivity : AppCompatActivity() {
 
     private fun rollDice(): Int {
         var diceNumber = 0
-        var result = 0
         diceNumber = (1..6).shuffled().first()
         val drawableResource = when (diceNumber){
             1 -> dice_1
@@ -392,8 +411,8 @@ class HorseActivity : AppCompatActivity() {
         val diceImage : ImageView = findViewById(R.id.diceImage)
         diceImage.setImageResource(drawableResource)
         diceImage.startAnimation(animation)
-        result = diceNumber
-        return result
+        diceNumber
+        return diceNumber
     }
 }
 

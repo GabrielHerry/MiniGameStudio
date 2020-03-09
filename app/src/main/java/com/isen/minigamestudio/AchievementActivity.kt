@@ -5,13 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 class AchievementActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    private fun goMenu() {
-        val intent = Intent( this, HomeActivity::class.java)
-        startActivity(intent)
+        setContentView(R.layout.activity_achievement)
     }
 }
