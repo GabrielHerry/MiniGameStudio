@@ -3,10 +3,13 @@
     <color name="colorPrimary">#FF5722</color>
     <color name="colorPrimaryDark">#252929</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorOrangeDungeon">#ff8f00</color>
+
+    <color name="colorButtonDungeon">#FF5722</color>
+
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorHorseRed">#F00404</color>
     <color name="colorHorseGreen">#0CA211</color>
     <color name="colorHorseBlue">#008FFF</color>
     <color name="colorHorseYellow">#FAE10C</color>
+
 </resources>
