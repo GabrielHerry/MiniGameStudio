@@ -9,6 +9,7 @@ import com.isen.minigamestudio.R
 class MScase {
 
     var isRevealed: Boolean = false
+
     
     var isMarked: Boolean = false
     var containsMine: Boolean = false
