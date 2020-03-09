@@ -5,17 +5,17 @@
     android:id="@+id/linearLayout"
     android:layout_width="100dp"
     android:layout_height="100dp"
-    android:background="@drawable/orangelinearborder">
+    android:background="@drawable/orangelinearborderwithoutcorners">
 
     <TextView
         android:id="@+id/paText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="7dp"
         android:text="pa:"
         android:textColor="@color/colorPrimary"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/paNumb"
         app:layout_constraintHorizontal_bias="0.5"
@@ -25,10 +25,10 @@
         android:id="@+id/paNumb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
         android:layout_marginBottom="7dp"
         android:text="0"
         android:textColor="@color/colorPrimary"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/paText" />
 
@@ -47,10 +47,11 @@
         android:id="@+id/pvNumb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="3dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="7dp"
         android:text="5"
         android:textColor="@color/colorPrimary"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -58,10 +59,10 @@
         android:id="@+id/pvText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
         android:layout_marginBottom="7dp"
         android:text="pv:"
         android:textColor="@color/colorPrimary"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pvNumb" />
 

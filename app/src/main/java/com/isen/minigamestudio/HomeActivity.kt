@@ -1,8 +1,10 @@
 package com.isen.minigamestudio
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -13,6 +15,7 @@ class HomeActivity : AppCompatActivity() {
 
         achievementButton.setOnClickListener {
             getAchievements()
+
         }
 
         dungeonButton.setOnClickListener {
@@ -45,4 +48,5 @@ class HomeActivity : AppCompatActivity() {
         val intent = Intent( this, DungeonCardActivity::class.java)
         startActivity(intent)
     }
+
 }
