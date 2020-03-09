@@ -46,14 +46,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45" />
 
-    <com.isen.minigamestudio.LittleBox
+    <com.isen.minigamestudio.Classes.LittleBox
         android:id="@+id/box1"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintStart_toStartOf="@+id/bigBoxGame"
         app:layout_constraintTop_toTopOf="@+id/bigBoxGame" />
 
-    <com.isen.minigamestudio.LittleBox
+    <com.isen.minigamestudio.Classes.LittleBox
         android:id="@+id/box2"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -61,14 +61,14 @@
         app:layout_constraintStart_toStartOf="@+id/bigBoxGame"
         app:layout_constraintTop_toTopOf="@+id/bigBoxGame" />
 
-    <com.isen.minigamestudio.LittleBox
+    <com.isen.minigamestudio.Classes.LittleBox
         android:id="@+id/box3"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="@+id/bigBoxGame"
         app:layout_constraintTop_toTopOf="@+id/bigBoxGame" />
 
-    <com.isen.minigamestudio.LittleBox
+    <com.isen.minigamestudio.Classes.LittleBox
         android:id="@+id/box4"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -76,7 +76,7 @@
         app:layout_constraintStart_toStartOf="@+id/bigBoxGame"
         app:layout_constraintTop_toTopOf="@+id/bigBoxGame" />
 
-    <com.isen.minigamestudio.LittleBox
+    <com.isen.minigamestudio.Classes.LittleBox
         android:id="@+id/box5"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -85,9 +85,9 @@
         app:layout_constraintStart_toStartOf="@+id/bigBoxGame"
         app:layout_constraintTop_toTopOf="@+id/bigBoxGame">
 
-    </com.isen.minigamestudio.LittleBox>
+    </com.isen.minigamestudio.Classes.LittleBox>
 
-    <com.isen.minigamestudio.LittleBox
+    <com.isen.minigamestudio.Classes.LittleBox
         android:id="@+id/box6"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -95,16 +95,16 @@
         app:layout_constraintEnd_toEndOf="@+id/bigBoxGame"
         app:layout_constraintTop_toTopOf="@+id/bigBoxGame">
 
-    </com.isen.minigamestudio.LittleBox>
+    </com.isen.minigamestudio.Classes.LittleBox>
 
-    <com.isen.minigamestudio.LittleBox
+    <com.isen.minigamestudio.Classes.LittleBox
         android:id="@+id/box7"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="@+id/bigBoxGame"
         app:layout_constraintStart_toStartOf="@+id/bigBoxGame" />
 
-    <com.isen.minigamestudio.LittleBox
+    <com.isen.minigamestudio.Classes.LittleBox
         android:id="@+id/box8"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -112,7 +112,7 @@
         app:layout_constraintEnd_toEndOf="@+id/bigBoxGame"
         app:layout_constraintStart_toStartOf="@+id/bigBoxGame" />
 
-    <com.isen.minigamestudio.LittleBox
+    <com.isen.minigamestudio.Classes.LittleBox
         android:id="@+id/box9"
         android:layout_width="100dp"
         android:layout_height="100dp"

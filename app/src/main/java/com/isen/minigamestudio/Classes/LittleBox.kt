@@ -1,13 +1,10 @@
-package com.isen.minigamestudio
+package com.isen.minigamestudio.Classes
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.littleboxlayout.view.*
-import java.util.jar.Attributes
-import androidx.constraintlayout.widget.ConstraintSet
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.util.Log
+import com.isen.minigamestudio.R
 
 
 class LittleBox @JvmOverloads constructor(
