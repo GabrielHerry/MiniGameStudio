@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".MineSweeperActivity">
 
     <TextView
@@ -14,6 +15,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:text="@string/textTimeElapsed"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/activity_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.16"
@@ -25,8 +27,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/activity_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.050"
@@ -41,6 +44,7 @@
         android:layout_marginTop="@dimen/activity_vertical_smallStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:text="@string/textScore"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/activity_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.180"
@@ -55,6 +59,7 @@
         android:layout_marginTop="@dimen/activity_vertical_smallStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:text="@string/textMinesLeft"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/activity_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.175"
@@ -67,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:background="@color/colorPrimary"
         android:contentDescription="@string/soundButtonDescription"
         app:layout_constraintBottom_toBottomOf="@+id/flagsLeftTextView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,8 +92,7 @@
         android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flagsLeftTextView">
-    </androidx.gridlayout.widget.GridLayout>
+        app:layout_constraintTop_toBottomOf="@+id/flagsLeftTextView"></androidx.gridlayout.widget.GridLayout>
 
     <Button
         android:id="@+id/restartButton"
@@ -96,6 +101,7 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_mediumStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:background="@color/colorPrimary"
         android:text="@string/textRestartButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.020"
@@ -111,8 +117,7 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/restartButton"
-        app:layout_constraintTop_toBottomOf="@+id/restartButton">
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@+id/restartButton"></RadioGroup>
 
     <RadioButton
         android:id="@+id/radio1Button"
@@ -121,8 +126,10 @@
         android:layout_marginStart="@dimen/activity_horizontal_step"
         android:layout_marginTop="@dimen/activity_vertical_bigStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/activity_small_text_size"
         android:text="@string/textDifficultyEASY"
+        android:textColor="@color/colorPrimary"
+        android:buttonTint="@color/colorPrimary"
+        android:textSize="@dimen/activity_small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.040"
         app:layout_constraintStart_toEndOf="@+id/restartButton"
@@ -135,8 +142,10 @@
         android:layout_marginStart="@dimen/activity_horizontal_step"
         android:layout_marginTop="@dimen/activity_vertical_bigStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/activity_small_text_size"
         android:text="@string/textDifficultyMEDIUM"
+        android:textColor="@color/colorPrimary"
+        android:buttonTint="@color/colorPrimary"
+        android:textSize="@dimen/activity_small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.080"
         app:layout_constraintStart_toEndOf="@+id/radio1Button"
@@ -149,8 +158,10 @@
         android:layout_marginStart="@dimen/activity_horizontal_step"
         android:layout_marginTop="@dimen/activity_vertical_bigStep"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/activity_small_text_size"
         android:text="@string/textDifficultyHARD"
+        android:textColor="@color/colorPrimary"
+        android:buttonTint="@color/colorPrimary"
+        android:textSize="@dimen/activity_small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.590"
         app:layout_constraintStart_toEndOf="@+id/radio2Button"

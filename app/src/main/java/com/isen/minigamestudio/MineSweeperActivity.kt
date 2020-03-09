@@ -31,8 +31,8 @@ class MineSweeperActivity : AppCompatActivity() {
         //val numberOfRows = 12
         //val numberOfCols = 12
 
-        val alertWidth = 600
-        val alertHeight = 450
+        val alertWidth = 500
+        val alertHeight = 325
 
         var difficulty = Difficulty.MEDIUM // default
         var cooldown = 30000L // 30 sec, default
