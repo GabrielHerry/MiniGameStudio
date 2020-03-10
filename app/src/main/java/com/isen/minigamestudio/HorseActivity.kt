@@ -1,7 +1,6 @@
 package com.isen.minigamestudio
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
@@ -10,7 +9,6 @@ import androidx.core.content.ContextCompat
 import com.isen.minigamestudio.Classes.Pawn
 import com.isen.minigamestudio.R.drawable.*
 import kotlinx.android.synthetic.main.activity_horse.*
-
 
 class HorseActivity : AppCompatActivity() {
     companion object {
