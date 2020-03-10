@@ -42,6 +42,7 @@ class MineSweeperActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_minesweeper)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         startGame()
     }

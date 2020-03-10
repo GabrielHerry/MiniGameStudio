@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MiniGameStudio</string>
+    <string name="app_name">Mini Games Studio</string>
 
     <!-- Home page -->
     <string name="intro_home">Welcome to the Mini Games Studio app !</string>
@@ -14,6 +14,11 @@
     <string name="load_mine">Load Minesweeper</string>
     <string name="reset_dungeon">Reset Escape Dungeon</string>
     <string name="menu_button">Menu</string>
+    <string name="about_us">"About us : \nWe are a team of four engineering students : Lucile, Florian, Gabriel and Ines. \nWe hope you enjoy our app !"</string>
+    <string name="bestScoreDiff1">Difficulty 1</string>
+    <string name="bestScoreDiff2">Difficulty 2</string>
+    <string name="bestScoreDiff3">Difficulty 3</string>
+
 
     <!-- Horse game page -->
     <string name="dice">Roll the dice !</string>
@@ -22,28 +27,25 @@
     <string name="retry_choice">You have to choose a number of AI</string>
 
     <!-- Horse settings page -->
-    <string name="horse_settings_intro">Please choose the number of computers you wish to play against</string>
-
-    <string name="bestScoreDiff1">Difficulté 1</string>
-    <string name="bestScoreDiff2">Difficulté 2</string>
-    <string name="bestScoreDiff3">Difficulté 3</string>
+    <string name="horse_settings_intro">"Please choose the number of computers you wish to play against"</string>
+    <string name="button_rules_horses">Rules</string>
+    <string name="rules_horses">"In this game, you will play against computer(s). You will play with the color Yellow. \nTo start the game, click on "Roll the Dice". If your result is 6, you will be able to click on a pawn of your color. After each dice throw, your pawn will move accordingly.\nWhen your pawn has reached the end of the board, it needs to move onto the finish line. To reach the first case you need to get a 1, then for the second case a 2… To move out of the board and finish it\'s play, you need to roll a 6 once your horse is on the last case of the finish line. \nThe winner is the first player to get their four pawn up the finish line and out of the board. \nHope you enjoy !"</string>
+    <string name="rules_title_horses">Game Rules</string>
 
     <!-- DungeonCard page -->
-    <string name="alertDialogLevel">Bienvenue sur Dungeon Card!\nChoisissez votre niveau.</string>
-    <string name="alertDialogLevel3">"difficulté 3                          "</string>
-    <string name="alertDialogLevel1">"difficulté 1                          "</string>
-    <string name="alertDialogLevel2">"difficulté 2                          "</string>
+    <string name="alertDialogLevel">"Welcome to Escape Dungeon. Please choose the difficulty"</string>
+    <string name="alertDialogLevel3">"difficulty 3                          "</string>
+    <string name="alertDialogLevel1">"difficulty 1                          "</string>
+    <string name="alertDialogLevel2">"difficulty 2                          "</string>
 
-    <string name="textDifficulty">Difficulté de jeu :</string>
+    <string name="textDifficulty">Game difficulty :</string>
     <string name="scoreText">Score :</string>
-    <string name="textLevel">Niveau :</string>
-    <string name="textChangeBox">Echange :</string>
-    <string name="textpapvmax">pv / pa max :</string>
-    <string name="buttonRules">Règles</string>
-    <string name="savebutton">Sauvegarder</string>
-    <string name="returnbutton">Sortir</string>
+    <string name="textLevel">Level :</string>
+    <string name="textpapvmax">hp / pa max :</string>
+    <string name="buttonRules">Rules</string>
+    <string name="savebutton">Save Game</string>
 
-    <string name="alertDialogRules">"Règles du jeu :\nDéplacez vous sur les coeurs pour gagner des pv et sur les armes pour gagner des pa, utilisez les pour tuez les monstres.\nLes pièces d\'or et les monstres tués vous ferons gagner 10 points.\nTous les 50 points vous changez de niveaux et la difficulté augmente.\nDe nouvelles armes apparaissent tous les 4 niveaux, et de nouveaux monstres tous les 2 niveaux.\nLes flèches circulaires vous font gagner des points d'échange, secouez le téléphone ou cliquez sur le texte \"Echange\" pour les utilisez, cela redistribuera les cartes.\nMais attention, vous ne pouvez pas en avoir plus de deux en réserve et vous ne pouvez pas en utilisez deux de suite.\nBon jeu !"</string>
+    <string name="alertDialogRules">"Game Rules : \nMove to the hearts to win hp and to weapons to win pa, use them to kill monsters. Getting a gold coin and killing a monster will earn you 10 points. \nEach 50 points you move up one level and the difficulty increases.\nNew weapons appear every four levels, and new monsters every two levels \nThe round arrows will earn you exchange points, shake your phone or click on the text \"Pt Exchange\" to use them, this will redistribute the cards. \nBe careful, you can only get 2 of them saved and you can't use them twice in a row. \nHave a good game !"</string>
 
     <!-- MineSweeper strings -->
     <string name="textMinesweeperButton">Go to Minesweeper</string>
@@ -59,5 +61,8 @@
     <string name="gameoverMessage">GAME OVER!</string>
     <string name="unsupportedMessage">unsupported case</string>
     <string name="okMessage">OK</string>
+    <string name="button_rules">Rules</string>
+    <string name="textChangeBox">"Exchange pts : "</string>
+
 
 </resources>

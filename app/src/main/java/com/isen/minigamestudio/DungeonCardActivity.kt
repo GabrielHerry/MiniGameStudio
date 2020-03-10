@@ -65,8 +65,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dungeon_card)
 
-
-
         arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
 
         val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
