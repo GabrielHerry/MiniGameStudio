@@ -239,19 +239,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-  <!--  <Button
-        android:id="@+id/dungeonLoadButton"
+    <Button
+        android:id="@+id/dungeonResetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:background="@color/colorPrimary"
         android:fontFamily="@font/acme"
-        android:text="@string/load_dungeon"
+        android:text="@string/reset_dungeon"
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toBottomOf="@+id/dungeonFirstScore" />  -->
+        app:layout_constraintTop_toBottomOf="@+id/dungeonFirstScore" />
 
     <Button
         android:id="@+id/menuButton"

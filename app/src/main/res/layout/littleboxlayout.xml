@@ -9,6 +9,7 @@
 
     <TextView
         android:id="@+id/paText"
+        android:fontFamily="@font/acme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -23,6 +24,7 @@
 
     <TextView
         android:id="@+id/paNumb"
+        android:fontFamily="@font/acme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
@@ -34,9 +36,9 @@
 
     <ImageView
         android:id="@+id/imageGameBox"
-        android:layout_width="66dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +47,7 @@
 
     <TextView
         android:id="@+id/pvNumb"
+        android:fontFamily="@font/acme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
@@ -57,6 +60,7 @@
 
     <TextView
         android:id="@+id/pvText"
+        android:fontFamily="@font/acme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
@@ -70,7 +74,7 @@
         android:id="@+id/textBoxNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:fontFamily="@font/acme"
         android:text="0"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toStartOf="@+id/imageGameBox"

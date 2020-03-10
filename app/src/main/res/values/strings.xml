@@ -12,7 +12,7 @@
     <!-- Achievement page -->
     <string name="best_scores">Best Scores !</string>
     <string name="load_mine">Load Minesweeper</string>
-    <string name="load_dungeon">Load Escape Dungeon</string>
+    <string name="reset_dungeon">Reset Escape Dungeon</string>
     <string name="menu_button">Menu</string>
 
     <!-- Horse game page -->

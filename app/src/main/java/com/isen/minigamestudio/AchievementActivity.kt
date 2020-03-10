@@ -15,6 +15,10 @@ class AchievementActivity : AppCompatActivity() {
             goMenu()
         }
 
+        dungeonResetButton.setOnClickListener {
+            resetDungeonScore()
+        }
+
         // update score for Dungeon
         val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon", Context.MODE_PRIVATE)
         val nameOfBestScoreDifficulty = arrayOf("bestScoreDifficulty1","bestScoreDifficulty2","bestScoreDifficulty3")
@@ -28,5 +32,21 @@ class AchievementActivity : AppCompatActivity() {
     private fun goMenu() {
         val intent = Intent( this, HomeActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun resetDungeonScore () {
+        val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon", Context.MODE_PRIVATE)
+        val nameOfBestScoreDifficulty = arrayOf("bestScoreDifficulty1","bestScoreDifficulty2","bestScoreDifficulty3")
+        for (i in 0 .. 2)
+        {
+            with(sharedPrefDungeon.edit()) {
+                putInt(nameOfBestScoreDifficulty[i], 0)
+                commit()
+            }
+        }
+
+        dungeonFirstScore.text = "0"
+        dungeonSecondScore.text = "0"
+        dungeonThirdScore.text = "0"
     }
 }
