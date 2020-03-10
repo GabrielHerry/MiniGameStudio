@@ -186,20 +186,6 @@
         app:layout_constraintStart_toEndOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/mineSecondScore" />
 
-    <!--  <Button
-        android:id="@+id/dungeonLoadButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:background="@color/colorPrimary"
-        android:fontFamily="@font/acme"
-        android:text="@string/load_dungeon"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toBottomOf="@+id/dungeonFirstScore" />  -->
-
     <TextView
         android:id="@+id/dungeonThirdScore"
         android:layout_width="wrap_content"
@@ -247,19 +233,12 @@
         android:background="@color/colorPrimary"
         android:fontFamily="@font/acme"
         android:text="@string/load_mine"
+        android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" /><![CDATA[
-
-
-
-    app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-
-
-    ]]>
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Button
         android:id="@+id/dungeonResetButton"
@@ -270,6 +249,7 @@
         android:fontFamily="@font/acme"
         android:text="@string/reset_dungeon"
         android:textColor="@color/colorPrimaryDark"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toEndOf="@+id/divider"

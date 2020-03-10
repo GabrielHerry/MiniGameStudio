@@ -50,14 +50,6 @@ class HomeActivity : AppCompatActivity() {
 
     @Suppress("DEPRECATION")
     private fun changeLanguage() {
-        // get the language of the phone
-        val langue = this.resources.configuration.locale.displayLanguage
-        Toast.makeText(
-            this,
-            "langue is : "+ langue,
-            Toast.LENGTH_SHORT
-        ).show()
-        // change to put the other one
         when (this.resources.configuration.locale.displayLanguage)
         {
             "français" ->

@@ -8,8 +8,7 @@
     <string name="achievements_button">Réalisations</string>
     <string name="horse_button">Petits Chevaux</string>
     <string name="best_scores">Meilleurs Scores</string>
-    <string name="load_mine">Charger Démineur</string>
-    <string name="load_dungeon">Charger Escape Dungeon</string>
+    <string name="load_mine">"  Charger Démineur  "</string>
     <string name="menu_button">Menu</string>
     <string name="about_us">A propos de nous : \nNous sommes une équipe de 4 élèves ingénieurs : Lucile, Florian, Gabriel et Ines.</string>
     <string name="bestScoreDiff1">Difficulté 1</string>
@@ -38,7 +37,7 @@
     <string name="textMinesweeperButton">Aller au Démineur</string>
     <string name="textTimeElapsed">Temps écoulé</string>
     <string name="textScore">Score</string>
-    <string name="textRestartButton">Redémarrer</string>
+    <string name="textRestartButton">"  Redémarrer  "</string>
     <string name="textDifficultyEASY">Facile</string>
     <string name="textDifficultyMEDIUM">Moyen</string>
     <string name="textDifficultyHARD">Difficile</string>
@@ -49,5 +48,5 @@
     <string name="okMessage">OK</string>
     <string name="button_rules">Règles</string>
     <string name="textMinesLeft">Drapeaux restants</string>
-    <string name="reset_dungeon">Réinitialiser Escape Dungeon</string>
+    <string name="reset_dungeon">"  Réinitialiser Escape Dungeon  "</string>
 </resources>
