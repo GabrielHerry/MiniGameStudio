@@ -55,9 +55,9 @@ class MineSweeperActivity : AppCompatActivity() {
         setContentView(R.layout.activity_minesweeper)
 
         val sharedScoresMines = this.getSharedPreferences("sharedScoresMines", Context.MODE_PRIVATE) ?: return
-        val firstGameState = sharedScoresMines.getBoolean("firstGame", false)
+        val firstGameState = sharedScoresMines.getBoolean("firstGame", true)
 
-        if(firstGameState){
+        if(!firstGameState){
             readScores()
         }
         startGame()
@@ -292,6 +292,7 @@ class MineSweeperActivity : AppCompatActivity() {
             GameState.GAME_OVER -> getString(R.string.gameoverMessage)
             else -> getString(R.string.unsupportedMessage)
         }
+        checkBestScores(game)
         saveScores()
         val alert = dialogBuilder.create()
         alert.setTitle(alertTitle)
