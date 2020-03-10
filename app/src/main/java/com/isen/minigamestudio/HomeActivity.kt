@@ -1,11 +1,13 @@
 package com.isen.minigamestudio
 
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_home.*
+import java.util.*
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -13,9 +15,10 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        setImageLanguageButton()
+
         achievementButton.setOnClickListener {
             getAchievements()
-
         }
 
         dungeonButton.setOnClickListener {
@@ -28,6 +31,56 @@ class HomeActivity : AppCompatActivity() {
 
         horseButton.setOnClickListener {
             goParcheesi()
+        }
+
+        buttonLanguage.setOnClickListener {
+            changeLanguage()
+        }
+
+    }
+
+    @Suppress("DEPRECATION")
+    private fun setImageLanguageButton() {
+        when (this.resources.configuration.locale.displayLanguage)
+        {
+            "français" -> buttonLanguage.setImageResource(R.drawable.flagen)
+            "english" -> buttonLanguage.setImageResource(R.drawable.flagfr)
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun changeLanguage() {
+        // get the language of the phone
+        val langue = this.resources.configuration.locale.displayLanguage
+        Toast.makeText(
+            this,
+            "langue is : "+ langue,
+            Toast.LENGTH_SHORT
+        ).show()
+        // change to put the other one
+        when (this.resources.configuration.locale.displayLanguage)
+        {
+            "français" ->
+            {
+                val language  = "english"
+                val locale = Locale(language)
+                Locale.setDefault(locale)
+                val config = Configuration()
+                config.locale = locale
+                resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+                buttonLanguage.setImageResource(R.drawable.flagfr)
+            }
+
+            "english" ->
+            {
+                val language  = "français"
+                val locale = Locale(language)
+                Locale.setDefault(locale)
+                val config = Configuration()
+                config.locale = locale
+                resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+                buttonLanguage.setImageResource(R.drawable.flagen)
+            }
         }
     }
 
