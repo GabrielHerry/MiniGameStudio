@@ -263,8 +263,7 @@ class MineSweeperActivity : AppCompatActivity() {
     }
 
     private fun updateCooldown() {
-        //cooldown = 30000L + (5000 * Math.random()).toLong() // 30 ~ 35 sec
-        cooldown = 2000L
+        cooldown = 30000L + (5000 * Math.random()).toLong() // 30 ~ 35 sec
     }
 
     private fun mineRespawn(game: MSgame) {
@@ -284,7 +283,7 @@ class MineSweeperActivity : AppCompatActivity() {
     }
 
     private fun changeSoundButtonState() {
-        val soundButtonImage = when(enableSound) {
+        val soundButtonImage = when (enableSound) {
             true -> android.R.drawable.ic_lock_silent_mode_off
             false -> android.R.drawable.ic_lock_silent_mode
         }
