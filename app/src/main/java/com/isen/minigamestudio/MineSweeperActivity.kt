@@ -1,18 +1,25 @@
 package com.isen.minigamestudio
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.DialogInterface
 import android.media.MediaPlayer
 import android.os.*
+import android.util.Log
 import android.widget.*
 import android.widget.GridLayout.spec
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.children
 import com.isen.minigamestudio.Classes.Difficulty
 import com.isen.minigamestudio.Classes.GameState
+import com.isen.minigamestudio.Classes.LittleBox
 import com.isen.minigamestudio.Classes.MSgame
+import kotlinx.android.synthetic.main.activity_dungeon_card.*
 import kotlinx.android.synthetic.main.activity_minesweeper.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 
 class MineSweeperActivity : AppCompatActivity() {
@@ -20,30 +27,76 @@ class MineSweeperActivity : AppCompatActivity() {
         var enableSound = true
         val soundVolume = 1.0f
         val enableRespawning = true
-
         // Real settings
         val caseSize = 50
         val numberOfRows = 15
         val numberOfCols = 12
-
         // Emulator settings
         //val caseSize = 75
         //val numberOfRows = 12
         //val numberOfCols = 12
-
         val alertWidth = 500
         val alertHeight = 325
 
         var difficulty = Difficulty.MEDIUM // default
         var cooldown = 30000L // 30 sec, default
     }
+    var firstDiffScore = "firstDiffScore"
+    var secondDiffScore = "secondDiffScore"
+    var thirdDiffScore = "thirdDiffScore"
+    var firstScore = 0
+    var secondScore = 0
+    var thirdScore = 0
+
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_minesweeper)
 
+        val sharedScoresMines = this.getSharedPreferences("sharedScoresMines", Context.MODE_PRIVATE) ?: return
+        val firstGameState = sharedScoresMines.getBoolean("firstGame", false)
+
+        if(firstGameState){
+            readScores()
+        }
         startGame()
+    }
+
+    fun checkBestScores(game: MSgame){
+        if(difficulty == Difficulty.EASY && game.score > firstScore){
+            firstScore = game.score
+        }
+        if(difficulty == Difficulty.MEDIUM && game.score > secondScore){
+            secondScore = game.score
+        }
+        if(difficulty == Difficulty.HARD && game.score > thirdScore){
+            secondScore = game.score
+        }
+    }
+
+    fun readScores() {
+        val sharedScoresMines = this.getSharedPreferences("sharedScoresMines", Context.MODE_PRIVATE) ?: return
+        val readString = sharedScoresMines.getString("scoresMines", "") ?: ""
+        val jsonObj = JSONObject(readString)
+        Log.d("MINES", jsonObj.toString())
+
+        firstScore = jsonObj.getString(firstDiffScore).toInt()
+        secondScore = jsonObj.getString(secondDiffScore).toInt()
+        thirdScore = jsonObj.getString(thirdDiffScore).toInt()
+    }
+
+    fun saveScores(){
+            val jsonObj = JSONObject()
+            jsonObj.put(firstDiffScore,firstScore)
+            jsonObj.put(secondDiffScore,secondScore)
+            jsonObj.put(thirdDiffScore,thirdScore)
+        val sharedScoresMines = this.getSharedPreferences("sharedScoresMines",Context.MODE_PRIVATE) ?: return
+        with(sharedScoresMines.edit()) {
+            putString("scoresMines", jsonObj.toString())
+            putBoolean("firstGame", false)
+            commit()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -239,7 +292,7 @@ class MineSweeperActivity : AppCompatActivity() {
             GameState.GAME_OVER -> getString(R.string.gameoverMessage)
             else -> getString(R.string.unsupportedMessage)
         }
-
+        saveScores()
         val alert = dialogBuilder.create()
         alert.setTitle(alertTitle)
         alert.show()

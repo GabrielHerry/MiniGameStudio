@@ -225,21 +225,7 @@
         app:layout_constraintStart_toEndOf="@+id/dungeonDifficulty1"
         app:layout_constraintTop_toBottomOf="@+id/dungeonSecondScore" />
 
-    <Button
-        android:id="@+id/mineLoadButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:background="@color/colorPrimary"
-        android:fontFamily="@font/acme"
-        android:text="@string/load_mine"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toStartOf="@+id/divider"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-  <!--  <Button
+    <!--  <Button
         android:id="@+id/dungeonLoadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -257,7 +243,6 @@
         android:id="@+id/menuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:background="@color/colorPrimary"
         android:fontFamily="@font/acme"
         android:text="@string/menu_button"
@@ -265,7 +250,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mineLoadButton" />
+        tools:layout_editor_absoluteY="526dp" />
 
     <TextView
         android:id="@+id/dungeonDifficulty3"
