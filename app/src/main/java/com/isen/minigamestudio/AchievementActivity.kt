@@ -11,10 +11,6 @@ class AchievementActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_achievement)
 
-        menuButton.setOnClickListener {
-            goMenu()
-        }
-
         dungeonResetButton.setOnClickListener {
             resetDungeonScore()
         }

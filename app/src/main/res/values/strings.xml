@@ -15,9 +15,9 @@
     <string name="reset_dungeon">Reset Escape Dungeon</string>
     <string name="menu_button">Menu</string>
     <string name="about_us">"About us : \nWe are a team of four engineering students : Lucile, Florian, Gabriel and Ines. \nWe hope you enjoy our app !"</string>
-    <string name="bestScoreDiff1">Difficulty 1</string>
-    <string name="bestScoreDiff2">Difficulty 2</string>
-    <string name="bestScoreDiff3">Difficulty 3</string>
+    <string name="bestScoreDiff1">"Difficulty 1"</string>
+    <string name="bestScoreDiff2">"Difficulty 2"</string>
+    <string name="bestScoreDiff3">"Difficulty 3"</string>
 
 
     <!-- Horse game page -->
