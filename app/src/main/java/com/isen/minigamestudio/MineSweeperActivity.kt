@@ -1,38 +1,37 @@
 package com.isen.minigamestudio
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.content.DialogInterface
 import android.media.MediaPlayer
-import android.os.*
-import android.widget.*
+import android.os.Build
+import android.os.Bundle
+import android.os.SystemClock
+import android.widget.Chronometer
+import android.widget.GridLayout
 import android.widget.GridLayout.spec
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.isen.minigamestudio.Classes.Difficulty
 import com.isen.minigamestudio.Classes.GameState
 import com.isen.minigamestudio.Classes.MSgame
 import kotlinx.android.synthetic.main.activity_minesweeper.*
 import java.util.*
 
+
 class MineSweeperActivity : AppCompatActivity() {
     companion object {
         var enableSound = true
+        var savedSoundSetting = enableSound
         val soundVolume = 1.0f
         val enableRespawning = true
 
-        // Real settings
-        val caseSize = 50
+        val baseCaseSize = 25
         val numberOfRows = 15
         val numberOfCols = 12
 
-        // Emulator settings
-        //val caseSize = 75
-        //val numberOfRows = 12
-        //val numberOfCols = 12
-
         val alertWidth = 500
-        val alertHeight = 325
+        val alertHeight = 350
 
         var difficulty = Difficulty.MEDIUM // default
         var cooldown = 30000L // 30 sec, default
@@ -42,17 +41,30 @@ class MineSweeperActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_minesweeper)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         startGame()
     }
+
+    override fun onPause() {
+        savedSoundSetting = enableSound
+        enableSound = false
+        changeSoundButtonState()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        enableSound = savedSoundSetting
+        changeSoundButtonState()
+        super.onResume()
+    }
+
+    private fun Int.toPX(): Int = (this * baseContext.resources.displayMetrics.density).toInt()
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun startGame() {
         val game = MSgame(numberOfRows, numberOfCols, difficulty)
 
         setRadioButtonsState()
-
         updateScoreTextView(game)
         updateMineLeftTextView(game)
 
@@ -67,8 +79,8 @@ class MineSweeperActivity : AppCompatActivity() {
             val layoutParams: GridLayout.LayoutParams = GridLayout.LayoutParams(
                 spec(caseIndex, 0f),
                 spec(caseIndex, 0f)).apply {
-                width = caseSize
-                height = caseSize
+                width = baseCaseSize.toPX()
+                height = baseCaseSize.toPX()
             }
 
             val currentCase = game.map.map[caseIndex]
@@ -109,12 +121,7 @@ class MineSweeperActivity : AppCompatActivity() {
 
         soundButton.setOnClickListener {
             enableSound = !enableSound
-
-            val soundButtonImage = when(enableSound) {
-                true -> android.R.drawable.ic_lock_silent_mode_off
-                false -> android.R.drawable.ic_lock_silent_mode
-            }
-            soundButton.setImageResource(soundButtonImage)
+            changeSoundButtonState()
         }
 
         restartButton.setOnClickListener {
@@ -256,7 +263,8 @@ class MineSweeperActivity : AppCompatActivity() {
     }
 
     private fun updateCooldown() {
-        cooldown = 30000L + (5000 * Math.random()).toLong() // 30 ~ 35 sec
+        //cooldown = 30000L + (5000 * Math.random()).toLong() // 30 ~ 35 sec
+        cooldown = 2000L
     }
 
     private fun mineRespawn(game: MSgame) {
@@ -273,5 +281,13 @@ class MineSweeperActivity : AppCompatActivity() {
             beepSound.setVolume(soundVolume, soundVolume)
             beepSound.start()
         }
+    }
+
+    private fun changeSoundButtonState() {
+        val soundButtonImage = when(enableSound) {
+            true -> android.R.drawable.ic_lock_silent_mode_off
+            false -> android.R.drawable.ic_lock_silent_mode
+        }
+        soundButton.setImageResource(soundButtonImage)
     }
 }
