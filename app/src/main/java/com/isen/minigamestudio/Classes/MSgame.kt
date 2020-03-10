@@ -13,7 +13,7 @@ enum class Difficulty {
     HARD
 }
 
-class MSgame(private val rows: Int, private val cols: Int, private var difficulty: Difficulty) {
+class MSgame(private val rows: Int, private val cols: Int, val difficulty: Difficulty) {
 
     var map = MSmap(rows, cols, chooseMinesNumber(difficulty))
     var score: Int = 0
@@ -62,11 +62,19 @@ class MSgame(private val rows: Int, private val cols: Int, private var difficult
         }
     }
 
+    fun getDifficultyIndex(): Int {
+        return when (difficulty) {
+            Difficulty.EASY -> 0
+            Difficulty.MEDIUM -> 1
+            Difficulty.HARD -> 2
+        }
+    }
+
     private fun scoreGainCase(caseValue: Int, minutesPassed: Int) {
         score += caseValue * Math.max(1, 3 - minutesPassed)
     }
 
     fun scoreGainEnd(secondsPassed: Int) {
-        score += Math.max(1, 180 - secondsPassed)
+        score += Math.max(1, 60 * (this.getDifficultyIndex() + 1) - secondsPassed)
     }
 }

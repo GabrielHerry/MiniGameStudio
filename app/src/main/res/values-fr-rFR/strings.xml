@@ -8,7 +8,7 @@
     <string name="achievements_button">Réalisations</string>
     <string name="horse_button">Petits Chevaux</string>
     <string name="best_scores">Meilleurs Scores</string>
-    <string name="load_mine">"  Charger Démineur  "</string>
+    <string name="reset_mine">"  Réinitialiser Démineur  "</string>
     <string name="menu_button">Menu</string>
     <string name="about_us">A propos de nous : \nNous sommes une équipe de 4 élèves ingénieurs : Lucile, Florian, Gabriel et Ines.</string>
     <string name="bestScoreDiff1">Difficulté 1</string>
@@ -52,4 +52,5 @@
     <string name="game_won">a gagné cette partie !</string>
     <string name="you">Vous avez gagné !</string>
     <string name="computer">Vous avez perdu. Réessayez !</string>
+    <string name="defaultScore">"0"</string>
 </resources>

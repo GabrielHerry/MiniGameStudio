@@ -1,5 +1,6 @@
 package com.isen.minigamestudio
 
+import android.content.Context
 import android.content.DialogInterface
 import android.media.MediaPlayer
 import android.os.Build
@@ -23,16 +24,16 @@ class MineSweeperActivity : AppCompatActivity() {
         var enableSound = true
         var savedSoundSetting = enableSound
         val soundVolume = 1.0f
-        val enableRespawning = true
+        const val enableRespawning = true
 
-        val baseCaseSize = 25
-        val numberOfRows = 15
-        val numberOfCols = 12
+        const val baseCaseSize = 25
+        const val numberOfRows = 15
+        const val numberOfCols = 12
 
-        val alertWidth = 500
-        val alertHeight = 350
+        const val alertWidth = 500
+        const val alertHeight = 350
 
-        var difficulty = Difficulty.MEDIUM // default
+        var nextGameDifficulty = Difficulty.MEDIUM // default
         var cooldown = 30000L // 30 sec, default
     }
 
@@ -61,7 +62,7 @@ class MineSweeperActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun startGame() {
-        val game = MSgame(numberOfRows, numberOfCols, difficulty)
+        val game = MSgame(numberOfRows, numberOfCols, nextGameDifficulty)
 
         setRadioButtonsState()
         updateScoreTextView(game)
@@ -145,7 +146,7 @@ class MineSweeperActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun onRadioButtonClicked(game: MSgame, chosenDifficulty: Difficulty) {
-        difficulty = chosenDifficulty // changing 'difficulty' during a game as no side effect.
+        nextGameDifficulty = chosenDifficulty
         setRadioButtonsState()
 
         if (game.gameState != GameState.CONTINUE) {
@@ -155,7 +156,7 @@ class MineSweeperActivity : AppCompatActivity() {
     }
 
     private fun setRadioButtonsState() {
-        when (difficulty) {
+        when (nextGameDifficulty) {
             Difficulty.EASY -> {
                 radio1Button.setChecked(true)
                 radio2Button.setChecked(false)
@@ -216,6 +217,7 @@ class MineSweeperActivity : AppCompatActivity() {
             }
 
             gameStateAlert(game)
+            saveBestScores(game)
         }
     }
 
@@ -287,5 +289,20 @@ class MineSweeperActivity : AppCompatActivity() {
             false -> android.R.drawable.ic_lock_silent_mode
         }
         soundButton.setImageResource(soundButtonImage)
+    }
+
+    private fun saveBestScores(game: MSgame) {
+        val sharedPrefMine = this.getSharedPreferences("sharedPrefMine", Context.MODE_PRIVATE)
+        val nameOfBestScoreDifficulty = arrayOf("bestScoreDifficulty1", "bestScoreDifficulty2", "bestScoreDifficulty3")
+
+        val difficultyIndex = game.getDifficultyIndex() // Do not use nextGameDifficulty for this!
+        val previousScore = sharedPrefMine.getInt(nameOfBestScoreDifficulty[difficultyIndex], 0)
+
+        if (previousScore < game.score) {
+            with (sharedPrefMine.edit()) {
+                putInt(nameOfBestScoreDifficulty[difficultyIndex], game.score)
+                commit()
+            }
+        }
     }
 }
