@@ -73,15 +73,18 @@ class HomeActivity : AppCompatActivity() {
 
             "english" ->
             {
-                val language  = "français"
-                val locale = Locale(language)
-                Locale.setDefault(locale)
-                val config = Configuration()
-                config.locale = locale
-                resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+                val language2  = "fr"
+                val locale2 = Locale(language2)
+                Locale.setDefault(locale2)
+                val config2 = Configuration()
+                config2.locale = locale2
+                resources.updateConfiguration(config2, baseContext.resources.displayMetrics)
                 buttonLanguage.setImageResource(R.drawable.flagen)
             }
         }
+        val intent = Intent(this, HomeActivity::class.java)
+       // intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
     }
 
     private fun goParcheesi() {
