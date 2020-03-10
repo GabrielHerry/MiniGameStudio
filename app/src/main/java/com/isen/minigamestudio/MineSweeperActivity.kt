@@ -18,7 +18,6 @@ import com.isen.minigamestudio.Classes.MSgame
 import kotlinx.android.synthetic.main.activity_minesweeper.*
 import java.util.*
 
-
 class MineSweeperActivity : AppCompatActivity() {
     companion object {
         var enableSound = true

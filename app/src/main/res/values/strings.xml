@@ -19,7 +19,6 @@
     <string name="bestScoreDiff2">"Difficulty 2"</string>
     <string name="bestScoreDiff3">"Difficulty 3"</string>
 
-
     <!-- Horse game page -->
     <string name="dice">Roll the dice !</string>
     <string name="wait_turn">Wait for your turn</string>
@@ -46,6 +45,7 @@
     <string name="savebutton">Save Game</string>
 
     <string name="alertDialogRules">"Game Rules : \nMove to the hearts to win hp and to weapons to win pa, use them to kill monsters. Getting a gold coin and killing a monster will earn you 10 points. \nEach 50 points you move up one level and the difficulty increases.\nNew weapons appear every four levels, and new monsters every two levels \nThe round arrows will earn you exchange points, shake your phone or click on the text \"Pt Exchange\" to use them, this will redistribute the cards. \nBe careful, you can only get 2 of them saved and you can't use them twice in a row. \nHave a good game !"</string>
+    <string name="textChangeBox">"Exchange pts: "</string>
 
     <!-- MineSweeper strings -->
     <string name="textMinesweeperButton">Go to Minesweeper</string>
@@ -61,8 +61,8 @@
     <string name="gameoverMessage">GAME OVER!</string>
     <string name="unsupportedMessage">unsupported case</string>
     <string name="okMessage">OK</string>
-    <string name="button_rules">Rules</string>
-    <string name="textChangeBox">"Exchange pts : "</string>
 
+    <!-- Unused strings -->
+    <string name="button_rules">Rules</string>
 
 </resources>

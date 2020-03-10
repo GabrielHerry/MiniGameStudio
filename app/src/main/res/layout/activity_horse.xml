@@ -60,7 +60,7 @@
         android:layout_height="27dp"
         app:layout_constraintStart_toEndOf="@+id/blue3"
         app:layout_constraintTop_toBottomOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue1"
@@ -68,7 +68,7 @@
         android:layout_height="27dp"
         app:layout_constraintStart_toEndOf="@+id/startBlue"
         app:layout_constraintTop_toBottomOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue2"
@@ -76,7 +76,7 @@
         android:layout_height="27dp"
         app:layout_constraintStart_toEndOf="@+id/blue1"
         app:layout_constraintTop_toBottomOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue13"
@@ -84,7 +84,7 @@
         android:layout_height="26dp"
         app:layout_constraintStart_toEndOf="@+id/blue12"
         app:layout_constraintTop_toTopOf="@+id/horseBoard"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue12"
@@ -92,7 +92,7 @@
         android:layout_height="26dp"
         app:layout_constraintBottom_toTopOf="@+id/blue11"
         app:layout_constraintStart_toEndOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue11"
@@ -100,7 +100,7 @@
         android:layout_height="27dp"
         app:layout_constraintBottom_toTopOf="@+id/blue10"
         app:layout_constraintStart_toEndOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue10"
@@ -108,7 +108,7 @@
         android:layout_height="27dp"
         app:layout_constraintBottom_toTopOf="@+id/blue9"
         app:layout_constraintStart_toEndOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue9"
@@ -116,7 +116,7 @@
         android:layout_height="27dp"
         app:layout_constraintBottom_toTopOf="@+id/blue8"
         app:layout_constraintStart_toEndOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue8"
@@ -124,7 +124,7 @@
         android:layout_height="27dp"
         app:layout_constraintBottom_toTopOf="@+id/blue7"
         app:layout_constraintStart_toEndOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue7"
@@ -132,7 +132,7 @@
         android:layout_height="27dp"
         app:layout_constraintBottom_toTopOf="@+id/blue6"
         app:layout_constraintStart_toEndOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue6"
@@ -140,7 +140,7 @@
         android:layout_height="27dp"
         app:layout_constraintStart_toEndOf="@+id/blue5"
         app:layout_constraintTop_toBottomOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue5"
@@ -148,7 +148,7 @@
         android:layout_height="27dp"
         app:layout_constraintStart_toEndOf="@+id/blue4"
         app:layout_constraintTop_toBottomOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/blue3"
@@ -156,7 +156,7 @@
         android:layout_height="27dp"
         app:layout_constraintStart_toEndOf="@+id/blue2"
         app:layout_constraintTop_toBottomOf="@+id/homeBlue"
-        app:srcCompat="@drawable/moon" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/green13"
@@ -486,22 +486,10 @@
         android:layout_height="27dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:background="@color/colorHorseBlue"
+        android:background="@color/colorPrimaryDark"
         android:scaleType="centerInside"
         app:layout_constraintStart_toStartOf="@+id/homeBlue"
         app:layout_constraintTop_toTopOf="@+id/homeBlue"
-        app:srcCompat="@drawable/blue_horse" />
-
-    <ImageButton
-        android:id="@+id/blueHorse4"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:background="@color/colorHorseBlue"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@+id/homeBlue"
-        app:layout_constraintEnd_toEndOf="@+id/homeBlue"
         app:srcCompat="@drawable/blue_horse" />
 
     <ImageButton
@@ -510,7 +498,7 @@
         android:layout_height="27dp"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="32dp"
-        android:background="@color/colorHorseBlue"
+        android:background="@color/colorPrimaryDark"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="@+id/homeBlue"
         app:layout_constraintStart_toStartOf="@+id/homeBlue"
@@ -522,10 +510,22 @@
         android:layout_height="27dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:background="@color/colorHorseBlue"
+        android:background="@color/colorPrimaryDark"
         android:scaleType="centerInside"
         app:layout_constraintEnd_toStartOf="@+id/blue11"
         app:layout_constraintTop_toTopOf="@+id/homeBlue"
+        app:srcCompat="@drawable/blue_horse" />
+
+    <ImageButton
+        android:id="@+id/blueHorse4"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/homeBlue"
+        app:layout_constraintEnd_toEndOf="@+id/homeBlue"
         app:srcCompat="@drawable/blue_horse" />
 
     <ImageButton
@@ -672,19 +672,6 @@
         app:layout_constraintTop_toTopOf="@+id/homeGreen"
         app:srcCompat="@drawable/green_horse" />
 
-    <Button
-        android:id="@+id/diceButton"
-        android:layout_width="116dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorPrimary"
-        android:fontFamily="@font/acme"
-        android:text="@string/dice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horseBoard" />
-
     <TextView
         android:id="@+id/waitTurn"
         android:layout_width="wrap_content"
@@ -692,6 +679,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/acme"
         android:text="@string/wait_turn"
+        android:textSize="@dimen/activity_text_size"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -702,12 +690,13 @@
         android:id="@+id/diceImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/dice"
+        android:textSize="@dimen/activity_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/diceButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/diceButton"
+        app:layout_constraintTop_toBottomOf="@id/waitTurn"
         app:srcCompat="@drawable/dice_1" />
 
     <ImageView
@@ -967,15 +956,5 @@
         app:layout_constraintStart_toEndOf="@+id/blue11"
         app:layout_constraintTop_toBottomOf="@+id/blue13"
         app:srcCompat="@drawable/red_square" />
-
-    <Button
-        android:id="@+id/buttonAI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/diceImage"
-        app:layout_constraintTop_toBottomOf="@+id/waitTurn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

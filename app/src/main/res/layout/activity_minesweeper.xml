@@ -92,7 +92,8 @@
         android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flagsLeftTextView"></androidx.gridlayout.widget.GridLayout>
+        app:layout_constraintTop_toBottomOf="@+id/flagsLeftTextView">
+    </androidx.gridlayout.widget.GridLayout>
 
     <Button
         android:id="@+id/restartButton"
@@ -119,7 +120,9 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/restartButton"
-        app:layout_constraintTop_toBottomOf="@+id/restartButton"></RadioGroup>
+        app:layout_constraintTop_toBottomOf="@+id/restartButton">
+
+    </RadioGroup>
 
     <RadioButton
         android:id="@+id/radio1Button"
