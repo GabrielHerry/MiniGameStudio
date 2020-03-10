@@ -20,7 +20,7 @@
     <string name="retry_choice">Tu dois choisir le nombre d\'adversaires</string>
     <string name="horse_settings_intro">Merci de choisir le nombre d\'adversaires vous souhaitez affronter</string>
     <string name="button_rules_horses">Règles</string>
-    <string name="rules_horses">"Dans ce jeu, vous jouez contre des adversaires fictifs. Vous jouerez avec la couleur Jaune. \nPour débuter le jeu, appuyez sur \"Lancer le dé\". Si le résultat est 6, vous pourrez cliquer sur un pion de votre couleur. Après chauqe lancé de dé, votre pion bougera en conséquence. \nQuand votre pion a fait un tour de plateau, il commence la dernière ligne droite. Pour atteindre la première case, il vous faut un 1, pour la deuxième un 2… Pour sortir du plateau et terminer son jeu, vous devrez faire un six lorsque vous vous trouver sur la dernière case de la ligne droite. \nLe gagnant est le premier joueur réussissant à faire sortir ses quatres pions du plateau. \nNous vous souhaitons un bonne partie !"</string>
+    <string name="rules_horses">"Dans ce jeu, vous jouez contre des adversaires fictifs. Vous jouerez avec la couleur Jaune. \nPour débuter le jeu, appuyez sur le dé. Si le résultat est 6, vous pourrez cliquer sur un pion de votre couleur. Après chauqe lancé de dé, votre pion bougera en conséquence. \nQuand votre pion a fait un tour de plateau, il commence la dernière ligne droite. Pour atteindre la première case, il vous faut un 1, pour la deuxième un 2… Pour sortir du plateau et terminer son jeu, vous devrez faire un six lorsque vous vous trouver sur la dernière case de la ligne droite. \nLe gagnant est le premier joueur réussissant à faire sortir ses quatres pions du plateau. \nNous vous souhaitons un bonne partie !"</string>
     <string name="rules_title_horses">Règles du jeu</string>
     <string name="alertDialogLevel">Bienvenue sur Escape Dungeon! Choisissez votre niveau.</string>
     <string name="alertDialogLevel3">"difficulté 3                            "</string>
@@ -49,4 +49,7 @@
     <string name="button_rules">Règles</string>
     <string name="textMinesLeft">Drapeaux restants</string>
     <string name="reset_dungeon">"  Réinitialiser Escape Dungeon  "</string>
+    <string name="game_won">a gagné cette partie !</string>
+    <string name="you">Vous avez gagné !</string>
+    <string name="computer">Vous avez perdu. Réessayez !</string>
 </resources>

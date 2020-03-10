@@ -1,5 +1,7 @@
 package com.isen.minigamestudio
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -38,19 +40,18 @@ class HorseActivity : AppCompatActivity() {
 
         val nbAI = intent.getIntExtra("nbAI", 0)
         playersNumber = 1 + nbAI
-        System.out.println("-----------------------------------------------> playersNumber = " + playersNumber)
+        //System.out.println("-----------------------------------------------> playersNumber = " + playersNumber)
 
-        //waitTurn.visibility = View.INVISIBLE
         diceImage.setOnClickListener {
             game()
         }
     }
 
     private fun game() {
-        System.out.println("-----------------------------------------------> New round!")
+        //System.out.println("-----------------------------------------------> New round!")
         for (playerID in 0 until playersNumber) {
             val result = rollDice(playerID)
-            System.out.println("-----------------------------------------------> Player " + playerID + " die result = " + result)
+            //System.out.println("-----------------------------------------------> Player " + playerID + " die result = " + result)
 
             val theCurrentPlayer = players[playerID]
 
@@ -110,7 +111,22 @@ class HorseActivity : AppCompatActivity() {
     }
 
     private fun endGame(playerID: Int) {
-        System.out.println("-----------------------------------------------> Player " + playerID + " WON !!!!!!!!!")
+        //System.out.println("-----------------------------------------------> Player " + playerID + " WON !!!!!!!!!")
+        val player: Int
+        if (playerID == 0){
+            player = R.string.you
+        }
+        else{
+            player = R.string.computer
+        }
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(getString(player))
+        builder.setOnDismissListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
     private fun changeImageBoard(position: Int, idImage: Int) {
@@ -125,7 +141,7 @@ class HorseActivity : AppCompatActivity() {
         changeImageBoard(oldDrawingPosition, getBoardImage(oldDrawingPosition)) // board
 
         pawn.position = Math.min(playerPawn.endPos, pawn.position + number)
-        System.out.println("-----------------------------------------------> New position: " + pawn.position)
+        //System.out.println("-----------------------------------------------> New position: " + pawn.position)
 
         if (pawn.position == playerPawn.endPos && number == 1) {
             finishLinePlayer(playerPawn, number, pawn)

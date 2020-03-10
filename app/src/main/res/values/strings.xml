@@ -24,11 +24,14 @@
     <string name="wait_turn">Wait for your turn</string>
     <string name="choose_ai">Choose the number of AI</string>
     <string name="retry_choice">You have to choose a number of AI</string>
+    <string name="game_won">has won the game !</string>
+    <string name="you">You have won ! Great game</string>
+    <string name="computer">The AI has won the game. Try again !</string>
 
     <!-- Horse settings page -->
     <string name="horse_settings_intro">"Please choose the number of computers you wish to play against"</string>
     <string name="button_rules_horses">Rules</string>
-    <string name="rules_horses">"In this game, you will play against computer(s). You will play with the color Yellow. \nTo start the game, click on "Roll the Dice". If your result is 6, you will be able to click on a pawn of your color. After each dice throw, your pawn will move accordingly.\nWhen your pawn has reached the end of the board, it needs to move onto the finish line. To reach the first case you need to get a 1, then for the second case a 2… To move out of the board and finish it\'s play, you need to roll a 6 once your horse is on the last case of the finish line. \nThe winner is the first player to get their four pawn up the finish line and out of the board. \nHope you enjoy !"</string>
+    <string name="rules_horses">"In this game, you will play against computer(s). You will play with the color Yellow. \nTo start the game, click on the dice. If your result is 6, you will be able to click on a pawn of your color. After each dice throw, your pawn will move accordingly.\nWhen your pawn has reached the end of the board, it needs to move onto the finish line. To reach the first case you need to get a 1, then for the second case a 2… To move out of the board and finish it\'s play, you need to roll a 6 once your horse is on the last case of the finish line. \nThe winner is the first player to get their four pawn up the finish line and out of the board. \nHope you enjoy !"</string>
     <string name="rules_title_horses">Game Rules</string>
 
     <!-- DungeonCard page -->

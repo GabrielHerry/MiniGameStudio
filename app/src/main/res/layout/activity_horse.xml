@@ -12,7 +12,7 @@
         class="androidx.appcompat.widget.ActionMenuView"
         android:layout_width="400dp"
         android:layout_height="400dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="50dp"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -672,31 +672,17 @@
         app:layout_constraintTop_toTopOf="@+id/homeGreen"
         app:srcCompat="@drawable/green_horse" />
 
-    <TextView
-        android:id="@+id/waitTurn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/acme"
-        android:text="@string/wait_turn"
-        android:textSize="@dimen/activity_text_size"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horseBoard" />
-
     <ImageView
         android:id="@+id/diceImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:text="@string/dice"
         android:textSize="@dimen/activity_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/waitTurn"
+        app:layout_constraintTop_toBottomOf="@+id/horseBoard"
         app:srcCompat="@drawable/dice_1" />
 
     <ImageView
