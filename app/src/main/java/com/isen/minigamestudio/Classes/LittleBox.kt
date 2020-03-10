@@ -31,10 +31,6 @@ class LittleBox @JvmOverloads constructor(
         return paNumb.text.toString().toInt()
     }
 
- /*   fun getIm(): Int {
-        return imageGameBox.getDrawa....
-    }*/
-
     //setter
     fun setPv(pv: Int) {
         pvNumb.text = pv.toString()
@@ -51,15 +47,12 @@ class LittleBox @JvmOverloads constructor(
     fun change2box (secondBox: LittleBox) {
         val tempPa = this.getPa()
         val tempPv = this.getPv()
-       // var tempIm = this.getIm()
 
         this.setPa(secondBox.getPa())
         this.setPv(secondBox.getPv())
-     //   this.setIm(secondBox.getIm())
 
         secondBox.setPa(tempPa)
         secondBox.setPv(tempPv)
-      //  secondBox.setIm(tempIm)
     }
 
 
