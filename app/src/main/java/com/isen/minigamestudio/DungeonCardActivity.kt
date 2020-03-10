@@ -65,8 +65,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dungeon_card)
 
-
-
         arrayBoxes = arrayOf(box1, box2, box3, box4, box5, box6, box7, box8, box9)
 
         val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
@@ -155,12 +153,6 @@ class DungeonCardActivity : AppCompatActivity() , SensorEventListener  {
         }
 
         // end of else
-
-        buttonExit.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-        }
 
 
         // ---------------------------------------------

@@ -192,32 +192,6 @@
         app:layout_constraintStart_toEndOf="@+id/textChangeBox" />
 
     <TextView
-        android:id="@+id/textrules1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/textrules1"
-        android:textSize="@dimen/activity_text_size"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textpapvmax" />
-
-    <TextView
-        android:id="@+id/textrules2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/textrules2"
-        android:textSize="@dimen/activity_text_size"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textrules1" />
-
-    <TextView
         android:id="@+id/textpapvmax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -263,9 +237,7 @@
         android:text="@string/buttonRules"
         android:textSize="@dimen/activity_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/savebutton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/buttonExit" />
+        app:layout_constraintEnd_toStartOf="@+id/savebutton" />
 
     <Button
         android:id="@+id/savebutton"
@@ -279,19 +251,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/buttonExit"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colorButtonDungeon"
-        android:text="@string/returnbutton"
-        android:textSize="@dimen/activity_text_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-   <!-- <ImageView
+    <!-- <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="50dp"

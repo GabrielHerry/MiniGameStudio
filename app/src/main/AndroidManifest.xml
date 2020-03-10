@@ -16,12 +16,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MineSweeperActivity" />
-        <activity android:name=".AchievementActivity" />
-        <activity android:name=".HorseActivity" />
-        <activity android:name=".HorseSettingsActivity" />
+        <activity android:name=".MineSweeperActivity"/>
+        <activity android:name=".AchievementActivity"/>
+        <activity android:name=".HorseActivity"/>
+        <activity android:name=".HorseSettingsActivity"/>
         <activity android:name=".HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
