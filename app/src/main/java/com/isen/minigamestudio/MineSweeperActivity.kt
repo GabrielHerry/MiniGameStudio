@@ -40,13 +40,11 @@ class MineSweeperActivity : AppCompatActivity() {
 
         var difficulty = Difficulty.MEDIUM // default
         var cooldown = 30000L // 30 sec, default
+
+        val firstDiffScore = "firstDiffScore"
+        val secondDiffScore = "secondDiffScore"
+        val thirdDiffScore = "thirdDiffScore"
     }
-    var firstDiffScore = "firstDiffScore"
-    var secondDiffScore = "secondDiffScore"
-    var thirdDiffScore = "thirdDiffScore"
-    var firstScore = 0
-    var secondScore = 0
-    var thirdScore = 0
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -64,14 +62,14 @@ class MineSweeperActivity : AppCompatActivity() {
     }
 
     fun checkBestScores(game: MSgame){
-        if(difficulty == Difficulty.EASY && game.score > firstScore){
-            firstScore = game.score
+        if(difficulty == Difficulty.EASY && game.score > AchievementActivity.firstScoreMines){
+            AchievementActivity.firstScoreMines = game.score
         }
-        if(difficulty == Difficulty.MEDIUM && game.score > secondScore){
-            secondScore = game.score
+        if(difficulty == Difficulty.MEDIUM && game.score > AchievementActivity.secondScoreMines){
+            AchievementActivity.secondScoreMines = game.score
         }
-        if(difficulty == Difficulty.HARD && game.score > thirdScore){
-            secondScore = game.score
+        if(difficulty == Difficulty.HARD && game.score > AchievementActivity.thirdScoreMines){
+            AchievementActivity.thirdScoreMines = game.score
         }
     }
 
@@ -81,16 +79,16 @@ class MineSweeperActivity : AppCompatActivity() {
         val jsonObj = JSONObject(readString)
         Log.d("MINES", jsonObj.toString())
 
-        firstScore = jsonObj.getString(firstDiffScore).toInt()
-        secondScore = jsonObj.getString(secondDiffScore).toInt()
-        thirdScore = jsonObj.getString(thirdDiffScore).toInt()
+        AchievementActivity.firstScoreMines = jsonObj.getString(firstDiffScore).toInt()
+        AchievementActivity.secondScoreMines = jsonObj.getString(secondDiffScore).toInt()
+        AchievementActivity.thirdScoreMines = jsonObj.getString(thirdDiffScore).toInt()
     }
 
     fun saveScores(){
             val jsonObj = JSONObject()
-            jsonObj.put(firstDiffScore,firstScore)
-            jsonObj.put(secondDiffScore,secondScore)
-            jsonObj.put(thirdDiffScore,thirdScore)
+            jsonObj.put(firstDiffScore,AchievementActivity.firstScoreMines)
+            jsonObj.put(secondDiffScore,AchievementActivity.secondScoreMines)
+            jsonObj.put(thirdDiffScore,AchievementActivity.thirdScoreMines)
         val sharedScoresMines = this.getSharedPreferences("sharedScoresMines",Context.MODE_PRIVATE) ?: return
         with(sharedScoresMines.edit()) {
             putString("scoresMines", jsonObj.toString())

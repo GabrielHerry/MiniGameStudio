@@ -27,6 +27,9 @@
     <string name="bestScoreDiff1">Difficulté 1</string>
     <string name="bestScoreDiff2">Difficulté 2</string>
     <string name="bestScoreDiff3">Difficulté 3</string>
+    <string name="bestScoreHardLevel">Hard</string>
+    <string name="bestScoreMediumLevel">Medium</string>
+    <string name="bestScoreEasyLevel">Easy</string>
 
     <!-- DungeonCard page -->
     <string name="alertDialogLevel">Bienvenue sur Dungeon Card!\nChoisissez votre niveau.</string>
