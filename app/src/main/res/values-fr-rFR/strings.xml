@@ -37,6 +37,7 @@
     <string name="textMinesweeperButton">Aller au Démineur</string>
     <string name="textTimeElapsed">Temps écoulé</string>
     <string name="textScore">Score</string>
+    <string name="bestScoreText">Nouveau meilleur score</string>
     <string name="textRestartButton">"  Redémarrer  "</string>
     <string name="textDifficultyEASY">Facile</string>
     <string name="textDifficultyMEDIUM">Moyen</string>

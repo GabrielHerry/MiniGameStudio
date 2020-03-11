@@ -55,6 +55,7 @@
     <string name="textMinesweeperButton">Go to Minesweeper</string>
     <string name="textTimeElapsed">Time elapsed:</string>
     <string name="textScore">Score</string>
+    <string name="bestScoreText">New best score</string>
     <string name="textMinesLeft">Flags left</string>
     <string name="textRestartButton">Restart</string>
     <string name="textDifficultyEASY">Easy</string>

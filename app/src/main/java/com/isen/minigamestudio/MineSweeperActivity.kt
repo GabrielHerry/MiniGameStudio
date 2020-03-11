@@ -30,8 +30,8 @@ class MineSweeperActivity : AppCompatActivity() {
         const val numberOfRows = 15
         const val numberOfCols = 12
 
-        const val alertWidth = 500
-        const val alertHeight = 350
+        const val alertWidth = 600
+        const val alertHeight = 400
 
         var nextGameDifficulty = Difficulty.MEDIUM // default
         var cooldown = 30000L // 30 sec, default
@@ -217,7 +217,6 @@ class MineSweeperActivity : AppCompatActivity() {
             }
 
             gameStateAlert(game)
-            saveBestScores(game)
         }
     }
 
@@ -236,9 +235,13 @@ class MineSweeperActivity : AppCompatActivity() {
     }
 
     private fun gameStateAlert(game: MSgame) {
-        val dialogBuilder = AlertDialog.Builder(this)
+        val message = when (saveBestScores(game)) {
+            true -> getString(R.string.bestScoreText) + ": " + game.score
+            false -> getString(R.string.textScore) + ": " + game.score
+        }
 
-        dialogBuilder.setMessage(getString(R.string.textScore) + ": " + game.score)
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage(message)
         dialogBuilder.setPositiveButton(getString(R.string.okMessage), DialogInterface.OnClickListener {
                 dialog, _ -> dialog.cancel()
         })
@@ -291,7 +294,7 @@ class MineSweeperActivity : AppCompatActivity() {
         soundButton.setImageResource(soundButtonImage)
     }
 
-    private fun saveBestScores(game: MSgame) {
+    private fun saveBestScores(game: MSgame): Boolean {
         val sharedPrefMine = this.getSharedPreferences("sharedPrefMine", Context.MODE_PRIVATE)
         val nameOfBestScoreDifficulty = arrayOf("bestScoreDifficulty1", "bestScoreDifficulty2", "bestScoreDifficulty3")
 
@@ -303,6 +306,8 @@ class MineSweeperActivity : AppCompatActivity() {
                 putInt(nameOfBestScoreDifficulty[difficultyIndex], game.score)
                 commit()
             }
+            return true
         }
+        return false
     }
 }
