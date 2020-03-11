@@ -80,6 +80,10 @@ class HomeActivity : AppCompatActivity() {
                 config.locale = locale
                 resources.updateConfiguration(config, baseContext.resources.displayMetrics)
                 buttonLanguage.setImageResource(R.drawable.flagen)
+
+
+                baseContext.resources.displayMetrics.density
+
             }
         }
     }
