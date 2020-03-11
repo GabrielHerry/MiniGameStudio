@@ -18,18 +18,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MineSweeperActivity"/>
-        <activity android:name=".AchievementActivity"/>
-        <activity android:name=".HorseActivity"/>
-        <activity android:name=".HorseSettingsActivity"/>
-        <activity android:name=".HomeActivity" >
+
+        <activity android:name=".MineSweeperActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".AchievementActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".HorseActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".HorseSettingsActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".HomeActivity"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DungeonCardActivity" />
+        <activity android:name=".DungeonCardActivity"
+            android:screenOrientation="nosensor"/>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -29,7 +29,7 @@ class MineSweeperActivity : AppCompatActivity() {
         const val baseCaseSize = 25
         const val numberOfRows = 15
         const val numberOfCols = 12
-        
+
         var nextGameDifficulty = Difficulty.MEDIUM // default
         var cooldown = 30000L // 30 sec, default
     }
