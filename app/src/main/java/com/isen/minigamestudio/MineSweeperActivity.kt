@@ -29,10 +29,7 @@ class MineSweeperActivity : AppCompatActivity() {
         const val baseCaseSize = 25
         const val numberOfRows = 15
         const val numberOfCols = 12
-
-        const val alertWidth = 600
-        const val alertHeight = 400
-
+        
         var nextGameDifficulty = Difficulty.MEDIUM // default
         var cooldown = 30000L // 30 sec, default
     }
@@ -255,7 +252,6 @@ class MineSweeperActivity : AppCompatActivity() {
         val alert = dialogBuilder.create()
         alert.setTitle(alertTitle)
         alert.show()
-        alert.window?.setLayout(alertWidth, alertHeight)
     }
 
     private fun minutesPassed(chronometer: Chronometer): Int {
